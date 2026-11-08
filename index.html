@@ -3,852 +3,449 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f6f2">
-    <meta name="description" content="A cleversite éttermeknek és vállalkozásoknak készít átgondolt, mobilbarát weboldalakat, online asztalfoglalást és chatbotot.">
-    <meta property="og:title" content="cleversite — Weboldal, ami asztalt is hoz">
-    <meta property="og:description" content="Igényes weboldalak éttermeknek és vállalkozásoknak. Mutasd meg, miért érdemes betérni.">
-    <meta property="og:type" content="website">
-    <title>cleversite — Weboldal, ami asztalt is hoz</title>
-    <link rel="preconnect" href="https://images.unsplash.com">
+    <meta name="theme-color" content="#f4f2e9">
+    <meta name="description" content="Karakteres weboldalak éttermeknek. Két fejlesztő, egyedi megjelenés, étlap, chatbot és online asztalfoglalás. Ez a cleversite.">
+    <title>cleversite — Jó hely. Erős weboldal.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
   <body>
     <a class="skip-link" href="#tartalom">Ugrás a tartalomra</a>
-    <header class="site-header" id="eleje">
-      <div class="container header-inner">
-        <a class="brand" href="#eleje" aria-label="cleversite – kezdőlap">
-        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+    <div class="page-progress" aria-hidden="true"></div>
+
+    <!-- NAVIGÁCIÓ -->
+
+    <header class="site-header">
+      <a class="brand" href="#eleje" aria-label="cleversite kezdőlap">
+        <span class="brand-symbol" aria-hidden="true">✳</span>
         <span>clever<span class="brand-light">site</span></span>
       </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Menü megnyitása">
-        <span></span><span></span>
-      </button>
-        <nav class="primary-nav" id="primary-nav" aria-label="Fő navigáció">
-          <a href="#megoldas">A különbség</a>
-          <a href="#szolgaltatasok">Szolgáltatások</a>
-          <a href="#demok">Próbáld ki</a>
-          <a href="#munkaink">Munkáink</a>
-          <a href="#rolunk">Rólunk</a>
-          <a class="button button-small button-dark nav-cta" href="#kapcsolat">Beszéljünk <span aria-hidden="true">↗</span></a>
-        </nav>
-      </div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menü <span aria-hidden="true">+</span></button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Fő navigáció">
+        <a href="#megoldasok" class="nav-link">Amit csinálunk</a>
+        <a href="#indulas" class="nav-link">Hogyan indulunk</a>
+        <a href="#kapcsolat" class="nav-contact">Van egy helyem <span aria-hidden="true">↗</span></a>
+      </nav>
     </header>
     <main id="tartalom">
-      <section class="hero section-pad">
-        <div class="container hero-layout">
-          <div class="hero-copy">
-            <p class="eyebrow"><span class="eyebrow-dot"></span> Weboldalak éttermeknek és vállalkozásoknak</p>
-            <h1>A helyednek van karaktere.<br><span>A weboldaladnak is legyen.</span>
-</h1>
-            <p class="hero-lede">Weboldal, étlap és foglalás — az éttermed saját hangulatában.</p>
-            <p class="hero-intro">Két fiatal fejlesztő. Közvetlen kapcsolat. A te helyedre tervezve.</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="#kapcsolat">Ajánlatot kérek <span aria-hidden="true">↗</span></a>
-              <a class="text-link" href="#munkaink">Megnézem a munkáitokat <span aria-hidden="true">↓</span></a>
-            </div>
-          </div>
-          <div class="hero-visual" aria-label="Kitalált éttermi koncepció weboldal-látványterve">
-            <div class="visual-orbit orbit-one"></div>
-            <div class="visual-orbit orbit-two"></div>
-            <div class="browser-window hero-browser">
-              <div class="browser-bar">
-                <div class="browser-dots">
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                </div>
-                <div class="address-bar">kisfalat.hu · koncepció</div>
-                <span class="browser-more">•••</span>
-              </div>
-              <div class="restaurant-site">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=1100&amp;q=82" alt="Hangulatosan megterített éttermi asztal" fetchpriority="high">
-                <div class="restaurant-overlay"></div>
-                <div class="restaurant-nav">
-                  <span class="mock-logo">kisfalat<span>．</span></span>
-                  <span class="mock-nav-links">Étlap　Rólunk　Kapcsolat</span>
-                  <span class="mock-book">Asztalt foglalok ↗</span>
-                </div>
-                <div class="restaurant-hero-copy">
-                  <span>JÓ ÉTELEK. JÓ TÁRSASÁG.</span>
-                  <strong>Van egy<br>jó asztalunk.</strong>
-                  <p>Friss ízek, ismerős kedvencek<br>és mindig egy szabad hely.</p>
-                  <span class="mock-menu-link">MEGNÉZEM AZ ÉTLAPOT　↗</span>
-                </div>
-                <div class="restaurant-caption">
-                  <span>01 — 03</span>
-                  <span>KONCEPCIÓ · NEM VALÓDI ÉTTEREM</span>
-                </div>
-              </div>
-            </div>
-            <div class="float-note note-menu">
-              <span class="note-icon">↗</span>
-              <span><strong>Étlap egy érintésre</strong><small>Mobilon is átlátható</small></span>
-            </div>
-            <div class="float-note note-booking">
-              <span class="booking-icon">✳</span>
-              <span><strong>Asztal? Megoldva.</strong><small>Egyszerű foglalási út</small></span>
-            </div>
-            <span class="hero-side-label">JÓL MEGTERVEZVE. GONDOSAN MEGÉPÍTVE.</span>
-          </div>
+
+      <!-- 01 / ÓRIÁSI, MOZGÓ TIPOGRÁFIA -->
+
+      <section class="hero" id="eleje" aria-labelledby="hero-title">
+        <div class="hero-meta">
+          <span class="micro">FÜGGETLEN DIGITÁLIS CSAPAT</span>
+          <span class="micro">ÉTTERMEKNEK. SAJÁT KARAKTERREL.</span>
         </div>
-        <div class="container hero-bottom">
-          <span>JÓ ONLINE ÉLMÉNY, VALÓDI VÁLLALKOZÁSOKNAK</span>
-          <a href="#megoldas">Görgess, megmutatjuk <span aria-hidden="true">↓</span></a>
+        <h1 id="hero-title" aria-label="Jó hely. Erős weboldal.">
+          <span class="hero-line" aria-hidden="true"><span class="hero-word">JÓ HELY.</span><span class="hero-flower">✳</span></span>
+          <span class="hero-line hero-line-bottom" aria-hidden="true"><span class="hero-word outline-type">ERŐS</span><span class="hero-word">WEB.</span></span>
+        </h1>
+        <div class="hero-foot">
+          <p>A vacsora nálatok kezdődik.<br>A döntés sokszor a telefonon.</p>
+          <a class="round-link magnetic" href="#jelenet"><span>Nézd, mire gondolunk</span><span class="circle-arrow" aria-hidden="true">↓</span></a>
+          <span class="hero-footnote micro">KÉT FEJLESZTŐ.<br>KÖZVETLENÜL VELED.</span>
         </div>
       </section>
-    <!-- MOZGÓ MÁRKASÁV — KÉZZEL MEGÁLLÍTHATÓ -->
-    <div class="motion-ribbon" role="region" aria-label="Saját karakter. Átgondolt részletek. Jó online élmény.">
-      <div class="motion-ribbon-track" aria-hidden="true">
-        <div class="motion-ribbon-group">
-          <span class="motion-ribbon-item">Saját karakter.</span><span class="motion-ribbon-star">✳</span>
-          <span class="motion-ribbon-item">Átgondolt részletek.</span><span class="motion-ribbon-star">✳</span>
-          <span class="motion-ribbon-item">Jó online élmény.</span><span class="motion-ribbon-star">✳</span>
-        </div>
-        <div class="motion-ribbon-group">
-          <span class="motion-ribbon-item">Saját karakter.</span><span class="motion-ribbon-star">✳</span>
-          <span class="motion-ribbon-item">Átgondolt részletek.</span><span class="motion-ribbon-star">✳</span>
-          <span class="motion-ribbon-item">Jó online élmény.</span><span class="motion-ribbon-star">✳</span>
-        </div>
-      </div>
-      <button class="motion-ribbon-toggle" type="button" aria-label="Mozgó sáv megállítása" aria-pressed="false">Ⅱ</button>
-    </div>
 
+      <!-- 02 / SCROLLRA MOZGÓ, VÁLTHATÓ 3D WEBOLDAL -->
 
-      <!-- 01 — ELŐTTE–UTÁNA -->
-
-      <section class="comparison-section section-pad" id="megoldas">
-        <div class="container">
-          <div class="comparison-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow-number">01 / B</span> Ugyanaz a hely, más élmény</p>
-              <h2>Az étlap ne legyen <span>digitális bújócska.</span>
-</h2>
-            </div>
-            <p>Húzd el a választóvonalat, és nézd meg a különbséget. Ugyanaz a kitalált hely, két eltérő online élmény.</p>
-          </div>
-          <div class="comparison-board interactive-comparison" data-comparison="">
-            <div class="compare-preview compare-before">
-              <div class="compare-browser-top">
+      <section class="scene-section" id="jelenet" aria-label="Interaktív éttermi látványterv">
+        <div class="scene-sticky">
+          <span class="scene-backword" aria-hidden="true">NA, EZ.</span>
+          <div class="scene-orbit" aria-hidden="true"></div>
+          <div class="scene-orbit orbit-two" aria-hidden="true"></div>
+          <span class="scene-coordinate coordinate-one micro" aria-hidden="true">AZ ELSŐ BENYOMÁS / 001</span>
+          <span class="scene-coordinate coordinate-two micro" aria-hidden="true">MÉG AZ ELSŐ FALAT ELŐTT.</span>
+          <div class="scene-perspective">
+            <div class="scene-device" id="scene-device">
+              <div class="device-toolbar" aria-hidden="true">
                 <span>● ● ●</span>
-                <span>pelda-etterem.hu</span>
-                <span>⋯</span>
-              </div>
-              <div class="compare-old-site">
-                <div class="old-logo">ÉTTEREM</div>
-                <div class="old-menu">
-                  <span>KEZDŐLAP</span>
-                  <span>RÓLUNK</span>
-                  <span>KAPCSOLAT</span>
-                </div>
-                <div class="old-heading">
-                  Üdvözöljük
-                  <br>
-                  weboldalunkon!
-                </div>
-                <div class="old-placeholder">KÉP BETÖLTÉSE...</div>
-                <p>Éttermünk szeretettel várja kedves vendégeit. Tekintse meg kínálatunkat és keressen minket telefonon.</p>
-                <div class="old-actions">
-                  <span>ÉTLAP LETÖLTÉSE.PDF</span>
-                  <span>TELEFONSZÁM NINCS MEGADVA</span>
-                </div>
-                <span class="old-stamp">KONCEPCIÓ · NEM VALÓDI OLDAL</span>
-              </div>
-              <div class="compare-caption">
-                <span class="compare-state state-old">ELŐTTE · KONCEPCIÓ</span>
-                <span>Apró betűk, eldugott étlap, telefonos foglalás.</span>
-              </div>
-            </div>
-            <div class="compare-preview compare-after">
-              <div class="compare-browser-top">
-                <span>● ● ●</span>
-                <span>pelda-etterem.hu</span>
+                <span id="scene-address">asztalka / webkoncepció</span>
                 <span>↗</span>
               </div>
-              <div class="compare-new-site">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=800&amp;q=78" alt="Koncepció: hangulatos éttermi asztal egy átlátható weboldal előnézetében" loading="lazy">
-                <div class="new-shade"></div>
-                <div class="new-top">
-                  <strong>jófalat<span>．</span></strong>
-                  <span>ÉTLAP　 RÓLUNK</span>
-                  <b>ASZTALT FOGLALOK ↗</b>
+              <div class="concept-site" id="concept-site">
+                <div class="scene-slide is-active" data-slide="bistro" aria-hidden="false" style="--slide-color: #21382c; --concept-accent: #d8ed8b;">
+<img class="concept-image" id="scene-image" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1600&amp;q=82" alt="Meleg fényű éttermi belső tér" fetchpriority="high" srcset="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=800&amp;q=82 800w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1200&amp;q=82 1200w, https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1600&amp;q=82 1600w" sizes="(max-width: 760px) 90vw, 76vw" width="1600" height="1000" loading="eager" decoding="async">
+                <div class="concept-shade" style="background: linear-gradient(90deg, #21382ced, #21382c28);"></div>
+                <div class="concept-nav">
+                  <strong id="scene-brand">asztalka.</strong>
+                  <span>ÉTLAP   TÖRTÉNETÜNK</span>
+                  <span class="concept-nav-book">FOGLALÁS ↗</span>
                 </div>
-                <div class="new-content">
-                  <small>JÓ ÍZEK. JÓ HELYEN.</small>
-                  <h3>Ma is főztünk<br>valami jót.</h3>
-                  <p>Friss ajánlatok, könnyen megtalálható menü.</p>
-                  <span>MEGNÉZEM AZ ÉTLAPOT　↗</span>
+                <div class="concept-copy">
+                  <p class="micro" id="scene-kicker">ITT MÉG MARADNÁL.</p>
+                  <h2 class="scene-title" id="scene-title">Egy asztal.<br>Egy jó este.</h2>
+<a href="#megoldasok" class="concept-link">Étlap &amp; asztalfoglalás ↗</a>
                 </div>
-                <div class="new-footer">
-                  <span>NYITVA MA · 11:00–22:00</span>
-                  <span>KONCEPCIÓ · NEM VALÓDI OLDAL</span>
-                </div>
+                <span class="concept-bottom micro">KITALÁLT ÉTTEREM / SAJÁT KONCEPCIÓ</span>
               </div>
-              <div class="compare-caption">
-                <span class="compare-state state-new">UTÁNA · KONCEPCIÓ</span>
-                <span>Olvasható tartalom, tiszta út az étlaphoz és foglaláshoz.</span>
+<div class="scene-slide" data-slide="pizza" aria-hidden="true" style="--slide-color: #743526; --concept-accent: #edb68d;" inert="">
+<img class="concept-image" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=1600&amp;q=82" alt="Hangulatosan megterített éttermi asztal" fetchpriority="low" srcset="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=800&amp;q=82 800w, https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=1200&amp;q=82 1200w, https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&amp;fit=crop&amp;w=1600&amp;q=82 1600w" sizes="(max-width: 760px) 90vw, 76vw" width="1600" height="1000" loading="eager" decoding="async">
+                <div class="concept-shade" style="background: linear-gradient(90deg, #743526ed, #74352628);"></div>
+                <div class="concept-nav">
+                  <strong>forneriva.</strong>
+                  <span>ÉTLAP   TÖRTÉNETÜNK</span>
+                  <span class="concept-nav-book">FOGLALÁS ↗</span>
+                </div>
+                <div class="concept-copy">
+                  <p class="micro">FORRÓN AZ IGAZI.</p>
+                  <h2 class="scene-title">Egy szelet.<br>Nagy szerelem.</h2>
+<a href="#megoldasok" class="concept-link">Étlap &amp; asztalfoglalás ↗</a>
+                </div>
+                <span class="concept-bottom micro">KITALÁLT ÉTTEREM / SAJÁT KONCEPCIÓ</span>
               </div>
+<div class="scene-slide" data-slide="cafe" aria-hidden="true" style="--slide-color: #514065; --concept-accent: #f3e1a7;" inert="">
+<img class="concept-image" src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=1600&amp;q=82" alt="Természetes fényű vendéglátóhely belső tere" fetchpriority="low" srcset="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=800&amp;q=82 800w, https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=1200&amp;q=82 1200w, https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=1600&amp;q=82 1600w" sizes="(max-width: 760px) 90vw, 76vw" width="1600" height="1000" loading="eager" decoding="async">
+                <div class="concept-shade" style="background: linear-gradient(90deg, #514065ed, #51406528);"></div>
+                <div class="concept-nav">
+                  <strong>morzsa.</strong>
+                  <span>ÉTLAP   TÖRTÉNETÜNK</span>
+                  <span class="concept-nav-book">FOGLALÁS ↗</span>
+                </div>
+                <div class="concept-copy">
+                  <p class="micro">ELŐBB EGY KÁVÉ.</p>
+                  <h2 class="scene-title">Lassú reggel.<br>Jó kezdet.</h2>
+<a href="#megoldasok" class="concept-link">Étlap &amp; asztalfoglalás ↗</a>
+                </div>
+                <span class="concept-bottom micro">KITALÁLT ÉTTEREM / SAJÁT KONCEPCIÓ</span>
+              </div>
+</div>
             </div>
-            <div class="comparison-handle" aria-hidden="true">↔</div>
-            <input type="range" min="0" max="100" value="50" class="comparison-range" aria-label="Előtte–utána választóvonal" aria-valuetext="50 százalék régi nézet">
           </div>
-          <div class="comparison-foot">
-            <span>KÉT KONCEPCIÓKÉPERNYŐ · NEM VALÓDI ÜGYFÉLMUNKA</span>
-            <a class="text-link" href="#kapcsolat" data-interest="Új weboldal vagy megújítás">Nálad mi férne bele? <span aria-hidden="true">↗</span></a>
+          <div class="scene-sticker">
+            <span aria-hidden="true">↗</span>
+            Jól néz ki.
+            <br>
+            Kézre is áll.
           </div>
-        </div>
-      </section>
-
-      <!-- 02 — SZOLGÁLTATÁSOK -->
-
-      <section class="services-section section-pad" id="szolgaltatasok">
-        <div class="container">
-          <div class="services-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow-number">02</span> Amiben segítünk</p>
-              <h2>Digitális alapok.<br><span>Jó vendégélmény.</span>
-</h2>
-            </div>
-            <p>Hasznos felületek. Kevesebb keresgélés.</p>
-          </div>
-          <div class="service-list">
-            <article class="service-row">
-              <span class="service-num">01</span>
-              <div class="service-icon icon-window" aria-hidden="true">
-                <span>⌘</span>
-              </div>
-              <div class="service-main">
-                <h3>Weboldal. Saját karakterrel.</h3>
-                <p>Új oldalt tervezünk vagy megújítjuk a meglévőt. Átlátható étlap, jól olvasható tartalom, kényelmes használat telefonon is.</p>
-                <div class="service-tags">
-                  <span>Egyedi megjelenés</span>
-                  <span>Átlátható felépítés</span>
-                </div>
-              </div>
-              <span class="service-result">Jó első benyomás <b>↗</b></span>
-            </article>
-            <article class="service-row">
-              <span class="service-num">02</span>
-              <div class="service-icon icon-chat" aria-hidden="true">
-                <span>☏</span>
-              </div>
-              <div class="service-main">
-                <h3>Chatbot, jó válaszokkal</h3>
-                <p><strong>Nyitvatartás, étlap, cím:</strong> a gyakori kérdésekre az általad jóváhagyott információkkal felel.</p>
-                <div class="service-tags">
-                  <span>Gyakori kérdések</span>
-                  <span>Ellenőrzött válaszok</span>
-                </div>
-              </div>
-              <span class="service-result">Gyors válaszok <b>↗</b></span>
-            </article>
-            <article class="service-row">
-              <span class="service-num">03</span>
-              <div class="service-icon icon-booking" aria-hidden="true">
-                <span>▦</span>
-              </div>
-              <div class="service-main">
-                <h3>Kevesebb kattintás az asztalig</h3>
-                <p><strong>Dátum. Időpont. Létszám.</strong> Rövid foglalási út vagy egyeztetett bekötés a meglévő rendszeredhez.</p>
-                <div class="service-tags">
-                  <span>Egyszerű útvonal</span>
-                  <span>Rendszerhez igazítva</span>
-                </div>
-              </div>
-              <span class="service-result">Egyszerűbb foglalás <b>↗</b></span>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 03 — KIPRÓBÁLHATÓ DEMÓK -->
-
-      <section class="demo-section section-pad" id="demok">
-        <div class="container">
-          <div class="demo-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow-number">02 / PRÓBA</span> Kattints bele</p>
-              <h2>Ne csak képzeld el.<br><span>Próbáld ki.</span>
-</h2>
-            </div>
-            <p>Mockup, chatbot, foglalás. Kattints, és próbáld ki.</p>
-          </div>
-          <div class="demo-tabs" role="tablist" aria-label="Interaktív szolgáltatásdemók">
-            <button class="demo-tab is-active" id="tab-website" type="button" role="tab" aria-selected="true" aria-controls="panel-website" tabindex="0" data-demo-tab="website"><span>01</span> Weboldal</button>
-            <button class="demo-tab" id="tab-chat" type="button" role="tab" aria-selected="false" aria-controls="panel-chat" tabindex="-1" data-demo-tab="chat"><span>02</span> Chatbot</button>
-            <button class="demo-tab" id="tab-booking" type="button" role="tab" aria-selected="false" aria-controls="panel-booking" tabindex="-1" data-demo-tab="booking"><span>03</span> Asztalfoglalás</button>
-          </div>
-          <div class="demo-panels">
-            <div class="demo-panel is-active" id="panel-website" role="tabpanel" aria-labelledby="tab-website" data-demo-panel="website">
-              <div class="demo-panel-copy">
-                <span class="demo-badge">WEBOLDALKÉSZÍTÉS · KONCEPCIÓ</span>
-                <h3>A fontos dolgok<br>legyenek <em>kéznél.</em>
-</h3>
-                <p>Étlap. Nyitvatartás. Foglalás. Kéznél.</p>
-                <a class="text-link" href="#kapcsolat" data-interest="Új weboldal vagy megújítás">Ilyen weboldalról beszéljünk <span aria-hidden="true">↗</span></a>
-              </div>
-              <div class="website-demo-visual">
-                <div class="demo-orbit"></div>
-                <div class="desktop-mockup">
-                  <div class="mockup-toolbar">
-                    <span>● ● ●</span>
-                    <span>vendegvaro.hu</span>
-                    <span>···</span>
-                  </div>
-                  <div class="demo-restaurant">
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1000&amp;q=78" alt="Koncepcióétterem látványterve meleg, otthonos hangulattal" loading="lazy">
-                    <div class="demo-restaurant-shade"></div>
-                    <div class="demo-restaurant-nav">
-                      <b>vendégváró<span>．</span></b>
-                      <span>ÉTLAP　 RÓLUNK　 ELÉRHETŐSÉG</span>
-                      <i>ASZTALT FOGLALOK</i>
-                    </div>
-                    <div class="demo-restaurant-copy">
-                      <small>JÓ HELYEN, JÓ IDŐBEN</small>
-                      <strong>Egyél jót.<br>Érezd jól magad.</strong>
-                      <p>A napi ajánlat és minden fontos infó egy helyen.</p>
-                      <span>ÉTLAP MEGNYITÁSA　↗</span>
-                    </div>
-                    <div class="demo-restaurant-foot">
-                      <span>MA NYITVA · 11:00—22:00</span>
-                      <span>KONCEPCIÓ</span>
-                    </div>
-                  </div>
-                  <div class="menu-preview" aria-label="Kitalált éttermi étlaprészlet">
-                    <div class="menu-preview-heading">
-                      <span>MAI KEDVENCEK</span>
-                      <b>Étlap · koncepció</b>
-                    </div>
-                    <div class="menu-preview-items">
-                      <article>
-                        <span class="menu-dish-icon dish-soup" aria-hidden="true">✳</span>
-                        <span><b>Sült sütőtökkrémleves</b><small>Pirított mag · friss kenyér</small></span>
-                        <strong>2 490 Ft</strong>
-                      </article>
-                      <article>
-                        <span class="menu-dish-icon dish-pasta" aria-hidden="true">⌁</span>
-                        <span><b>Vajas zsályás tészta</b><small>Parmezán · ropogós morzsa</small></span>
-                        <strong>3 890 Ft</strong>
-                      </article>
-                      <article>
-                        <span class="menu-dish-icon dish-cake" aria-hidden="true">✷</span>
-                        <span><b>Házi almás pite</b><small>Fahéj · vaníliás krém</small></span>
-                        <strong>1 890 Ft</strong>
-                      </article>
-                    </div>
-                    <span class="menu-preview-note">A kínálat és az árak kizárólag kitalált bemutatóadatok.</span>
-                  </div>
-                </div>
-                <div class="mini-phone" aria-label="Ugyanez a koncepció mobiltelefonos nézetben">
-                  <div class="phone-speaker"></div>
-                  <div class="phone-screen">
-                    <div class="phone-image">
-                      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=500&amp;q=70" alt="" loading="lazy">
-                      <b>vendégváró.</b>
-                      <span>JÓ HELYEN, JÓ IDŐBEN</span>
-                      <strong>Egyél jót.<br>Érezd jól magad.</strong>
-                    </div>
-                    <div class="phone-info">
-                      <b>Ma is várunk!</b>
-                      <span>Nyitva · 11:00–22:00</span>
-                      <i>ÉTLAP MEGNYITÁSA　↗</i>
-                      <i>ASZTALT FOGLALOK</i>
-                    </div>
-                  </div>
-                </div>
-                <span class="demo-visual-label">ASZTALI ÉS MOBIL NÉZET · KONCEPCIÓ</span>
-              </div>
-            </div>
-            <div class="demo-panel chat-panel" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat" data-demo-panel="chat" aria-hidden="true" inert="">
-              <div class="demo-panel-copy">
-                <span class="demo-badge">CHATBOT · KIPRÓBÁLHATÓ DEMÓ</span>
-                <h3>Jó kérdés?<br><em>Jó helyen.</em>
-</h3>
-                <p>Gyakori kérdések. Előre megírt válaszok. Ez a felület csak demó.</p>
-                <a class="text-link" href="#kapcsolat" data-interest="Chatbot">Chatbotot szeretnék megbeszélni <span aria-hidden="true">↗</span></a>
-              </div>
-              <div class="chat-demo-wrap">
-                <div class="chat-demo-card">
-                  <div class="chat-header">
-                    <span class="chat-avatar">v.</span>
-                    <span><b>Vendégváró segítő</b><small>Bemutató mód · nincs élő kapcsolat</small></span>
-                    <i aria-hidden="true">•••</i>
-                  </div>
-                  <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions text">
-                    <div class="chat-message bot-message">
-                      <span class="chat-message-label">SEGÍTŐ · DEMÓ</span>
-                      <p>Szia! Miben segíthetek? Próbálj egy kérdést az alábbiak közül.</p>
-                    </div>
-                  </div>
-                  <div class="quick-questions" aria-label="Kipróbálható kérdések">
-                    <button type="button" data-chat-question="Mikor vagytok nyitva?">Mikor vagytok nyitva?</button>
-                    <button type="button" data-chat-question="Hol találom az étlapot?">Hol az étlap?</button>
-                    <button type="button" data-chat-question="Hogyan foglalhatok asztalt?">Hogyan foglalhatok?</button>
-                    <button type="button" data-chat-question="Hol vagytok?">Hol vagytok?</button>
-                  </div>
-                  <form class="chat-compose" id="chat-form">
-                    <label class="sr-only" for="chat-input">Írd be a kérdésed a chatbot demónak</label>
-                    <input id="chat-input" name="question" type="text" maxlength="160" placeholder="Kérdezz a demótól…" autocomplete="off">
-                    <button type="submit" aria-label="Kérdés küldése a demónak">Küldés <span aria-hidden="true">↑</span></button>
-                  </form>
-                  <p class="chat-disclaimer">Demóválaszok · a beszélgetés nem kerül továbbításra vagy tárolásra.</p>
-                </div>
-              </div>
-            </div>
-            <div class="demo-panel booking-panel" id="panel-booking" role="tabpanel" aria-labelledby="tab-booking" data-demo-panel="booking" aria-hidden="true" inert="">
-              <div class="demo-panel-copy">
-                <span class="demo-badge">ONLINE FOGLALÁS · DEMÓ</span>
-                <h3>Asztalra vágysz?<br><em>Mutatjuk az utat.</em>
-</h3>
-                <p>Válassz időpontot. Nézd meg, milyen egyszerű lehet.</p>
-                <a class="text-link" href="#kapcsolat" data-interest="Online asztalfoglalás">Asztalfoglalásról beszéljünk <span aria-hidden="true">↗</span></a>
-              </div>
-              <div class="booking-demo-wrap">
-                <form class="booking-card" id="booking-form" novalidate="">
-                  <div class="booking-card-heading">
-                    <span class="booking-mark">v.</span>
-                    <span><b>Vendégváró</b><small>Asztalfoglalás · bemutató</small></span>
-                    <span class="booking-demo-tag">DEMO</span>
-                  </div>
-                  <h4>Keress egy szabad asztalt.</h4>
-                  <p>Válaszd ki, mikor jönnél. Ez csak próba.</p>
-                  <div class="booking-fields">
-                    <div class="booking-field">
-                      <label for="booking-date">Dátum</label>
-                      <input id="booking-date" name="date" type="date" required="">
-                    </div>
-                    <div class="booking-field">
-                      <label for="booking-time">Időpont</label>
-                      <select id="booking-time" name="time" required="">
-                        <option value="">Válassz időpontot</option>
-                        <option>12:00</option>
-                        <option>12:30</option>
-                        <option>13:00</option>
-                        <option>13:30</option>
-                        <option>18:00</option>
-                        <option>18:30</option>
-                        <option>19:00</option>
-                        <option>19:30</option>
-                        <option>20:00</option>
-                        <option>20:30</option>
-                      </select>
-                    </div>
-                    <div class="booking-field">
-                      <label for="booking-guests">Vendégek száma</label>
-                      <select id="booking-guests" name="guests" required="">
-                        <option value="">Válassz létszámot</option>
-                        <option value="1">1 fő</option>
-                        <option value="2">2 fő</option>
-                        <option value="3">3 fő</option>
-                        <option value="4">4 fő</option>
-                        <option value="5">5 fő</option>
-                        <option value="6">6 fő</option>
-                        <option value="7">7 fő</option>
-                        <option value="8">8 fő</option>
-                      </select>
-                    </div>
-                  </div>
-                  <p class="booking-error" id="booking-error" role="alert" aria-live="assertive"></p>
-                  <button class="button button-primary booking-submit" type="submit">Demóválasztás megtekintése <span aria-hidden="true">→</span></button>
-                  <div class="booking-result" id="booking-result" role="status" aria-live="polite" hidden></div>
-                  <p class="booking-fineprint">Ez kizárólag felületi demó. Valódi foglalás nem jön létre.</p>
-                </form>
-              </div>
+          <div class="scene-controls">
+            <span class="micro">VÁLTS HANGULATOT →</span>
+            <span id="scene-status" class="visually-hidden" role="status" aria-live="polite"></span>
+            <div class="scene-themes" role="group" aria-label="Koncepció stílusa">
+              <button type="button" data-theme="bistro" aria-pressed="true">01 / Bisztró</button>
+              <button type="button" data-theme="pizza" aria-pressed="false">02 / Pizzéria</button>
+              <button type="button" data-theme="cafe" aria-pressed="false">03 / Kávézó</button>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 04 — KONCEPCIÓK -->
+      <!-- 03 / NAGY MÁRKASÁV, KÉZZEL MEGÁLLÍTHATÓ -->
 
-      <section class="work-section section-pad" id="munkaink">
-        <div class="container">
-          <div class="work-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow-number">03</span> Ízelítő a gondolkodásunkból</p>
-              <h2>Ötletek, amikből <span>jó oldalak lesznek.</span>
-</h2>
+      <section class="marquee-section" aria-label="Előbb egy kattintás. Aztán egy jó este.">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            <div class="marquee-group">
+              <span>ELŐBB EGY KATTINTÁS.</span>
+              <i>✳</i>
+              <span>AZTÁN EGY JÓ ESTE.</span>
+              <i>✳</i>
             </div>
-            <p>Az alábbi bemutatók koncepcióprojektek, nem valódi ügyfélmunkák. Azt mutatják meg, milyen irányokban gondolkodunk.</p>
+            <div class="marquee-group">
+              <span>ELŐBB EGY KATTINTÁS.</span>
+              <i>✳</i>
+              <span>AZTÁN EGY JÓ ESTE.</span>
+              <i>✳</i>
+            </div>
           </div>
-          <article class="project project-featured">
-            <div class="project-visual project-visual-rustic">
-              <div class="project-browser">
-                <div class="project-browser-bar">
-                  <span>● ● ●</span>
-                  <span>asztalka.hu</span>
-                  <span>↗</span>
-                </div>
-                <div class="project-site project-rustic-site">
-                  <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Meleg fényű, vendégeket fogadó étterem" loading="lazy">
-                  <div class="project-img-shade"></div>
-                  <div class="rustic-top">
-                    <b>asztalka.</b>
-                    <span>ÉTLAP　 TÖRTÉNETÜNK　 KAPCSOLAT</span>
-                    <i>ASZTALT FOGLALOK</i>
-                  </div>
-                  <div class="rustic-title">
-                    <small>JÓ HELYEN JÁRSZ</small>
-                    <strong>Egy asztal.<br>Jó társaság.</strong>
-                    <span>Helyi ízek, szezonális alapanyagok, hosszúra nyúló esték.</span>
-                    <b>VÁRJUK A FOGLALÁSOD　↗</b>
-                  </div>
-                  <span class="project-stamp">KONCEPCIÓPROJEKT</span>
-                </div>
-              </div>
-              <div class="project-side-note">
-                <span>01 / ÉTTEREM</span>
-                <span>Hangulatos, otthonos<br>és könnyen bejárható.</span>
-              </div>
+        </div>
+      </section>
+
+      <!-- 04 / EGYMÁSRA CSÚSZÓ SZOLGÁLTATÁSPANELEK -->
+
+      <section class="services-section" id="megoldasok" aria-labelledby="services-title">
+        <div class="section-heading reveal">
+          <p class="micro">01 / LÁTVÁNY, AMI MŰKÖDIK IS.</p>
+          <h2 id="services-title">A VENDÉGED<br><span class="serif-accent">már itt érkezik.</span></h2>
+          <p class="section-lede">Három dolog, amitől a weboldalad több lesz egy szép névjegynél.</p>
+        </div>
+        <div class="service-stack">
+          <article class="service-card card-web" id="weboldal">
+            <div class="service-copy">
+              <p class="micro">01 / WEBOLDAL &amp; MEGÚJÍTÁS</p>
+              <h3>Van stílusa.<br><em>Van értelme.</em></h3>
+              <p>A helyed hangulatára tervezett oldal. Étlap, nyitvatartás, megközelítés — pont ott, ahol keresik.</p>
+              <a class="underlined-link" href="#kapcsolat" data-interest="Weboldal vagy megújítás">Ilyet szeretnék <span aria-hidden="true">↗</span></a>
             </div>
-            <div class="project-description">
-              <span class="motion-project-index" aria-hidden="true">01</span>
-              <div class="project-label">
-                <span class="label-dot"></span>
-                KONCEPCIÓPROJEKT · ÉTTEREM
+            <div class="service-art menu-art">
+              <span class="art-number" aria-hidden="true">01</span>
+              <div class="menu-window">
+                <div class="mini-bar">
+                  <span>asztalka.</span>
+                  <span>MAI KEDVENCEK ↗</span>
+                </div>
+                <h4>Jót enni.<br><em>Egyszerűen.</em></h4>
+                <div class="dish">
+                  <span><b>Sütőtökkrémleves</b><small>Pirított mag · friss kenyér</small></span>
+                  <strong>2 490 Ft</strong>
+                </div>
+                <div class="dish">
+                  <span><b>Házi paradicsomos tészta</b><small>Bazsalikom · parmezán</small></span>
+                  <strong>4 290 Ft</strong>
+                </div>
+                <span class="mini-note">MINTAÉTLAP / KITALÁLT ÁRAK</span>
               </div>
-              <h3>Asztalka</h3>
-              <p>Meleg tónusú éttermi koncepció, az étlapra és a foglalásra vezető rövid úttal.</p>
-              <button class="project-open" type="button" data-project="asztalka" aria-haspopup="dialog">Megnézem a projekt részleteit <span aria-hidden="true">↗</span></button>
-              <a class="text-link" href="#kapcsolat" data-interest="Új weboldal vagy megújítás">Hasonlóban gondolkodsz? <span aria-hidden="true">↗</span></a>
+              <span class="art-label">ÉTLAP. NAGYÍTÁS NÉLKÜL.</span>
             </div>
           </article>
-          <article class="project project-reverse">
-            <div class="project-visual project-visual-sea">
-              <div class="sea-copy">
-                <span>ÍZEK A PART MELLŐL</span>
-                <strong>Friss. Egyszerű.<br>Tengerparti.</strong>
-                <p>A napi ajánlat, a nyitvatartás<br>és az irány egy helyen.</p>
-                <i>NAPI MENÜ　→</i>
-              </div>
-              <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&amp;fit=crop&amp;w=1050&amp;q=80" alt="Stílusos éttermi belső tér természetes fénnyel" loading="lazy">
-              <span class="sea-sticker">KONCEPCIÓ<br>02 / BISZTRÓ</span>
-              <div class="sea-browser-label">
-                <span>● ● ●</span>
-                <span>partbisztro.hu</span>
-              </div>
+          <article class="service-card card-booking" id="foglalas">
+            <div class="service-copy">
+              <p class="micro">02 / ASZTALFOGLALÁS</p>
+              <h3>Kevesebb kör.<br><em>Több jó este.</em></h3>
+              <p>Dátum, időpont, létszám. Rövid út az első kattintástól a foglalási kérésig.</p>
+              <span class="try-note">A jobb oldali demót próbáld is ki <span aria-hidden="true">↗</span></span>
             </div>
-            <div class="project-description">
-              <span class="motion-project-index" aria-hidden="true">02</span>
-              <div class="project-label">
-                <span class="label-dot"></span>
-                KONCEPCIÓPROJEKT · BISZTRÓ
-              </div>
-              <h3>Part Bisztró</h3>
-              <p>Napfényes bisztrókoncepció, a napi ajánlatot és a fontos tudnivalókat helyezi előtérbe.</p>
-              <button class="project-open" type="button" data-project="part" aria-haspopup="dialog">Megnézem a projekt részleteit <span aria-hidden="true">↗</span></button>
-              <a class="text-link" href="#kapcsolat" data-interest="Új weboldal vagy megújítás">Hasonlóban gondolkodsz? <span aria-hidden="true">↗</span></a>
+            <div class="service-art booking-art">
+              <span class="art-number" aria-hidden="true">02</span>
+              <form class="booking-window" id="booking-form">
+                <div class="mini-bar">
+                  <span>asztalka.</span>
+                  <span>BEMUTATÓ</span>
+                </div>
+                <h4>Ma este?<br><em>Van egy ötletünk.</em></h4>
+                <div class="booking-fields">
+                  <div>
+                    <label for="booking-date">Melyik nap?</label>
+                    <input id="booking-date" type="date" required="">
+                  </div>
+                  <div>
+                    <label for="booking-time">Mikor?</label>
+                    <select id="booking-time">
+                      <option>18:00</option>
+                      <option>18:30</option>
+                      <option>19:00</option>
+                      <option>19:30</option>
+                      <option>20:00</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="booking-guests">Hányan?</label>
+                    <select id="booking-guests">
+                      <option value="2">2 fő</option>
+                      <option value="3">3 fő</option>
+                      <option value="4">4 fő</option>
+                      <option value="5">5 fő</option>
+                      <option value="6">6 fő</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="demo-submit">Próbafoglalás <span aria-hidden="true">↗</span></button>
+                <p id="booking-result" class="demo-status" role="status">Ez demó. Valódi foglalás nem jön létre.</p>
+              </form>
             </div>
           </article>
-          <div class="work-outro">
-            <span>VAN EGY HELYED, AMIT JÓ LENNE ONLINE IS MEGMUTATNI?</span>
-            <a class="button button-dark" href="#kapcsolat">Mesélj róla <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </section>
-      <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
-        <div class="dialog-shell">
-          <div class="dialog-topbar">
-            <span class="dialog-concept-label"><span class="label-dot"></span> KONCEPCIÓPROJEKT · NEM VALÓDI ÜGYFÉLMUNKA</span>
-            <button class="dialog-close" type="button" aria-label="Projektablak bezárása">×</button>
-          </div>
-          <div class="dialog-content">
-            <div class="dialog-preview-column">
-              <div class="preview-controls">
-                <span>ELŐNÉZET</span>
-                <div class="preview-switch" role="group" aria-label="Projekt előnézet mérete">
-                  <button type="button" class="preview-mode is-active" data-preview-mode="desktop" aria-pressed="true">Asztali</button>
-                  <button type="button" class="preview-mode" data-preview-mode="mobile" aria-pressed="false">Mobil</button>
+          <article class="service-card card-chat" id="chatbot">
+            <div class="service-copy">
+              <p class="micro">03 / CHATBOT</p>
+              <h3>Kérdezik?<br><em>Válaszol.</em></h3>
+              <p>A gyakori kérdésekre a saját, jóváhagyott információidból ad választ. Hogy ne minden veled kezdődjön.</p>
+              <span class="try-note">Kattints egy kérdésre <span aria-hidden="true">↗</span></span>
+            </div>
+            <div class="service-art chat-art">
+              <span class="art-number" aria-hidden="true">03</span>
+              <div class="chat-window">
+                <div class="chat-top">
+                  <span class="chat-avatar" aria-hidden="true">✳</span>
+                  <div>
+                    <b>Asztalka segítő</b>
+                    <small>Előre megírt válaszokkal működő demó</small>
+                  </div>
+                  <span class="online-dot" aria-hidden="true"></span>
+                </div>
+                <div id="chat-log" class="chat-log" role="log" aria-label="Bemutató beszélgetés" aria-live="polite">
+                  <p class="chat-message bot-message">Szia! Egy gyors kérdés? Mutatom, hogyan működhet.</p>
+                </div>
+                <div class="quick-questions">
+                  <button type="button" data-question="hours">Mikor vagytok nyitva?</button>
+                  <button type="button" data-question="menu">Hol az étlap?</button>
+                  <button type="button" data-question="book">Asztalt foglalnék</button>
                 </div>
               </div>
-              <div class="dialog-device-frame" id="dialog-device-frame">
-                <div class="dialog-browser-bar">
-                  <span>● ● ●</span>
-                  <span class="dialog-address">asztalka — koncepció</span>
-                  <span>↗</span>
-                </div>
-                <div class="dialog-site-preview" id="dialog-site-preview">
-                  <img id="dialog-project-image" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=1100&amp;q=78" alt="Asztalka koncepcióprojekt előnézet" loading="lazy">
-                  <div class="dialog-image-shade"></div>
-                  <div class="dialog-mock-nav">
-                    <b id="dialog-project-brand">asztalka.</b>
-                    <span>ÉTLAP　 TÖRTÉNETÜNK　 KAPCSOLAT</span>
-                    <i>ASZTALT FOGLALOK</i>
-                  </div>
-                  <div class="dialog-mock-content">
-                    <small id="dialog-project-kicker">JÓ HELYEN JÁRSZ</small>
-                    <strong id="dialog-project-headline">Egy asztal.<br>Jó társaság.</strong>
-                    <p id="dialog-project-subtitle">Helyi ízek, szezonális alapanyagok, hosszúra nyúló esték.</p>
-                    <span>ÉTLAP ÉS FOGLALÁS　↗</span>
-                  </div>
-                  <div class="dialog-mock-footer">
-                    <span>NYITVATARTÁS · KAPCSOLAT</span>
-                    <span>DEMO · KONCEPCIÓ</span>
-                  </div>
-                </div>
-              </div>
-              <p class="dialog-preview-note">A projektablakban látható felület látványterv, nem működő éttermi weboldal.</p>
             </div>
-            <div class="dialog-details">
-              <span class="dialog-project-type" id="dialog-project-type">ÉTTEREM · HANGULATOS, KÖZVETLEN</span>
-              <h2 id="project-dialog-title">Asztalka</h2>
-              <p id="dialog-project-description">Meleg tónusú, vendégközpontú éttermi koncepció. A főoldal rögtön megmutatja a hely hangulatát, miközben az étlap és az asztalfoglalás jól látható marad.</p>
-              <div class="dialog-detail-block">
-                <h3>Tervezési fókusz</h3>
-                <ul id="dialog-project-focus">
-                  <li>Étlap és foglalás gyors elérése.</li>
-                  <li>Hangulatos, de jól olvasható tipográfia.</li>
-                  <li>Asztali és mobilnézetre komponált elrendezés.</li>
-                </ul>
-              </div>
-              <div class="dialog-detail-block">
-                <h3>Amit ez a példa nem állít</h3>
-                <p>Nincs valódi megrendelő, éles oldal, forgalmi adat vagy üzleti eredmény mögötte. Bemutató koncepcióként szerepel.</p>
-              </div>
-              <a class="button button-primary dialog-cta" href="#kapcsolat" data-interest="Új weboldal vagy megújítás">Hasonló projektről egyeztetnék <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
+          </article>
         </div>
-      </dialog>
+      </section>
 
-      <!-- 05 — KÖZÖS MUNKA -->
+      <!-- INDULÁS / A KONCEPCIÓK ISMÉTLÉSE HELYETT KONKRÉT SEGÍTSÉG -->
+      <section class="starting-section" id="indulas" aria-labelledby="starting-title">
+        <div class="starting-copy reveal">
+          <p class="micro">02 / AMIBŐL EL TUDUNK INDULNI.</p>
+          <h2 id="starting-title">KEZDJÜNK ABBÓL,<br><span class="serif-accent">amid már megvan.</span></h2>
+          <p>Nem kell webes szakkifejezésekkel vagy kész látványtervvel érkezned. Ezekből megismerjük a helyedet, és kiderül, mire van valóban szükség.</p>
+          <div class="starting-note"><span aria-hidden="true">↗</span><p>Egy aktuális étlap.<br>Néhány saját fotó.<br>Egy őszinte beszélgetés.</p></div>
+        </div>
+        <div class="starting-list reveal">
+          <details open>
+            <summary><span class="starting-number">01</span><span>Amit kínáltok</span></summary>
+            <div class="starting-detail"><p>Étlap, árak, cím és nyitvatartás. A meglévő anyagokból átnézzük, mi kerüljön előre, mit kell frissíteni, és mi hiányzik még.</p><span class="starting-tag">AKÁR A MOSTANI ÉTLAPOTOK IS ELÉG A KEZDÉSHEZ.</span></div>
+          </details>
+          <details>
+            <summary><span class="starting-number">02</span><span>Amit a vendég lát</span></summary>
+            <div class="starting-detail"><p>A bejárat, a belső tér, néhány jellegzetes fogás. A saját képek segítenek megmutatni, hová érkezik a vendég. Ha nincs még megfelelő fotó, átbeszéljük, mire lenne érdemes képet készíteni.</p><span class="starting-tag">A HELYETEK HANGULATA A KIINDULÓPONT.</span></div>
+          </details>
+          <details>
+            <summary><span class="starting-number">03</span><span>Amit kevesebbszer magyaráznál el</span></summary>
+            <div class="starting-detail"><p>Mindig ugyanazt kérdezik telefonon? Nehéz megtalálni az étlapot? Sok kör a foglalás? Mondd el, mi viszi az időtöket — ebből döntjük el együtt, melyik funkciónak lenne értelme.</p><span class="starting-tag">ELŐBB A HELYZETET ÉRTJÜK MEG, UTÁNA A MEGOLDÁST.</span></div>
+          </details>
+          <a class="starting-link" href="#kapcsolat">Ennyivel már belevághatunk <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
 
-      <section class="process-section section-pad" id="folyamat">
-        <div class="container process-layout">
-          <div class="process-intro">
-            <p class="eyebrow"><span class="eyebrow-number">04</span> Nincs fekete doboz</p>
-            <h2>Jó ötletből<br><span>kész weboldal.</span>
-</h2>
-            <p>Te hozod az ötletet. Mi végigvezetünk a megvalósításon.</p>
-            <a class="text-link" href="#kapcsolat">Kezdjük egy beszélgetéssel <span aria-hidden="true">↗</span></a>
+
+      <!-- 06 / SZEMÉLYES, NAGY TIPOGRÁFIÁJÚ BEMUTATKOZÁS -->
+
+      <section class="about-section" id="rolunk">
+        <div class="about-visual reveal">
+          <span class="micro">A KÓD ELŐTT / A HELYEDRŐL BESZÉLÜNK</span>
+          <div class="about-two" aria-hidden="true">
+            2
+            <span>✳</span>
           </div>
-          <div class="process-steps">
-            <article class="process-step">
-              <span class="step-number">01</span>
-              <div>
-                <h3>Elmondod, mire van szükséged</h3>
-                <p>Megismerjük a helyedet és az ötletedet.</p>
-                <span class="step-outcome">KÖZÖS CÉL</span>
-              </div>
-              <span class="step-mark">↘</span>
-            </article>
-            <article class="process-step">
-              <span class="step-number">02</span>
-              <div>
-                <h3>Összerakjuk a tervet</h3>
-                <p>Tisztázzuk a tartalmat, a funkciókat és a projekt kereteit.</p>
-                <span class="step-outcome">EGYEZTETETT TERV ÉS AJÁNLAT</span>
-              </div>
-              <span class="step-mark">↘</span>
-            </article>
-            <article class="process-step">
-              <span class="step-number">03</span>
-              <div>
-                <h3>Megtervezzük és megépítjük</h3>
-                <p>Elkészül a látványterv, majd a működő weboldal.</p>
-                <span class="step-outcome">KÉSZÜLŐ WEBOLDAL</span>
-              </div>
-              <span class="step-mark">↘</span>
-            </article>
-            <article class="process-step">
-              <span class="step-number">04</span>
-              <div>
-                <h3>Közösen átnézzük, átadjuk</h3>
-                <p>Ellenőrzés, egyeztetett javítások, átlátható átadás.</p>
-                <span class="step-outcome">KÖZÖSEN JÓVÁHAGYOTT ÁTADÁS</span>
-              </div>
-              <span class="step-mark">✓</span>
-            </article>
+          <span class="about-caption">KÉRDEZÜNK.<br>FIGYELÜNK. ÖSSZERAKJUK.</span>
+        </div>
+        <div class="about-copy reveal">
+          <p class="micro">03 / AKIK TÉNYLEG MEGÉPÍTIK.</p>
+          <h2>ELŐBB<br>KÉRDEZÜNK.<br><span class="serif-accent">Aztán tervezünk.</span></h2>
+          <p>Melyik kérdés miatt csörög legtöbbször a telefon? Mit szeretnek bennetek a törzsvendégek? Mi az, amit csak nálatok kapnak meg? Két fejlesztőként ezekből indulunk ki — ebből lesz tartalom, felépítés és végül weboldal.</p>
+          <div class="process-line">
+            <span>01 / Beszélünk</span>
+            <span>02 / Tervezünk</span>
+            <span>03 / Megépítjük</span>
           </div>
         </div>
       </section>
 
-      <!-- 06 — RÓLUNK -->
+      <!-- VENDÉGPRÓBA / HASZNOS ÖNELLENŐRZŐ A SAJÁT OLDALADHOZ -->
+      <section class="guest-check" id="vendegproba" aria-labelledby="guest-check-title">
+        <div class="guest-check-copy reveal">
+          <p class="micro">HÁROM KÉRDÉS / A MOSTANI OLDALADRÓL.</p>
+          <h2 id="guest-check-title">NYISD MEG.<br><span class="serif-accent">De vendégként.</span></h2>
+          <p>Képzeld el: valaki még sosem járt nálatok. Telefonról nézi az oldalad, és vacsorázni szeretne. Megtalálja, amiért érkezett?</p>
+          <p class="guest-check-note">Ez egy rövid önellenőrző, nem automatikus weboldalaudit. A válaszaid csak ezen az oldalon maradnak, nem tároljuk őket.</p>
+        </div>
+        <form class="guest-check-form reveal" id="guest-check-form">
+          <fieldset>
+            <legend><span aria-hidden="true">01</span> El tudom olvasni az étlapot nagyítás és letöltés nélkül?</legend>
+            <div class="guest-options">
+              <label><input type="radio" name="menu-check" value="yes" required><span>Igen, kényelmesen</span></label>
+              <label><input type="radio" name="menu-check" value="improve"><span>Ezen javítanék</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><span aria-hidden="true">02</span> Rögtön kiderül, hol vagytok és mikor lehet menni?</legend>
+            <div class="guest-options">
+              <label><input type="radio" name="info-check" value="yes" required><span>Igen, egyértelmű</span></label>
+              <label><input type="radio" name="info-check" value="improve"><span>Keresgélni kell</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><span aria-hidden="true">03</span> Egyértelmű, hogyan kérhetek asztalt?</legend>
+            <div class="guest-options">
+              <label><input type="radio" name="booking-check" value="yes" required><span>Igen, rögtön látom</span></label>
+              <label><input type="radio" name="booking-check" value="improve"><span>Lehetne egyszerűbb</span></label>
+            </div>
+          </fieldset>
+          <div class="guest-check-result" id="guest-check-result" role="status" aria-live="polite">Válaszolj a három kérdésre. Megmutatjuk, mivel kezdenénk.</div>
+          <a class="guest-check-cta" href="#kapcsolat" id="guest-check-cta" hidden>Ezeket beszéljük át <span aria-hidden="true">↗</span></a>
+        </form>
+      </section>
 
-      <section class="about-section section-pad" id="rolunk">
-        <div class="container about-layout">
-          <div class="about-visual">
-            <div class="about-photo team-typography" aria-label="Két fejlesztő, egy közös cél">
-              <span class="team-kicker">KIS CSAPAT. KÖZVETLEN KAPCSOLAT.</span>
-              <strong>2</strong>
-              <span class="team-line">ötletelünk. tervezünk. megépítjük.</span>
-            </div>
-            <div class="about-note">
-              <span>2</span>
-              <span>fiatal fejlesztő,<br>egy közös cél.</span>
-            </div>
-            <span class="about-doodle" aria-hidden="true">✳</span>
-          </div>
-          <div class="about-copy">
-            <p class="eyebrow"><span class="eyebrow-number">05</span> Két ember, egy csapat</p>
-            <h2>Mi vagyunk a <span>cleversite.</span>
-</h2>
-            <p class="about-lede">Velünk beszéled át. Mi tervezzük meg. Mi építjük fel.</p>
-            <p>Éttermeknek és vállalkozásoknak tervezünk. Figyelünk rá, hogy az oldal jól nézzen ki, könnyű legyen használni, és a fontos információk ne vesszenek el.</p>
-            <p>Nem javaslunk funkciót csak azért, mert jól hangzik. Előbb megismerjük, mire van szükséged.</p>
-            <div class="about-signoff">
-              <span class="signoff-line"></span>
-              <span>Örülünk, hogy itt vagy.</span>
-              <b>cleversite</b>
-            </div>
-          </div>
+      <!-- 07 / RÖVID GYIK -->
+
+      <section class="faq-section" id="gyik">
+        <div class="faq-title reveal">
+          <p class="micro">04 / TISZTÁZZUK.</p>
+          <h2>JÓ<br><span class="serif-accent">kérdések.</span></h2>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>Mennyibe kerül egy weboldal?</summary>
+            <p>Az oldalak számától, a tartalomtól és a funkcióktól függ. Az első egyeztetés után konkrét feladatokra és keretekre készítünk ajánlatot.</p>
+          </details>
+          <details>
+            <summary>Mennyi idő alatt készül el?</summary>
+            <p>A terjedelem és az anyagok alapján közösen határozunk meg reális ütemezést. A visszajelzési pontokat előre egyeztetjük.</p>
+          </details>
+          <details>
+            <summary>A meglévő oldalamat is megújítjátok?</summary>
+            <p>Igen. Először átnézzük a mostani oldalt. A felépítése és az igényeid alapján javaslunk megújítást, bővítést vagy új oldalt.</p>
+          </details>
+          <details>
+            <summary>A chatbot és a foglalás is része lehet?</summary>
+            <p>Igen, az igényeidhez és a meglévő rendszereidhez igazítjuk a megoldást. A bekötés lehetőségét és az esetleges külső díjakat az ajánlat előtt tisztázzuk.</p>
+          </details>
         </div>
       </section>
 
-      <!-- 07 — GYAKORI KÉRDÉSEK -->
+      <!-- 08 / KAPCSOLAT -->
 
-      <section class="faq-section section-pad" id="gyik">
-        <div class="container faq-layout">
-          <div class="faq-intro">
-            <p class="eyebrow"><span class="eyebrow-number">06</span> Jó kérdés</p>
-            <h2>Mielőtt belevágunk.</h2>
-            <p>Ha maradt még benned kérdés, írj nyugodtan — az első beszélgetés pont erre való.</p>
-            <a class="text-link" href="#kapcsolat">Van még kérdésem <span aria-hidden="true">↗</span></a>
-            <span class="faq-spark" aria-hidden="true">✳</span>
-          </div>
-          <div class="faq-list">
-            <details class="faq-item">
-              <summary>Mennyibe kerül egy weboldal?</summary>
-              <div class="faq-answer">
-                <p>Az ár az oldalak számától, a tartalomtól és a funkcióktól függ. Az első egyeztetés után konkrét feladatokra és keretekre készítünk ajánlatot.</p>
-              </div>
-            </details>
-            <details class="faq-item">
-              <summary>Mennyi idő alatt készül el?</summary>
-              <div class="faq-answer">
-                <p>A terjedelem és a szükséges anyagok alapján közösen határozunk meg reális ütemezést. A visszajelzési pontokat is előre egyeztetjük.</p>
-              </div>
-            </details>
-            <details class="faq-item">
-              <summary>Milyen anyagokat kell előkészítenem?</summary>
-              <div class="faq-answer">
-                <p>A logó, az étlap, a cím, a nyitvatartás és saját fotók jó kiindulópontok. A hiányzó anyagokat és a tartalmi feladatokat együtt átbeszéljük.</p>
-              </div>
-            </details>
-            <details class="faq-item">
-              <summary>Össze tudjátok kötni foglalási rendszerrel?</summary>
-              <div class="faq-answer">
-                <p>Megnézzük, milyen rendszert használsz. A bekötés lehetőségeit és az esetleges külső díjakat az ajánlat előtt tisztázzuk.</p>
-              </div>
-            </details>
-            <details class="faq-item">
-              <summary>A meglévő weboldalamhoz is tudtok új funkciót adni?</summary>
-              <div class="faq-answer">
-                <p>Igen, először átnézzük a jelenlegi oldalt. A felépítése és az igényeid alapján javaslunk bővítést vagy megújítást.</p>
-              </div>
-            </details>
-          </div>
+      <section class="contact-section" id="kapcsolat" aria-labelledby="contact-title">
+        <div class="contact-heading reveal">
+          <p class="micro">05 / MOST TE JÖSSZ.</p>
+          <h2 id="contact-title">NA, MIT<br><span class="serif-accent">főzzünk ki?</span></h2>
+          <p>Mesélj a helyedről.<br>Pár mondat elég a kezdéshez.</p>
+          <span class="contact-flower" aria-hidden="true">✳</span>
         </div>
-      </section>
-
-      <!-- 08 — KAPCSOLAT -->
-
-      <section class="contact-section section-pad" id="kapcsolat">
-        <div class="container contact-layout">
-          <div class="contact-copy">
-            <p class="eyebrow"><span class="eyebrow-dot"></span> Egy jó beszélgetés az első lépés</p>
-            <h2>Van egy ötleted?<br><span>Halljuk.</span>
-</h2>
-            <p>Írd meg, mivel foglalkozol és miben kérnél segítséget. Pár mondat elég a kezdéshez.</p>
-            <p class="contact-demo-copy">Ez az űrlap demó: nem küld és nem tárol adatot.</p>
-            <div class="contact-note">
-              <span class="contact-note-icon">✳</span>
-              <span><strong>Nem kell kész brief.</strong><small>Mesélj arról, mi legyen jobb.</small></span>
-            </div>
-            <div class="contact-meta">
-              <span>ELÉRHETŐSÉG</span>
-              <p>E-mail-cím: <strong>[e-mail-cím bekötés alatt]</strong></p>
-              <p>Telefonszám: <strong>[telefonszám megadás alatt]</strong></p>
-            </div>
+        <form class="contact-form reveal" id="contact-form">
+          <p class="form-note">ÜZENET-ELŐKÉSZÍTŐ / DEMÓ</p>
+          <div class="field">
+            <label for="name">Hogy szólíthatunk?</label>
+            <input id="name" name="name" autocomplete="name" placeholder="Neved" required="" maxlength="100">
           </div>
-          <form class="contact-form" id="contact-form" novalidate="">
-            <div class="form-heading">
-              <span>AJÁNLATKÉRÉS</span>
-              <span class="form-demo">DEMO ŰRLAP</span>
+          <div class="field">
+            <label for="email">E-mail-címed</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="nev@etterem.hu" required="" maxlength="200">
+          </div>
+          <fieldset class="interest-field">
+            <legend>Miben gondolkodsz?</legend>
+            <div class="interest-options">
+              <label>
+                <input type="checkbox" name="interest" value="Weboldal">
+                <span>Weboldal ↗</span>
+              </label>
+              <label>
+                <input type="checkbox" name="interest" value="Foglalás">
+                <span>Foglalás ↗</span>
+              </label>
+              <label>
+                <input type="checkbox" name="interest" value="Chatbot">
+                <span>Chatbot ↗</span>
+              </label>
             </div>
-            <p class="form-description">Pár adat, aztán megnézzük együtt. A beküldés most demó.</p>
-            <div class="form-grid">
-              <div class="form-field">
-                <label for="name">Neved <span aria-hidden="true">*</span></label>
-                <input id="name" name="name" type="text" autocomplete="name" placeholder="Hogy szólíthatunk?" aria-describedby="name-error" required="">
-                <span class="field-error" id="name-error"></span>
-              </div>
-              <div class="form-field">
-                <label for="email">E-mail-címed <span aria-hidden="true">*</span></label>
-                <input id="email" name="email" type="email" autocomplete="email" placeholder="nev@pelda.hu" aria-describedby="email-error" required="">
-                <span class="field-error" id="email-error"></span>
-              </div>
-              <div class="form-field form-field-wide">
-                <label for="business">Vállalkozás neve</label>
-                <input id="business" name="business" type="text" autocomplete="organization" placeholder="Pl. Kisfalat Étterem">
-              </div>
-              <div class="form-field form-field-wide">
-                <label for="service-interest">Miben kérnél segítséget? <span aria-hidden="true">*</span></label>
-                <select id="service-interest" name="service" aria-describedby="service-error" required="">
-                  <option value="">Válassz szolgáltatást</option>
-                  <option>Új weboldal vagy megújítás</option>
-                  <option>Mobilra optimalizálás</option>
-                  <option>Chatbot</option>
-                  <option>Online asztalfoglalás</option>
-                  <option>Több dologban is</option>
-                  <option>Még nem tudom, beszéljük át</option>
-                </select>
-                <span class="field-error" id="service-error"></span>
-              </div>
-              <div class="form-field form-field-wide">
-                <label for="idea">Miben gondolkodsz? <span aria-hidden="true">*</span></label>
-                <textarea id="idea" name="idea" rows="4" placeholder="Új weboldal, megújítás, foglalás — bármi, ami eszedbe jut." aria-describedby="idea-error" required></textarea>
-                <span class="field-error" id="idea-error"></span>
-              </div>
-            </div>
-            <p class="field-error" id="form-error" role="alert" aria-live="assertive"></p>
-            <button class="button button-primary form-submit" type="submit">Demó ellenőrzése <span aria-hidden="true">↗</span></button>
-            <p class="form-notice" id="form-notice" role="status" aria-live="polite">Demó űrlap: az adatok nem kerülnek elküldésre.</p>
-            <p class="privacy-note">Az űrlap demó, nem tárol és nem továbbít adatot. <span>[Adatkezelési tájékoztató bekötés alatt]</span></p>
-          </form>
-        </div>
+          </fieldset>
+          <div class="field">
+            <label for="message">Mesélj egy kicsit.</label>
+            <textarea id="message" name="message" rows="3" required minlength="10" maxlength="4000" placeholder="Milyen helyetek van, és min változtatnátok?"></textarea>
+          </div>
+          <button class="contact-submit magnetic" type="submit">Rakjuk össze az ötletet <span aria-hidden="true">↗</span></button>
+          <div class="message-output" id="message-output" hidden="">
+            <label for="prepared-message">A kimásolható üzeneted</label>
+            <textarea id="prepared-message" readonly rows="6"></textarea>
+            <button id="copy-message" type="button">Üzenet másolása ↗</button>
+          </div>
+          <p class="form-status" id="form-status" role="status"></p>
+          <p class="form-fine">Ez az űrlap helyi bemutató. Nem küld és nem tárol adatot; az előkészített üzenetet kimásolhatod.</p>
+        </form>
       </section>
     </main>
-    <!-- AZ INDEX.HTML RÉGI <footer>...</footer> BLOKKJÁT CSERÉLD ERRE. -->
-<footer class="site-footer cf-footer" aria-label="Lábléc">
-  <div class="container cf-footer-inner">
 
-    <!-- MÁRKANÉV ÉS HÁROM FONTOS HIVATKOZÁS -->
-    <div class="cf-footer-top">
-      <a class="cf-wordmark" href="#eleje" aria-label="cleversite – az oldal tetejére">
-        <span class="cf-logo-shape" aria-hidden="true"></span>
-        <span>clever<span class="cf-wordmark-light">site</span></span>
-      </a>
-      <nav class="cf-footer-nav" aria-label="Lábléc navigáció">
-        <a href="#szolgaltatasok">Megoldásaink</a>
-        <a href="#munkaink">Koncepcióink</a>
-        <a href="#rolunk">Rólunk</a>
-      </nav>
-    </div>
+    <!-- LÁBLÉC / RÖVID, HANGSÚLYOS -->
 
-    <!-- EGYETLEN HANGSÚLYOS ÜZENET ÉS KAPCSOLATFELVÉTEL -->
-    <div class="cf-footer-main">
-      <div class="cf-footer-copy">
-        <p class="cf-footer-kicker">KÉT FEJLESZTŐ. EGY KÖZÖS ÖTLET.</p>
-        <h2>A következő jó oldal?<br><span>Legyen a tiéd.</span></h2>
+    <footer class="site-footer">
+      <div class="footer-top">
+        <a href="#eleje" class="footer-brand" aria-label="cleversite – vissza az elejére">cleversite<span aria-hidden="true">↗</span></a>
       </div>
-      <a class="cf-footer-cta" href="#kapcsolat">
-        Beszéljünk róla
-        <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-
-    <!-- RÖVID ZÁRÓSOR -->
-    <div class="cf-footer-bottom">
-      <p>© <span id="current-year">2026</span> cleversite</p>
-      <a href="#eleje">Vissza az elejére <span aria-hidden="true">↑</span></a>
-    </div>
-
-  </div>
-</footer>
-
-</body>
+      <div class="footer-bottom">
+        <p>© <span id="current-year">2026</span> cleversite</p>
+        <nav aria-label="Lábléc navigáció">
+          <a href="#megoldasok">Megoldások</a>
+          <a href="#indulas">Indulás</a>
+          <a href="#eleje">Tetejére ↑</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
 </html>

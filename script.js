@@ -1,1121 +1,24 @@
-const menuToggle = document.querySelector(".menu-toggle");
-
-      const primaryNav = document.querySelector("#primary-nav");
-
-      const contactForm = document.querySelector("#contact-form");
-
-      const formNotice = document.querySelector("#form-notice");
-
-      const formError = document.querySelector("#form-error");
-
-      function closeMenu(returnFocus = false) {
-
-        setMenuOpen(false);
-
-        if (returnFocus) menuToggle.focus();
-
-      }
-
-      function setMenuOpen(isOpen) {
-
-        const isMobile = window.innerWidth <= 760;
-
-        menuToggle.setAttribute("aria-expanded", String(isOpen));
-
-        menuToggle.setAttribute("aria-label", isOpen ? "Menü bezárása" : "Menü megnyitása");
-
-        primaryNav.classList.toggle("is-open", isOpen);
-
-        primaryNav.inert = isMobile && !isOpen;
-
-        primaryNav.setAttribute("aria-hidden", String(isMobile && !isOpen));
-
-      }
-
-      setMenuOpen(false);
-
-      menuToggle.addEventListener("click", () => {
-
-        const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-
-        setMenuOpen(!isExpanded);
-
-      });
-
-      primaryNav.addEventListener("click", (event) => {
-
-        if (event.target.closest("a")) closeMenu();
-
-      });
-
-      document.addEventListener("click", (event) => {
-
-        if (
-
-          primaryNav.classList.contains("is-open") &&
-
-          !primaryNav.contains(event.target) &&
-
-          !menuToggle.contains(event.target)
-
-        ) {
-
-          closeMenu();
-
-        }
-
-      });
-
-      document.addEventListener("keydown", (event) => {
-
-        if (event.key !== "Escape") return;
-
-        if (projectDialog.open) {
-
-          event.preventDefault();
-
-          closeProjectDialog();
-
-          return;
-
-        }
-
-        if (primaryNav.classList.contains("is-open")) {
-
-          closeMenu(true);
-
-        }
-
-      }, true);
-
-      window.addEventListener("resize", () => {
-
-        if (window.innerWidth > 760 && primaryNav.classList.contains("is-open")) {
-
-          closeMenu();
-
-          return;
-
-        }
-
-        primaryNav.inert = window.innerWidth <= 760 && !primaryNav.classList.contains("is-open");
-
-        primaryNav.setAttribute("aria-hidden", String(window.innerWidth <= 760 && !primaryNav.classList.contains("is-open")));
-
-      });
-
-      const demoTabs = [...document.querySelectorAll("[data-demo-tab]")];
-
-      const demoPanels = [...document.querySelectorAll("[data-demo-panel]")];
-
-      function activateDemoTab(selectedTab, moveFocus = false) {
-
-        const selectedName = selectedTab.dataset.demoTab;
-
-        for (const tab of demoTabs) {
-
-          const active = tab === selectedTab;
-
-          tab.classList.toggle("is-active", active);
-
-          tab.setAttribute("aria-selected", String(active));
-
-          tab.tabIndex = active ? 0 : -1;
-
-          if (active && moveFocus) tab.focus();
-
-        }
-
-        for (const panel of demoPanels) {
-
-          const active = panel.dataset.demoPanel === selectedName;
-
-          panel.inert = !active;
-
-          panel.setAttribute("aria-hidden", String(!active));
-
-          panel.classList.toggle("is-active", active);
-
-        }
-
-      }
-
-      for (const tab of demoTabs) {
-
-        tab.addEventListener("click", () => activateDemoTab(tab));
-
-        tab.addEventListener("keydown", (event) => {
-
-          const currentIndex = demoTabs.indexOf(tab);
-
-          let nextIndex = currentIndex;
-
-          if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % demoTabs.length;
-
-          if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + demoTabs.length) % demoTabs.length;
-
-          if (event.key === "Home") nextIndex = 0;
-
-          if (event.key === "End") nextIndex = demoTabs.length - 1;
-
-          if (nextIndex === currentIndex) return;
-
-          event.preventDefault();
-
-          activateDemoTab(demoTabs[nextIndex], true);
-
-        });
-
-      }
-
-      activateDemoTab(demoTabs[0]);
-
-      const chatForm = document.querySelector("#chat-form");
-
-      const chatInput = document.querySelector("#chat-input");
-
-      const chatLog = document.querySelector("#chat-log");
-
-      const quickQuestions = document.querySelectorAll("[data-chat-question]");
-
-      function normalizeQuestion(question) {
-
-        return question
-
-          .toLocaleLowerCase("hu-HU")
-
-          .normalize("NFD")
-
-          .replace(/[\u0300-\u036f]/g, "")
-
-          .trim();
-
-      }
-
-      function getDemoReply(question) {
-
-        const normalized = normalizeQuestion(question);
-
-        if (/nyitva|nyitvatart|mikor/.test(normalized)) {
-
-          return "A koncepcióoldalon szereplő 11:00–22:00 csak kitalált bemutatóadat. Éles weboldalon a te általad megadott nyitvatartás jelenne meg.";
-
-        }
-
-        if (/etlap|menu|etel|ar/.test(normalized)) {
-
-          return "Ez a demó nem tartalmaz valódi étlapot. Egy elkészült oldalon az étlap jól látható helyről lenne megnyitható.";
-
-        }
-
-        if (/foglal|asztal|hely/.test(normalized)) {
-
-          return "A foglalási demóban kipróbálhatod a dátum- és időpontválasztást. Ez a chatbot-válasz és a foglalási példa sem kapcsolódik valódi étteremhez.";
-
-        }
-
-        if (/hol|cim|megkozelit|parkol/.test(normalized)) {
-
-          return "Ez kitalált éttermi koncepció, ezért nincs valódi címe vagy megközelítési információja. Éles oldalon az általad jóváhagyott cím kerülne ide.";
-
-        }
-
-        if (/allerg|vegan|veget|gluten|tej|kutya|gyerek/.test(normalized)) {
-
-          return "A demóban nincs ellenőrzött éttermi vagy allergéninformáció. Ilyen válaszokat csak a vállalkozás által megadott, pontos adatok alapján szabad beállítani.";
-
-        }
-
-        return "Ez egy előre beállított válaszokkal működő demó. Kérdezz a nyitvatartásról, az étlapról, a címről vagy a foglalásról — a bemutatóadatok kitaláltak.";
-
-      }
-
-      function appendChatMessage(message, sender) {
-
-        const bubble = document.createElement("div");
-
-        bubble.className = `chat-message ${sender === "user" ? "user-message" : "bot-message"}`;
-
-        const label = document.createElement("span");
-
-        label.className = "chat-message-label";
-
-        label.textContent = sender === "user" ? "TE · DEMÓ" : "SEGÍTŐ · DEMÓ";
-
-        const text = document.createElement("p");
-
-        text.textContent = message;
-
-        bubble.append(label, text);
-
-        chatLog.append(bubble);
-
-        while (chatLog.children.length > 12) {
-
-          chatLog.firstElementChild.remove();
-
-        }
-
-        chatLog.scrollTop = chatLog.scrollHeight;
-
-      }
-
-      function askChatbot(question) {
-
-        const trimmedQuestion = question.trim();
-
-        if (!trimmedQuestion) {
-
-          chatInput.setAttribute("aria-invalid", "true");
-
-          chatInput.focus();
-
-          return;
-
-        }
-
-        chatInput.removeAttribute("aria-invalid");
-
-        appendChatMessage(trimmedQuestion, "user");
-
-        appendChatMessage(getDemoReply(trimmedQuestion), "bot");
-
-      }
-
-      for (const questionButton of quickQuestions) {
-
-        questionButton.addEventListener("click", () => {
-
-          askChatbot(questionButton.dataset.chatQuestion);
-
-        });
-
-      }
-
-      chatForm.addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        askChatbot(chatInput.value);
-
-        if (chatInput.value.trim()) {
-
-          chatInput.value = "";
-
-          chatInput.focus();
-
-        }
-
-      });
-
-      chatInput.addEventListener("input", () => chatInput.removeAttribute("aria-invalid"));
-
-      const bookingForm = document.querySelector("#booking-form");
-
-      const bookingDate = document.querySelector("#booking-date");
-
-      const bookingTime = document.querySelector("#booking-time");
-
-      const bookingGuests = document.querySelector("#booking-guests");
-
-      const bookingError = document.querySelector("#booking-error");
-
-      const bookingResult = document.querySelector("#booking-result");
-
-      function getLocalDateValue(date = new Date()) {
-
-        const year = date.getFullYear();
-
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-
-        const day = String(date.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-
-      }
-
-      bookingDate.min = getLocalDateValue();
-
-      function clearBookingError() {
-
-        bookingError.textContent = "";
-
-        for (const field of [bookingDate, bookingTime, bookingGuests]) {
-
-          field.removeAttribute("aria-invalid");
-
-        }
-
-      }
-
-      for (const field of [bookingDate, bookingTime, bookingGuests]) {
-
-        field.addEventListener("input", clearBookingError);
-
-        field.addEventListener("change", clearBookingError);
-
-      }
-
-      bookingForm.addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        clearBookingError();
-
-        bookingResult.hidden = true;
-
-        const firstMissingField = [bookingDate, bookingTime, bookingGuests].find((field) => !field.value);
-
-        if (firstMissingField) {
-
-          firstMissingField.setAttribute("aria-invalid", "true");
-
-          bookingError.textContent = "Válassz dátumot, időpontot és létszámot a demó kipróbálásához.";
-
-          firstMissingField.focus();
-
-          return;
-
-        }
-
-        if (bookingDate.value < getLocalDateValue()) {
-
-          bookingDate.setAttribute("aria-invalid", "true");
-
-          bookingError.textContent = "Múltbeli napra nem lehet demóválasztást készíteni. Válassz mai vagy későbbi dátumot.";
-
-          bookingDate.focus();
-
-          return;
-
-        }
-
-        const [year, month, day] = bookingDate.value.split("-").map(Number);
-
-        const formattedDate = new Intl.DateTimeFormat("hu-HU", {
-
-          year: "numeric",
-
-          month: "long",
-
-          day: "numeric",
-
-        }).format(new Date(year, month - 1, day));
-
-        const guestCount = Number(bookingGuests.value);
-
-        bookingResult.replaceChildren();
-
-        const heading = document.createElement("strong");
-
-        heading.textContent = "Demóválasztás — nem foglalás";
-
-        const details = document.createElement("span");
-
-        details.textContent = `${formattedDate}, ${bookingTime.value}, ${guestCount} ${guestCount === 1 ? "fő" : "fő"}. Valódi szabad helyet nem ellenőriztünk; adatot nem küldtünk el, foglalás nem történt.`;
-
-        bookingResult.append(heading, details);
-
-        bookingResult.hidden = false;
-
-      });
-
-      const projectDialog = document.querySelector("#project-dialog");
-
-      const projectOpeners = document.querySelectorAll("[data-project]");
-
-      const dialogCloseButton = document.querySelector(".dialog-close");
-
-      const dialogDeviceFrame = document.querySelector("#dialog-device-frame");
-
-      const previewModeButtons = document.querySelectorAll("[data-preview-mode]");
-
-      const projectDialogTitle = document.querySelector("#project-dialog-title");
-
-      const dialogProjectType = document.querySelector("#dialog-project-type");
-
-      const dialogProjectDescription = document.querySelector("#dialog-project-description");
-
-      const dialogProjectImage = document.querySelector("#dialog-project-image");
-
-      const dialogProjectBrand = document.querySelector("#dialog-project-brand");
-
-      const dialogProjectKicker = document.querySelector("#dialog-project-kicker");
-
-      const dialogProjectHeadline = document.querySelector("#dialog-project-headline");
-
-      const dialogProjectSubtitle = document.querySelector("#dialog-project-subtitle");
-
-      const dialogProjectFocus = document.querySelector("#dialog-project-focus");
-
-      let lastProjectOpener = null;
-
-      let projectCloseTimer = 0;
-
-      const projectContent = {
-
-        asztalka: {
-
-          title: "Asztalka",
-
-          type: "ÉTTEREM · HANGULATOS, KÖZVETLEN",
-
-          description: "Meleg tónusú, vendégközpontú éttermi koncepció. A főoldal rögtön megmutatja a hely hangulatát, miközben az étlap és az asztalfoglalás jól látható marad.",
-
-          image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1100&q=78",
-
-          imageAlt: "Asztalka nevű kitalált éttermi koncepció hangulatos előnézete",
-
-          brand: "asztalka.",
-
-          kicker: "JÓ HELYEN JÁRSZ",
-
-          headline: "Egy asztal.\nJó társaság.",
-
-          subtitle: "Helyi ízek, szezonális alapanyagok, hosszúra nyúló esték.",
-
-          focus: [
-
-            "Étlap és foglalás gyors elérése.",
-
-            "Hangulatos, de jól olvasható tipográfia.",
-
-            "Asztali és mobilnézetre komponált elrendezés.",
-
-          ],
-
-        },
-
-        part: {
-
-          title: "Part Bisztró",
-
-          type: "BISZTRÓ · FRISS, NAPFÉNYES",
-
-          description: "Világos, kortárs bisztrókoncepció, ahol a napi ajánlat, a nyitvatartás és a megközelítés könnyen megtalálható. A példa nem valódi vállalkozást vagy ügyfélmunkát mutat be.",
-
-          image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1100&q=78",
-
-          imageAlt: "Part Bisztró nevű kitalált éttermi koncepció előnézete",
-
-          brand: "part bisztró.",
-
-          kicker: "ÍZEK A PART MELLŐL",
-
-          headline: "Friss. Egyszerű.\nTengerparti.",
-
-          subtitle: "A napi ajánlat és minden fontos tudnivaló egy helyen.",
-
-          focus: [
-
-            "Napi ajánlat és nyitvatartás előtérben.",
-
-            "Világos tónusok, könnyen olvasható szövegek.",
-
-            "Közvetlen út az étlaptól a kapcsolatfelvételig.",
-
-          ],
-
-        },
-
-      };
-
-      function setProjectPreviewMode(mode) {
-
-        const isMobile = mode === "mobile";
-
-        dialogDeviceFrame.classList.toggle("is-mobile", isMobile);
-
-        for (const button of previewModeButtons) {
-
-          const active = button.dataset.previewMode === mode;
-
-          button.classList.toggle("is-active", active);
-
-          button.setAttribute("aria-pressed", String(active));
-
-        }
-
-      }
-
-      function openProject(projectKey, opener) {
-
-        const project = projectContent[projectKey];
-
-        if (!project) {
-
-          console.error(`Ismeretlen projektazonosító: ${projectKey}`);
-
-          return;
-
-        }
-
-        lastProjectOpener = opener;
-
-        projectDialogTitle.textContent = project.title;
-
-        dialogProjectType.textContent = project.type;
-
-        dialogProjectDescription.textContent = project.description;
-
-        dialogProjectImage.src = project.image;
-
-        dialogProjectImage.alt = project.imageAlt;
-
-        dialogProjectBrand.textContent = project.brand;
-
-        dialogProjectKicker.textContent = project.kicker;
-
-        dialogProjectHeadline.textContent = project.headline;
-
-        dialogProjectSubtitle.textContent = project.subtitle;
-
-        dialogProjectFocus.replaceChildren();
-
-        for (const item of project.focus) {
-
-          const listItem = document.createElement("li");
-
-          listItem.textContent = item;
-
-          dialogProjectFocus.append(listItem);
-
-        }
-
-        setProjectPreviewMode("desktop");
-
-        window.clearTimeout(projectCloseTimer);
-
-        projectDialog.classList.remove("is-closing");
-
-        projectDialog.showModal();
-
-        dialogCloseButton.focus();
-
-      }
-
-      function closeProjectDialog() {
-
-        if (!projectDialog.open || projectDialog.classList.contains("is-closing")) return;
-
-        projectDialog.classList.add("is-closing");
-
-        const finishClose = () => {
-
-          window.clearTimeout(projectCloseTimer);
-
-          if (projectDialog.open && projectDialog.classList.contains("is-closing")) {
-
-            projectDialog.close();
-
-          }
-
-        };
-
-        projectDialog.addEventListener("transitionend", (event) => {
-
-          if (event.target === projectDialog && event.propertyName === "opacity") finishClose();
-
-        }, { once: true });
-
-        projectCloseTimer = window.setTimeout(finishClose, 320);
-
-      }
-
-      for (const opener of projectOpeners) {
-
-        opener.addEventListener("click", () => openProject(opener.dataset.project, opener));
-
-      }
-
-      dialogCloseButton.addEventListener("click", closeProjectDialog);
-
-      for (const button of previewModeButtons) {
-
-        button.addEventListener("click", () => setProjectPreviewMode(button.dataset.previewMode));
-
-      }
-
-      projectDialog.addEventListener("click", (event) => {
-
-        if (event.target === projectDialog) closeProjectDialog();
-
-      });
-
-      projectDialog.addEventListener("cancel", (event) => {
-
-        event.preventDefault();
-
-        closeProjectDialog();
-
-      });
-
-      projectDialog.addEventListener("keydown", (event) => {
-
-        if (event.key !== "Escape") return;
-
-        event.preventDefault();
-
-        closeProjectDialog();
-
-      });
-
-      projectDialog.addEventListener("close", () => {
-
-        window.clearTimeout(projectCloseTimer);
-
-        projectDialog.classList.remove("is-closing");
-
-        setProjectPreviewMode("desktop");
-
-        if (lastProjectOpener?.isConnected) lastProjectOpener.focus();
-
-      });
-
-      const serviceInterest = document.querySelector("#service-interest");
-
-      const ideaField = document.querySelector("#idea");
-
-      function selectInterest(interest) {
-
-        const matchingOption = [...serviceInterest.options].find((option) => option.value === interest || option.textContent === interest);
-
-        if (matchingOption) serviceInterest.value = matchingOption.value;
-
-        if (!ideaField.value.trim()) {
-
-          ideaField.value = `A(z) „${interest}” szolgáltatásról szeretnék egyeztetni. `;
-
-        }
-
-      }
-
-      document.addEventListener("click", (event) => {
-
-        const interestLink = event.target.closest("[data-interest]");
-
-        if (!interestLink) return;
-
-        selectInterest(interestLink.dataset.interest);
-
-        if (projectDialog.open) closeProjectDialog();
-
-      });
-
-      const fieldRules = [
-
-        {
-
-          field: document.querySelector("#name"),
-
-          error: document.querySelector("#name-error"),
-
-          validate: (value) => value.length > 0 ? "" : "Írd be, hogyan szólíthatunk.",
-
-        },
-
-        {
-
-          field: document.querySelector("#email"),
-
-          error: document.querySelector("#email-error"),
-
-          validate: (value) => {
-
-            if (!value) return "Add meg az e-mail-címed.";
-
-            return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? "" : "Ellenőrizd az e-mail-címet (például nev@pelda.hu).";
-
-          },
-
-        },
-
-        {
-
-          field: serviceInterest,
-
-          error: document.querySelector("#service-error"),
-
-          validate: (value) => value ? "" : "Válaszd ki, miben kérnél segítséget.",
-
-        },
-
-        {
-
-          field: ideaField,
-
-          error: document.querySelector("#idea-error"),
-
-          validate: (value) => value ? "" : "Írj néhány szót az elképzelésedről.",
-
-        },
-
-      ];
-
-      function validateField(rule) {
-
-        const value = rule.field.value.trim();
-
-        const message = rule.validate(value);
-
-        rule.error.textContent = message;
-
-        rule.field.setAttribute("aria-invalid", String(Boolean(message)));
-
-        return !message;
-
-      }
-
-      for (const rule of fieldRules) {
-
-        rule.field.addEventListener("input", () => {
-
-          validateField(rule);
-
-          if (fieldRules.every((fieldRule) => !fieldRule.field.hasAttribute("aria-invalid") || fieldRule.field.getAttribute("aria-invalid") === "false")) {
-
-            formError.textContent = "";
-
-          }
-
-        });
-
-        rule.field.addEventListener("change", () => validateField(rule));
-
-      }
-
-      contactForm.addEventListener("submit", (event) => {
-
-        event.preventDefault();
-
-        const invalidFields = fieldRules.filter((rule) => !validateField(rule));
-
-        formNotice.classList.remove("is-checked");
-
-        if (invalidFields.length) {
-
-          formError.textContent = "Nézd át a pirossal jelölt mezőket, és javítsd a hibákat.";
-
-          invalidFields[0].field.focus();
-
-          return;
-
-        }
-
-        formError.textContent = "";
-
-        formNotice.textContent = "A mezők rendben vannak, de ez továbbra is demó: az üzenet nem lett elküldve és nem tárolódott. Az éles ajánlatkéréshez űrlapbekötés és adatkezelési tájékoztató szükséges.";
-
-        formNotice.classList.add("is-checked");
-
-      });
-
-      document.querySelector("#current-year").textContent = String(new Date().getFullYear());
-
-      const revealTargets = document.querySelectorAll(
-
-        ".section-intro, .comparison-heading, .compare-preview, .services-heading, .service-row, .demo-heading, .demo-panel-copy, .project, .process-intro, .process-step, .about-copy, .faq-intro, .faq-item, .contact-copy, .contact-form",
-
-      );
-
-      const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-      let reducedMotion = motionPreference.matches;
-
-      let revealObserver = null;
-
-      function updateRevealEnhancement() {
-
-        revealObserver?.disconnect();
-
-        revealObserver = null;
-
-        if (document.hidden || reducedMotion || !("IntersectionObserver" in window)) {
-
-          for (const target of revealTargets) {
-
-            delete target.dataset.reveal;
-
-            target.classList.remove("is-visible");
-
-          }
-
-          return;
-
-        }
-
-        revealObserver = new IntersectionObserver((entries) => {
-
-          for (const entry of entries) {
-
-            entry.target.classList.toggle("is-visible", entry.isIntersecting);
-
-          }
-
-        }, {
-
-          rootMargin: "0px 0px -45px 0px",
-
-          threshold: 0.08,
-
-        });
-
-        for (const target of revealTargets) {
-
-          target.dataset.reveal = "";
-
-          revealObserver.observe(target);
-
-        }
-
-      }
-
-      updateRevealEnhancement();
-
-      document.addEventListener("visibilitychange", updateRevealEnhancement);
-
-      motionPreference.addEventListener("change", (event) => {
-
-        reducedMotion = event.matches;
-
-        updateRevealEnhancement();
-
-      });
-
-      let scrollFrame = 0;
-
-      const heroBrowser = document.querySelector(".hero-browser");
-
-      const heroVisual = document.querySelector(".hero-visual");
-
-      const comparisonBoard = document.querySelector(".comparison-board");
-
-      const projectVisuals = document.querySelectorAll(".project-visual");
-
-      function updateScrollProgress() {
-
-        if (scrollFrame) return;
-
-        scrollFrame = window.requestAnimationFrame(() => {
-
-          const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-          const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
-
-          document.documentElement.style.setProperty("--page-progress", String(Math.min(1, Math.max(0, progress))));
-
-          if (!reducedMotion && heroBrowser && heroVisual) {
-
-            const bounds = heroVisual.getBoundingClientRect();
-
-            const assembly = Math.min(1, Math.max(0, (window.innerHeight * .95 - bounds.top) / (window.innerHeight * .95)));
-
-            heroBrowser.style.setProperty("--hero-turn", `${(1 - assembly) * 5}deg`);
-
-            heroBrowser.style.setProperty("--hero-yaw", `${(1 - assembly) * -4}deg`);
-
-            heroBrowser.style.setProperty("--hero-lift", `${(1 - assembly) * 24}px`);
-
-            heroBrowser.style.setProperty("--hero-size", String(.975 + assembly * .025));
-
-            heroVisual.style.setProperty("--hero-orbit", String(.52 + assembly * .48));
-
-            for (const note of heroVisual.querySelectorAll(".float-note")) {
-
-              note.style.setProperty("--note-progress", String(assembly));
-
-            }
-
-          }
-
-          if (!reducedMotion && comparisonBoard) {
-
-            const bounds = comparisonBoard.getBoundingClientRect();
-
-            const reveal = Math.min(1, Math.max(0, (window.innerHeight - bounds.top) / (bounds.height + window.innerHeight * .35)));
-
-            comparisonBoard.style.setProperty("--before-shift", `${(1 - reveal) * -12}px`);
-
-            comparisonBoard.style.setProperty("--before-angle", `${(1 - reveal) * 1.5}deg`);
-
-            comparisonBoard.style.setProperty("--after-shift", `${(1 - reveal) * 20}px`);
-
-            comparisonBoard.style.setProperty("--after-angle", `${(1 - reveal) * -2}deg`);
-
-            comparisonBoard.style.setProperty("--after-scale", String(.965 + reveal * .035));
-
-            comparisonBoard.style.setProperty("--after-opacity", String(.65 + reveal * .35));
-
-          }
-
-          if (!reducedMotion) {
-
-            for (const visual of projectVisuals) {
-
-              const bounds = visual.getBoundingClientRect();
-
-              const arrival = Math.min(1, Math.max(0, (window.innerHeight * .92 - bounds.top) / (window.innerHeight * .65)));
-
-              visual.style.setProperty("--project-rise", `${(1 - arrival) * 16}px`);
-
-              visual.style.setProperty("--project-angle", `${(1 - arrival) * -1.2}deg`);
-
-            }
-
-          }
-
-          scrollFrame = 0;
-
-        });
-
-      }
-
-      window.addEventListener("scroll", updateScrollProgress, { passive: true });
-
-      window.addEventListener("resize", updateScrollProgress);
-
-      updateScrollProgress();
-
-      const tiltTargets = document.querySelectorAll(".hero-browser, .project-browser");
-
-      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-
-      if (finePointer.matches && !reducedMotion) {
-
-        for (const target of tiltTargets) {
-
-          target.addEventListener("pointermove", (event) => {
-
-            const bounds = target.getBoundingClientRect();
-
-            const x = (event.clientX - bounds.left) / bounds.width - .5;
-
-            const y = (event.clientY - bounds.top) / bounds.height - .5;
-
-            target.style.setProperty("--pointer-y", `${y * -4}deg`);
-
-            target.style.setProperty("--pointer-x", `${x * 5}deg`);
-
-          });
-
-          target.addEventListener("pointerleave", () => {
-
-            target.style.setProperty("--pointer-y", "0deg");
-
-            target.style.setProperty("--pointer-x", "0deg");
-
-          });
-
-        }
-
-      }
-
-      const faqItems = document.querySelectorAll(".faq-item");
-
-      for (const item of faqItems) {
-
-        const summary = item.querySelector("summary");
-
-        summary.setAttribute("aria-expanded", String(item.open));
-
-        item.classList.toggle("is-open", item.open);
-
-        summary.addEventListener("click", (event) => {
-
-          event.preventDefault();
-
-          const shouldOpen = !item.classList.contains("is-open");
-
-          item.classList.toggle("is-open", shouldOpen);
-
-          if (shouldOpen) {
-
-            item.open = true;
-
-            summary.setAttribute("aria-expanded", "true");
-
-            return;
-
-          }
-
-          summary.setAttribute("aria-expanded", "false");
-
-          window.setTimeout(() => {
-
-            if (!item.classList.contains("is-open")) item.open = false;
-
-          }, reducedMotion ? 0 : 340);
-
-        });
-
-      }
-
-      // ---------- ELŐTTE–UTÁNA: ÉRINTÉSSEL ÉS BILLENTYŰZETTEL ----------
-      const comparisonRange = document.querySelector('.comparison-range');
-      const interactiveComparison = document.querySelector('[data-comparison]');
-      comparisonRange.addEventListener('input', (event) => {
-        interactiveComparison.style.setProperty('--split', event.target.value + '%');
-        comparisonRange.setAttribute('aria-valuetext', event.target.value + ' százalék régi nézet');
-      });
-
-
-
 /* ==========================================================
-   CLEVERsite — ANIMÁCIÓS RÉTEG
-   Natív Web Animations API, külső könyvtár nélkül.
+   CLEVERsite / BOLD EDITION — MŰKÖDÉS ÉS MOZGÁS
+   Natív Web Animations API. Nincs külső animációs függőség.
+   A dekoratív mozgás különválik az alapfunkcióktól.
    ========================================================== */
+
 (() => {
   'use strict';
 
-  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const smallScreen = window.matchMedia('(max-width: 760px)');
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => [...document.querySelectorAll(selector)];
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const desktopLayout = matchMedia('(min-width: 761px)');
   const activeAnimations = new Set();
-  const headingStates = new WeakMap();
-  const headlineTargets = document.querySelectorAll(
-    '.hero-copy h1, .comparison-heading h2, .services-heading h2, ' +
-    '.demo-heading h2, .work-heading h2, .about-copy h2, .cf-footer-copy h2'
-  );
+  const ease = 'cubic-bezier(.22,.61,.36,1)';
 
-  // A szöveg címként, teljesen és egyben marad a képernyőolvasóban.
-  function prepareHeadline(element) {
-    const originalLabel = element.innerText.replace(/\s+/g, ' ').trim();
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-    const textNodes = [];
-
-    while (walker.nextNode()) {
-      textNodes.push(walker.currentNode);
-    }
-
-    for (const node of textNodes) {
-      if (!node.textContent.trim()) continue;
-      const fragment = document.createDocumentFragment();
-      const parts = node.textContent.split(/(\s+)/);
-
-      for (const part of parts) {
-        if (!part.trim()) {
-          fragment.append(document.createTextNode(part));
-          continue;
-        }
-
-        const mask = document.createElement('span');
-        mask.className = 'motion-word-mask';
-        mask.setAttribute('aria-hidden', 'true');
-
-        const word = document.createElement('span');
-        word.className = 'motion-word';
-        word.textContent = part;
-        mask.append(word);
-        fragment.append(mask);
-      }
-
-      node.replaceWith(fragment);
-    }
-
-    element.setAttribute('aria-label', originalLabel);
-  }
-
-  function trackAnimation(animation) {
+  function animate(element, frames, settings = {}) {
+    if (!element?.animate || reduceMotion.matches) return null;
+    const animation = element.animate(frames, { duration: 900, easing: ease, ...settings });
     activeAnimations.add(animation);
     animation.finished.then(
       () => activeAnimations.delete(animation),
@@ -1124,190 +27,603 @@ const menuToggle = document.querySelector(".menu-toggle");
     return animation;
   }
 
-  function animateHeadline(element) {
-    if (preference.matches || !element.animate) return;
-    if (headingStates.get(element)) return;
-    headingStates.set(element, true);
+  $('#current-year').textContent = new Date().getFullYear();
 
-    element.querySelectorAll('.motion-word').forEach((word, index) => {
-      trackAnimation(word.animate(
-        [
-          { transform: 'translateY(110%) rotate(3deg)', opacity: 0 },
-          { transform: 'translateY(0) rotate(0)', opacity: 1 }
-        ],
-        {
-          duration: smallScreen.matches ? 650 : 950,
-          delay: Math.min(index * 55, 450),
-          easing: 'cubic-bezier(.16,1,.3,1)',
-          fill: 'backwards'
-        }
-      ));
-    });
+  /* ---------- NAVIGÁCIÓ ÉS MOBILMENÜ ---------- */
+  const menuButton = $('.menu-toggle');
+  const nav = $('#primary-nav');
+
+  function closeMenu(returnFocus = false) {
+    menuButton.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('is-open');
+    if (returnFocus) menuButton.focus();
   }
 
-  if (!preference.matches && 'IntersectionObserver' in window) {
-    headlineTargets.forEach(prepareHeadline);
-
-    const headlineObserver = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          animateHeadline(entry.target);
-        } else {
-          // Új belépéskor újra lejátszható, mindkét görgetési irányban.
-          headingStates.set(entry.target, false);
-        }
-      }
-    }, { threshold: .25 });
-
-    headlineTargets.forEach(element => headlineObserver.observe(element));
-  }
-
-  // Nyitókompozíció: külön időzítést kap a böngésző, a szöveg és a címkék.
-  if (!preference.matches && Element.prototype.animate) {
-    const introItems = document.querySelectorAll(
-      '.hero-copy .eyebrow, .hero-lede, .hero-intro, .hero-actions, ' +
-      '.hero-visual .float-note'
-    );
-
-    introItems.forEach((element, index) => {
-      trackAnimation(element.animate(
-        [
-          { opacity: 0, transform: 'translateY(22px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ],
-        {
-          duration: 850,
-          delay: 120 + index * 85,
-          easing: 'cubic-bezier(.16,1,.3,1)',
-          fill: 'backwards'
-        }
-      ));
-    });
-  }
-
-  // A fény a kártyán belüli koordinátákat követi; nincs egyedi egérkurzor.
-  document.querySelectorAll('.project-visual').forEach(visual => {
-    const spotlight = document.createElement('div');
-    spotlight.className = 'motion-spotlight';
-    spotlight.setAttribute('aria-hidden', 'true');
-    visual.append(spotlight);
-
-    let frame = 0;
-    let pointerX = 0;
-    let pointerY = 0;
-
-    visual.addEventListener('pointermove', event => {
-      if (preference.matches || !finePointer.matches) return;
-      const bounds = visual.getBoundingClientRect();
-      pointerX = event.clientX - bounds.left;
-      pointerY = event.clientY - bounds.top;
-      if (frame) return;
-
-      frame = requestAnimationFrame(() => {
-        spotlight.style.setProperty('--light-x', pointerX + 'px');
-        spotlight.style.setProperty('--light-y', pointerY + 'px');
-        frame = 0;
-      });
-    }, { passive: true });
+  menuButton.addEventListener('click', () => {
+    const open = menuButton.getAttribute('aria-expanded') !== 'true';
+    menuButton.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('is-open', open);
   });
 
-  // Mágneses gombmozgás: legfeljebb 7px, kizárólag pontos mutatónál.
-  document.querySelectorAll(
-    '.hero-actions .button, .nav-cta, .cf-footer-cta'
-  ).forEach(button => {
-    button.classList.add('motion-magnetic');
+  $$('.primary-nav a').forEach(link => link.addEventListener('click', () => closeMenu()));
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.site-header')) closeMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+      closeMenu(true);
+    }
+  });
+  desktopLayout.addEventListener('change', () => closeMenu());
 
+  /* ---------- NYITÓKOMPOZÍCIÓ ---------- */
+  $$('.hero-word').forEach((word, index) => {
+    animate(word, [
+      { transform: 'translateY(105%) rotate(3deg)', opacity: 0 },
+      { transform: 'translateY(0) rotate(0)', opacity: 1 }
+    ], { duration: 1200, delay: 80 + index * 170, fill: 'backwards' });
+  });
+
+  animate($('.hero-flower'), [
+    { scale: '.65', rotate: '-65deg', opacity: 0 },
+    { scale: '1', rotate: '0deg', opacity: 1 }
+  ], { duration: 1300, delay: 300, fill: 'backwards' });
+
+  animate($('.hero-foot'), [
+    { translate: '0 35px', opacity: 0 },
+    { translate: '0 0', opacity: 1 }
+  ], { delay: 650, duration: 1000, fill: 'backwards' });
+
+  const device = $('#scene-device');
+  let deviceEntered = false;
+  if ('IntersectionObserver' in window) {
+    const deviceObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting && !deviceEntered) {
+          deviceEntered = true;
+          animate(device, [
+            { translate: '0 60px', rotate: '-6deg', scale: '.92', opacity: 0 },
+            { translate: '0 0', rotate: '0deg', scale: '1', opacity: 1 }
+          ], { duration: 1200 });
+          deviceObserver.unobserve(device);
+        }
+      }
+    }, { threshold: .15 });
+    deviceObserver.observe(device);
+  }
+
+  /* ---------- KÉPRÉTEGES VÁLTÁS / ELŐBETÖLTÉS ÉS DEKÓDOLÁS ---------- */
+  const sceneSlides = new Map($$('[data-slide]').map(slide => [slide.dataset.slide, slide]));
+  const sceneNames = { bistro: 'Bisztró', pizza: 'Pizzéria', cafe: 'Kávézó' };
+  const addresses = { bistro: 'asztalka', pizza: 'forneriva', cafe: 'morzsa' };
+  const readyImages = new Map();
+  let visibleTheme = 'bistro';
+  let requestedTheme = 'bistro';
+  let switchingTheme = false;
+  let layerOrder = 1;
+
+  function prepareSlide(slide) {
+    if (readyImages.has(slide)) return readyImages.get(slide);
+    const image = slide.querySelector('img');
+    const ready = new Promise(resolve => {
+      let settled = false;
+      let timer = 0;
+      const finish = success => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        image.removeEventListener('load', onLoad);
+        image.removeEventListener('error', onError);
+        if (!success) image.classList.add('image-unavailable');
+        resolve(success);
+      };
+      const onLoad = async () => {
+        // A letöltött képet a böngésző a váltás előtt dekódolja.
+        try { await image.decode?.(); } catch { /* Már kirajzolható kép esetén továbbmehet. */ }
+        finish(image.naturalWidth > 0);
+      };
+      const onError = () => finish(false);
+      if (image.complete) {
+        onLoad();
+      } else {
+        image.addEventListener('load', onLoad, { once: true });
+        image.addEventListener('error', onError, { once: true });
+        timer = setTimeout(() => finish(false), 12000);
+      }
+      // Hálózati hiba után egy később betöltött kép újra megjelenhet.
+      image.addEventListener('load', () => image.classList.remove('image-unavailable'), { once: true });
+    });
+    readyImages.set(slide, ready);
+    return ready;
+  }
+
+  // Mindhárom valódi képelem már a HTML-ben van; váltáskor nincs src-csere.
+  sceneSlides.forEach(slide => { prepareSlide(slide); });
+
+  function showLayer(slide, active) {
+    slide.classList.toggle('is-active', active);
+    slide.setAttribute('aria-hidden', String(!active));
+    slide.inert = !active;
+  }
+
+  async function runThemeQueue() {
+    if (switchingTheme) return;
+    switchingTheme = true;
+    const site = $('#concept-site');
+    site.setAttribute('aria-busy', 'true');
+
+    try {
+      while (requestedTheme !== visibleTheme) {
+        const name = requestedTheme;
+        const incoming = sceneSlides.get(name);
+        await prepareSlide(incoming);
+        // Gyors kattintásoknál a legutolsó választás a következő cél.
+        if (name !== requestedTheme) continue;
+        const outgoing = sceneSlides.get(visibleTheme);
+        incoming.style.zIndex = String(++layerOrder);
+        incoming.style.opacity = '0';
+        incoming.classList.add('is-transitioning');
+        showLayer(incoming, true);
+        outgoing.inert = true;
+        outgoing.setAttribute('aria-hidden', 'true');
+
+        // Az előző kép végig teljesen látható az új kép mögött.
+        // Így az átmenet közepén sincs sötét villanás vagy üres képkocka.
+        const fade = animate(incoming, [
+          { opacity: 0 },
+          { opacity: 1 }
+        ], { duration: 950, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'both' });
+        const copy = incoming.querySelector('.concept-copy');
+        const textAnimation = animate(copy, [
+          { transform: 'translate3d(0,12px,0)' },
+          { transform: 'translate3d(0,0,0)' }
+        ], { duration: 900, easing: 'cubic-bezier(.22,.61,.36,1)' });
+
+        if (fade) {
+          try { await fade.finished; } catch { /* Csökkentett mozgásra váltáskor megszakítható. */ }
+        }
+        incoming.style.opacity = '1';
+        fade?.cancel();
+        textAnimation?.cancel();
+        incoming.classList.remove('is-transitioning');
+        showLayer(outgoing, false);
+        outgoing.style.zIndex = '';
+        incoming.style.zIndex = '1';
+        layerOrder = 1;
+        visibleTheme = name;
+        $('#scene-address').textContent = addresses[name] + ' / webkoncepció';
+        $('#scene-status').textContent = sceneNames[name] + ' koncepció megjelenítve.';
+      }
+    } finally {
+      switchingTheme = false;
+      site.setAttribute('aria-busy', 'false');
+    }
+  }
+
+  function switchTheme(name) {
+    if (!sceneSlides.has(name)) return;
+    requestedTheme = name;
+    $$('[data-theme]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.theme === name));
+    });
+    runThemeQueue();
+  }
+
+  $$('[data-theme]').forEach(button => {
+    button.addEventListener('click', () => switchTheme(button.dataset.theme));
+  });
+
+  /* ---------- MEGJELENÉS GÖRGETÉSKOR, MINDKÉT IRÁNYBAN ---------- */
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        // A már elolvasott tartalom nem tűnik el újra görgetés közben.
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: .08 });
+    $$('.reveal').forEach(element => revealObserver.observe(element));
+  } else {
+    $$('.reveal').forEach(element => element.classList.add('is-visible'));
+  }
+
+  /* ---------- LÁGY, IDŐALAPÚ KÖVETÉS / NATÍV GÖRGETÉS ---------- */
+  // Csak a díszítő elemek követése késleltetett. A lap görgetése natív.
+  const sceneSection = $('.scene-section');
+  const aboutSection = $('.about-section');
+  const contactSection = $('.contact-section');
+  const sceneBackword = $('.scene-backword');
+  const root = document.documentElement;
+  const follow = {
+    scene: { current: .5, target: .5 },
+    flower: { current: 0, target: 0 },
+    about: { current: .5, target: .5 },
+    contact: { current: .5, target: .5 }
+  };
+  let scrollFrame = 0;
+  let lastFrameTime = 0;
+  let layoutDirty = true;
+  let firstMeasurement = true;
+
+  function scrollProgress(rect, viewport) {
+    return clamp((viewport - rect.top) / (viewport + rect.height));
+  }
+
+  function measureScroll() {
+    const viewport = window.innerHeight;
+    const scrollHeight = root.scrollHeight - viewport;
+    root.style.setProperty('--page-progress', scrollHeight > 0 ? clamp(window.scrollY / scrollHeight) : 0);
+
+    // Az összes geometriai olvasás megelőzi a díszítő transzformációkat.
+    const sceneRect = sceneSection.getBoundingClientRect();
+    const aboutRect = aboutSection.getBoundingClientRect();
+    const contactRect = contactSection.getBoundingClientRect();
+    follow.scene.target = scrollProgress(sceneRect, viewport);
+    follow.flower.target = Math.min(window.scrollY, viewport * 1.4) * .025;
+    follow.about.target = scrollProgress(aboutRect, viewport);
+    follow.contact.target = scrollProgress(contactRect, viewport);
+
+    if (firstMeasurement) {
+      Object.values(follow).forEach(state => { state.current = state.target; });
+      firstMeasurement = false;
+    }
+    layoutDirty = false;
+  }
+
+  function renderScroll(time = performance.now()) {
+    scrollFrame = 0;
+    if (document.hidden) {
+      lastFrameTime = 0;
+      return;
+    }
+    if (layoutDirty) measureScroll();
+    if (reduceMotion.matches) {
+      lastFrameTime = 0;
+      return;
+    }
+
+    // Ugyanaz a csillapítás 60, 120 és 144 Hz-en is.
+    const elapsed = lastFrameTime ? Math.min(64, Math.max(1, time - lastFrameTime)) : 16.67;
+    const alpha = 1 - Math.exp(-elapsed / 85);
+    lastFrameTime = time;
+    let moving = false;
+
+    Object.values(follow).forEach(state => {
+      const difference = state.target - state.current;
+      if (Math.abs(difference) > .0002) {
+        state.current += difference * alpha;
+        moving = true;
+      } else {
+        state.current = state.target;
+      }
+    });
+
+    const progress = follow.scene.current;
+    const distance = desktopLayout.matches ? 42 : 14;
+    device.style.setProperty('--scene-y', (progress - .5) * -distance + 'px');
+    device.style.setProperty('--scene-rx', (1 - progress) * 12 - 3 + 'deg');
+    device.style.setProperty('--scene-ry', (1 - progress) * -14 + 5 + 'deg');
+    device.style.setProperty('--scene-rz', (1 - progress) * -6 + 2 + 'deg');
+    device.style.setProperty('--scene-scale', .97 + progress * .045);
+    sceneBackword.style.translate = `0 ${(progress - .5) * 35}px`;
+    root.style.setProperty('--flower-turn', -15 + follow.flower.current + 'deg');
+    aboutSection.style.setProperty('--about-turn', -25 + follow.about.current * 50 + 'deg');
+    contactSection.style.setProperty('--contact-turn', -20 + follow.contact.current * 50 + 'deg');
+
+    // Megáll, ha minden elem elérte a célját; nincs állandó renderelés.
+    if (moving) scrollFrame = requestAnimationFrame(renderScroll);
+    else lastFrameTime = 0;
+  }
+
+  function requestScrollRender() {
+    layoutDirty = true;
+    if (!scrollFrame && !document.hidden) scrollFrame = requestAnimationFrame(renderScroll);
+  }
+
+  window.addEventListener('scroll', requestScrollRender, { passive: true });
+  window.addEventListener('resize', requestScrollRender);
+  window.addEventListener('load', requestScrollRender);
+  document.fonts?.ready.then(requestScrollRender);
+  document.addEventListener('visibilitychange', requestScrollRender);
+
+  /* ---------- MÁGNESES HATÁS / CSAK EGÉRNÉL ---------- */
+  $$('.magnetic').forEach(element => {
     const reset = () => {
-      button.style.setProperty('--magnetic-x', '0px');
-      button.style.setProperty('--magnetic-y', '0px');
+      element.style.setProperty('--magnetic-x', '0px');
+      element.style.setProperty('--magnetic-y', '0px');
     };
 
-    button.addEventListener('pointermove', event => {
-      if (preference.matches || !finePointer.matches) return;
-      const bounds = button.getBoundingClientRect();
-      const x = (event.clientX - bounds.left - bounds.width / 2) * .08;
-      const y = (event.clientY - bounds.top - bounds.height / 2) * .12;
-      button.style.setProperty('--magnetic-x', Math.max(-7, Math.min(7, x)) + 'px');
-      button.style.setProperty('--magnetic-y', Math.max(-7, Math.min(7, y)) + 'px');
+    element.addEventListener('pointermove', event => {
+      if (reduceMotion.matches || !finePointer.matches) return;
+      const bounds = element.getBoundingClientRect();
+      const x = clamp((event.clientX - bounds.left - bounds.width / 2) * .09, -8, 8);
+      const y = clamp((event.clientY - bounds.top - bounds.height / 2) * .14, -8, 8);
+      element.style.setProperty('--magnetic-x', x + 'px');
+      element.style.setProperty('--magnetic-y', y + 'px');
     }, { passive: true });
-
-    button.addEventListener('pointerleave', reset);
-    button.addEventListener('blur', reset);
-    preference.addEventListener('change', reset);
+    element.addEventListener('pointerleave', reset);
+    element.addEventListener('blur', reset);
+    reduceMotion.addEventListener('change', reset);
   });
 
-  // A demó tartalma finoman beúszik, miközben a meglévő tablogika megmarad.
-  document.querySelectorAll('[data-demo-tab]').forEach(tab => {
-    tab.addEventListener('click', () => {
-      if (preference.matches) return;
-      const panel = document.getElementById(tab.getAttribute('aria-controls'));
-      const content = panel?.querySelector(
-        '.desktop-mockup, .chat-demo-card, .booking-card'
-      );
+  /* ---------- MOZGÓ SÁV / AUTOMATIKUS LÁTHATÓSÁGKEZELÉS ---------- */
+  const marquee = $('.marquee-section');
+  let marqueeVisible = true;
 
-      if (content?.animate) {
-        trackAnimation(content.animate(
-          [
-            { opacity: .3, translate: '0 15px' },
-            { opacity: 1, translate: '0 0' }
-          ],
-          { duration: 650, easing: 'cubic-bezier(.16,1,.3,1)' }
-        ));
-      }
+  function updateMarquee() {
+    marquee.classList.toggle('is-paused', !marqueeVisible || document.hidden || reduceMotion.matches);
+  }
+
+  if ('IntersectionObserver' in window) {
+    const marqueeObserver = new IntersectionObserver(entries => {
+      marqueeVisible = entries[0].isIntersecting;
+      updateMarquee();
+    });
+    marqueeObserver.observe(marquee);
+  }
+  document.addEventListener('visibilitychange', updateMarquee);
+
+  /* ---------- FOGLALÁSI DEMÓ ---------- */
+  function localDateValue(date = new Date()) {
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  }
+
+  const bookingDate = $('#booking-date');
+  bookingDate.min = localDateValue();
+  bookingDate.value = localDateValue();
+  bookingDate.addEventListener('input', () => bookingDate.setCustomValidity(''));
+
+  $('#booking-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (!bookingDate.value || bookingDate.value < localDateValue()) {
+      bookingDate.setCustomValidity('Válassz mai vagy későbbi dátumot.');
+      bookingDate.reportValidity();
+      return;
+    }
+    bookingDate.setCustomValidity('');
+    const formatted = new Date(bookingDate.value + 'T12:00:00').toLocaleDateString('hu-HU', {
+      month: 'long', day: 'numeric'
+    });
+    const result = $('#booking-result');
+    result.textContent = `${formatted}, ${$('#booking-time').value}, ${$('#booking-guests').value} fő. Ez bemutató: nem történt valódi foglalás.`;
+    animate(result, [
+      { translate: '0 10px', opacity: 0 }, { translate: '0 0', opacity: 1 }
+    ], { duration: 500 });
+  });
+
+  /* ---------- CHAT DEMÓ / NINCS KÜLSŐ ADATTOVÁBBÍTÁS ---------- */
+  const answers = {
+    hours: 'A kitalált Asztalka bemutató nyitvatartása 11:00–22:00. Éles oldalon a te általad jóváhagyott adatokból válaszolna az asszisztens.',
+    menu: 'Az első szolgáltatáspanelen látszik a mintaétlap. A fogások és az árak kitalált bemutatóadatok.',
+    book: 'A foglalási demót a fenti korall panelen tudod kipróbálni. Dátumot, időpontot és létszámot választhatsz; valódi foglalást nem küldünk.'
+  };
+  const chatLog = $('#chat-log');
+
+  function addMessage(text, isUser) {
+    const message = document.createElement('p');
+    message.className = 'chat-message ' + (isUser ? 'user-message' : 'bot-message');
+    message.textContent = text;
+    chatLog.append(message);
+    while (chatLog.children.length > 7) chatLog.firstElementChild.remove();
+    animate(message, [
+      { opacity: 0, translate: '0 14px', scale: '.94' },
+      { opacity: 1, translate: '0 0', scale: '1' }
+    ], { duration: 550 });
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  $$('[data-question]').forEach(button => {
+    button.addEventListener('click', () => {
+      addMessage(button.textContent, true);
+      addMessage(answers[button.dataset.question], false);
     });
   });
 
-  // A fejléc csak tényleges görgetéskor kap tömörebb megjelenést.
-  const header = document.querySelector('.site-header');
-  let scrollFrame = 0;
-
-  function updateHeader() {
-    if (scrollFrame) return;
-    scrollFrame = requestAnimationFrame(() => {
-      header?.classList.toggle('is-scrolled', window.scrollY > 35);
-      scrollFrame = 0;
+  /* ---------- ÜZENET ELŐKÉSZÍTÉSE ÉS MÁSOLÁSA ---------- */
+  $$('[data-interest]').forEach(link => {
+    link.addEventListener('click', () => {
+      const checkbox = document.querySelector('input[name="interest"][value="Weboldal"]');
+      if (checkbox) checkbox.checked = true;
     });
-  }
-
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  updateHeader();
-
-  // A mozgó sáv megállítható; háttérben sem fut tovább.
-  const ribbon = document.querySelector('.motion-ribbon');
-  const pauseButton = document.querySelector('.motion-ribbon-toggle');
-  let userPaused = false;
-  let ribbonInView = true;
-
-  function updateRibbon() {
-    if (!ribbon) return;
-    ribbon.classList.toggle(
-      'is-paused', userPaused || document.hidden || preference.matches || !ribbonInView
-    );
-  }
-
-  pauseButton?.addEventListener('click', () => {
-    userPaused = !userPaused;
-    pauseButton.setAttribute('aria-pressed', String(userPaused));
-    pauseButton.setAttribute('aria-label', userPaused ? 'Mozgó sáv elindítása' : 'Mozgó sáv megállítása');
-    pauseButton.textContent = userPaused ? '▶' : 'Ⅱ';
-    updateRibbon();
   });
 
-  if (ribbon && 'IntersectionObserver' in window) {
-    const ribbonObserver = new IntersectionObserver(entries => {
-      ribbonInView = entries[0].isIntersecting;
-      updateRibbon();
-    });
-    ribbonObserver.observe(ribbon);
-  }
+  $('#contact-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const name = $('#name').value.trim();
+    const message = $('#message').value.trim();
+    if (!name || message.length < 10) {
+      $('#form-status').textContent = 'Írd be a neved, és legalább 10 karakterben mesélj a helyedről.';
+      return;
+    }
+    const interests = $$('input[name="interest"]:checked').map(input => input.value);
+    $('#prepared-message').value = `Szia cleversite!\n\n${message}\n\nÉrdekel: ${interests.join(', ') || 'beszéljük át'}\nNév: ${name}\nE-mail: ${$('#email').value.trim()}`;
+    $('#message-output').hidden = false;
+    $('#form-status').textContent = 'Az üzeneted elkészült. Kimásolhatod; elküldés nem történt.';
+  });
 
-  document.addEventListener('visibilitychange', updateRibbon);
-  preference.addEventListener('change', () => {
-    if (preference.matches) {
+  $('#copy-message').addEventListener('click', async () => {
+    const message = $('#prepared-message');
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(message.value);
+      $('#form-status').textContent = 'Kimásolva. Elküldés továbbra sem történt.';
+    } catch {
+      message.focus();
+      message.select();
+      $('#form-status').textContent = 'Az üzenetet kijelöltük. Másoláshoz nyomj Ctrl+C vagy ⌘C billentyűt.';
+    }
+  });
+
+  /* ---------- MOZGÁSBEÁLLÍTÁSOK ÉS INDÍTÁS ---------- */
+  function updateMotionPreference() {
+    document.documentElement.classList.toggle('motion-enabled', !reduceMotion.matches);
+    if (reduceMotion.matches) {
       activeAnimations.forEach(animation => animation.cancel());
       activeAnimations.clear();
+      $$('.reveal').forEach(element => element.classList.add('is-visible'));
     }
-    updateRibbon();
+    updateMarquee();
+    requestScrollRender();
+  }
+
+  reduceMotion.addEventListener('change', updateMotionPreference);
+  updateMotionPreference();
+})();
+
+
+/* ---------- VENDÉGPRÓBA / HELYI ÖNELLENŐRZŐ ---------- */
+(() => {
+  const form = document.querySelector('#guest-check-form');
+  const result = document.querySelector('#guest-check-result');
+  const cta = document.querySelector('#guest-check-cta');
+  const questions = ['menu-check', 'info-check', 'booking-check'];
+  const suggestions = {
+    'menu-check': 'egy mobilon is olvasható, közvetlenül megnyitható étlappal',
+    'info-check': 'a cím és a nyitvatartás jól látható elhelyezésével',
+    'booking-check': 'egy egyértelmű foglalási útvonallal'
+  };
+  let recommendation = '';
+
+  form.addEventListener('submit', event => event.preventDefault());
+  form.addEventListener('change', () => {
+    const answers = questions.map(name => form.querySelector(`input[name="${name}"]:checked`));
+    if (answers.some(answer => !answer)) return;
+
+    const improvements = questions.filter((name, index) => answers[index].value === 'improve');
+    recommendation = improvements.length
+      ? 'A válaszaid alapján itt kezdenénk: ' + improvements.map(name => suggestions[name]).join('; ') + '.'
+      : 'A válaszaid alapján a legfontosabb információk már elérhetők. Következőként azt néznénk meg együtt, hogy a fotók, a szövegek és az oldal hangulata ugyanazt mutatják-e, amit a vendég a helyszínen kap.';
+    result.textContent = recommendation;
+    cta.hidden = false;
   });
-  updateRibbon();
+
+  cta.addEventListener('click', () => {
+    const message = document.querySelector('#message');
+    const checkbox = document.querySelector('input[name="interest"][value="Weboldal"]');
+    const text = 'Végigmentem a vendégpróbán. ' + recommendation;
+    message.value = message.value.trim() ? message.value.trim() + '\n\n' + text : text;
+    if (checkbox) checkbox.checked = true;
+  });
+})();
+
+
+/* ==========================================================
+   EGÉRGÖRGŐ FINOMÍTÁSA
+   A nagy, lépcsőzetes kerékmozgások rövid lecsengést kapnak.
+   Érintés, zoom, billentyűzet és belső görgetőmezők natívak.
+   ========================================================== */
+(() => {
+  'use strict';
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const precisePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const root = document.documentElement;
+  let target = window.scrollY;
+  let animationFrame = 0;
+  let running = false;
+  let previousTime = 0;
+  let direction = 0;
+
+  const limit = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
+  const maximumScroll = () => Math.max(0, root.scrollHeight - window.innerHeight);
+
+  function stop() {
+    running = false;
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+    animationFrame = 0;
+    previousTime = 0;
+    direction = 0;
+    target = window.scrollY;
+    root.classList.remove('wheel-is-moving');
+  }
+
+  function hasInnerScroll(element, delta) {
+    for (let node = element; node && node !== document.body && node !== root; node = node.parentElement) {
+      if (!(node instanceof HTMLElement)) continue;
+      if (node.matches('input, select, textarea, [contenteditable="true"], dialog')) return true;
+      const overflow = getComputedStyle(node).overflowY;
+      if (!/(auto|scroll|overlay)/.test(overflow)) continue;
+      const available = node.scrollHeight - node.clientHeight;
+      if (available <= 1) continue;
+      if ((delta > 0 && node.scrollTop < available - 1) || (delta < 0 && node.scrollTop > 1)) return true;
+    }
+    return false;
+  }
+
+  function advance(time) {
+    if (!running) return;
+    animationFrame = 0;
+    const elapsed = previousTime ? limit(time - previousTime, 1, 48) : 16.67;
+    previousTime = time;
+    target = limit(target, 0, maximumScroll());
+    const current = window.scrollY;
+    const difference = target - current;
+
+    if (Math.abs(difference) < 1) {
+      window.scrollTo({ top: target, left: window.scrollX, behavior: 'instant' });
+      stop();
+      return;
+    }
+
+    const easedStep = difference * (1 - Math.exp(-elapsed / 95));
+    // Egész pixelre kerekítő böngészőknél is biztosan eléri a célt.
+    const step = Math.sign(difference) * Math.min(Math.abs(difference), Math.max(1, Math.abs(easedStep)));
+    const next = current + step;
+    window.scrollTo({ top: next, left: window.scrollX, behavior: 'instant' });
+    animationFrame = requestAnimationFrame(advance);
+  }
+
+  window.addEventListener('wheel', event => {
+    if (event.defaultPrevented || !event.cancelable || reduced.matches || !precisePointer.matches) {
+      stop();
+      return;
+    }
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.deltaX !== 0 || document.body.classList.contains('dialog-open')) {
+      stop();
+      return;
+    }
+
+    const raw = event.deltaY;
+    // A finom, kis lépésű eszközök saját gördülése megmarad.
+    if (!raw || (event.deltaMode === 0 && Math.abs(raw) < 50) || hasInnerScroll(event.target, raw)) {
+      stop();
+      return;
+    }
+
+    const multiplier = event.deltaMode === 1 ? 22 : event.deltaMode === 2 ? window.innerHeight * .8 : 1;
+    const delta = limit(raw * multiplier, -300, 300);
+    const newDirection = Math.sign(delta);
+    if (!running || newDirection !== direction) target = window.scrollY;
+    direction = newDirection;
+    target = limit(target + delta, 0, maximumScroll());
+    // Nagy kerékmozdulat után sem marad hosszú, felhalmozódó utánfutás.
+    target = limit(target, Math.max(0, window.scrollY - 450), Math.min(maximumScroll(), window.scrollY + 450));
+    if (Math.abs(target - window.scrollY) < 1) {
+      stop();
+      return;
+    }
+
+    event.preventDefault();
+    if (!running) {
+      running = true;
+      previousTime = 0;
+      root.classList.add('wheel-is-moving');
+      animationFrame = requestAnimationFrame(advance);
+    }
+  }, { passive: false });
+
+  window.addEventListener('pointerdown', stop, { passive: true });
+  window.addEventListener('touchstart', stop, { passive: true });
+  window.addEventListener('resize', stop);
+  window.addEventListener('pagehide', stop);
+  document.addEventListener('click', stop, true);
+  document.addEventListener('keydown', event => {
+    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Escape', 'Tab'].includes(event.key)) stop();
+  }, true);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+  });
+  reduced.addEventListener('change', stop);
+  precisePointer.addEventListener('change', stop);
 })();
