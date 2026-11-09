@@ -1,629 +1,568 @@
-/* ==========================================================
-   CLEVERsite / BOLD EDITION — MŰKÖDÉS ÉS MOZGÁS
-   Natív Web Animations API. Nincs külső animációs függőség.
-   A dekoratív mozgás különválik az alapfunkcióktól.
-   ========================================================== */
-
-(() => {
+/* =========================================================
+   cleversite – felületi működés
+   Külső függőség nélkül. Minden modul önállóan, hibatűrően fut:
+   ha egy rész hibára fut, a többi és a tartalom használható marad.
+   ========================================================= */
+(function () {
   'use strict';
 
-  const $ = selector => document.querySelector(selector);
-  const $$ = selector => [...document.querySelectorAll(selector)];
-  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-  const desktopLayout = matchMedia('(min-width: 761px)');
-  const activeAnimations = new Set();
-  const ease = 'cubic-bezier(.22,.61,.36,1)';
-
-  function animate(element, frames, settings = {}) {
-    if (!element?.animate || reduceMotion.matches) return null;
-    const animation = element.animate(frames, { duration: 900, easing: ease, ...settings });
-    activeAnimations.add(animation);
-    animation.finished.then(
-      () => activeAnimations.delete(animation),
-      () => activeAnimations.delete(animation)
-    );
-    return animation;
+  var root = document.documentElement;
+  var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = reduceMQ.matches;
+  if (reduceMQ.addEventListener) {
+    reduceMQ.addEventListener('change', function (e) { reduced = e.matches; scheduleScroll(); });
   }
 
-  $('#current-year').textContent = new Date().getFullYear();
-
-  /* ---------- NAVIGÁCIÓ ÉS MOBILMENÜ ---------- */
-  const menuButton = $('.menu-toggle');
-  const nav = $('#primary-nav');
-
-  function closeMenu(returnFocus = false) {
-    menuButton.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('is-open');
-    if (returnFocus) menuButton.focus();
-  }
-
-  menuButton.addEventListener('click', () => {
-    const open = menuButton.getAttribute('aria-expanded') !== 'true';
-    menuButton.setAttribute('aria-expanded', String(open));
-    nav.classList.toggle('is-open', open);
-  });
-
-  $$('.primary-nav a').forEach(link => link.addEventListener('click', () => closeMenu()));
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.site-header')) closeMenu();
-  });
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
-      closeMenu(true);
-    }
-  });
-  desktopLayout.addEventListener('change', () => closeMenu());
-
-  /* ---------- NYITÓKOMPOZÍCIÓ ---------- */
-  $$('.hero-word').forEach((word, index) => {
-    animate(word, [
-      { transform: 'translateY(105%) rotate(3deg)', opacity: 0 },
-      { transform: 'translateY(0) rotate(0)', opacity: 1 }
-    ], { duration: 1200, delay: 80 + index * 170, fill: 'backwards' });
-  });
-
-  animate($('.hero-flower'), [
-    { scale: '.65', rotate: '-65deg', opacity: 0 },
-    { scale: '1', rotate: '0deg', opacity: 1 }
-  ], { duration: 1300, delay: 300, fill: 'backwards' });
-
-  animate($('.hero-foot'), [
-    { translate: '0 35px', opacity: 0 },
-    { translate: '0 0', opacity: 1 }
-  ], { delay: 650, duration: 1000, fill: 'backwards' });
-
-  const device = $('#scene-device');
-  let deviceEntered = false;
-  if ('IntersectionObserver' in window) {
-    const deviceObserver = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting && !deviceEntered) {
-          deviceEntered = true;
-          animate(device, [
-            { translate: '0 60px', rotate: '-6deg', scale: '.92', opacity: 0 },
-            { translate: '0 0', rotate: '0deg', scale: '1', opacity: 1 }
-          ], { duration: 1200 });
-          deviceObserver.unobserve(device);
-        }
-      }
-    }, { threshold: .15 });
-    deviceObserver.observe(device);
-  }
-
-  /* ---------- KÉPRÉTEGES VÁLTÁS / ELŐBETÖLTÉS ÉS DEKÓDOLÁS ---------- */
-  const sceneSlides = new Map($$('[data-slide]').map(slide => [slide.dataset.slide, slide]));
-  const sceneNames = { bistro: 'Bisztró', pizza: 'Pizzéria', cafe: 'Kávézó' };
-  const addresses = { bistro: 'asztalka', pizza: 'forneriva', cafe: 'morzsa' };
-  const readyImages = new Map();
-  let visibleTheme = 'bistro';
-  let requestedTheme = 'bistro';
-  let switchingTheme = false;
-  let layerOrder = 1;
-
-  function prepareSlide(slide) {
-    if (readyImages.has(slide)) return readyImages.get(slide);
-    const image = slide.querySelector('img');
-    const ready = new Promise(resolve => {
-      let settled = false;
-      let timer = 0;
-      const finish = success => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        image.removeEventListener('load', onLoad);
-        image.removeEventListener('error', onError);
-        if (!success) image.classList.add('image-unavailable');
-        resolve(success);
-      };
-      const onLoad = async () => {
-        // A letöltött képet a böngésző a váltás előtt dekódolja.
-        try { await image.decode?.(); } catch { /* Már kirajzolható kép esetén továbbmehet. */ }
-        finish(image.naturalWidth > 0);
-      };
-      const onError = () => finish(false);
-      if (image.complete) {
-        onLoad();
-      } else {
-        image.addEventListener('load', onLoad, { once: true });
-        image.addEventListener('error', onError, { once: true });
-        timer = setTimeout(() => finish(false), 12000);
-      }
-      // Hálózati hiba után egy később betöltött kép újra megjelenhet.
-      image.addEventListener('load', () => image.classList.remove('image-unavailable'), { once: true });
-    });
-    readyImages.set(slide, ready);
-    return ready;
-  }
-
-  // Mindhárom valódi képelem már a HTML-ben van; váltáskor nincs src-csere.
-  sceneSlides.forEach(slide => { prepareSlide(slide); });
-
-  function showLayer(slide, active) {
-    slide.classList.toggle('is-active', active);
-    slide.setAttribute('aria-hidden', String(!active));
-    slide.inert = !active;
-  }
-
-  async function runThemeQueue() {
-    if (switchingTheme) return;
-    switchingTheme = true;
-    const site = $('#concept-site');
-    site.setAttribute('aria-busy', 'true');
-
-    try {
-      while (requestedTheme !== visibleTheme) {
-        const name = requestedTheme;
-        const incoming = sceneSlides.get(name);
-        await prepareSlide(incoming);
-        // Gyors kattintásoknál a legutolsó választás a következő cél.
-        if (name !== requestedTheme) continue;
-        const outgoing = sceneSlides.get(visibleTheme);
-        incoming.style.zIndex = String(++layerOrder);
-        incoming.style.opacity = '0';
-        incoming.classList.add('is-transitioning');
-        showLayer(incoming, true);
-        outgoing.inert = true;
-        outgoing.setAttribute('aria-hidden', 'true');
-
-        // Az előző kép végig teljesen látható az új kép mögött.
-        // Így az átmenet közepén sincs sötét villanás vagy üres képkocka.
-        const fade = animate(incoming, [
-          { opacity: 0 },
-          { opacity: 1 }
-        ], { duration: 950, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'both' });
-        const copy = incoming.querySelector('.concept-copy');
-        const textAnimation = animate(copy, [
-          { transform: 'translate3d(0,12px,0)' },
-          { transform: 'translate3d(0,0,0)' }
-        ], { duration: 900, easing: 'cubic-bezier(.22,.61,.36,1)' });
-
-        if (fade) {
-          try { await fade.finished; } catch { /* Csökkentett mozgásra váltáskor megszakítható. */ }
-        }
-        incoming.style.opacity = '1';
-        fade?.cancel();
-        textAnimation?.cancel();
-        incoming.classList.remove('is-transitioning');
-        showLayer(outgoing, false);
-        outgoing.style.zIndex = '';
-        incoming.style.zIndex = '1';
-        layerOrder = 1;
-        visibleTheme = name;
-        $('#scene-address').textContent = addresses[name] + ' / webkoncepció';
-        $('#scene-status').textContent = sceneNames[name] + ' koncepció megjelenítve.';
-      }
-    } finally {
-      switchingTheme = false;
-      site.setAttribute('aria-busy', 'false');
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function safe(name, fn) {
+    try { fn(); } catch (err) {
+      if (window.console) console.warn('[cleversite] ' + name + ' modul hiba:', err);
     }
   }
-
-  function switchTheme(name) {
-    if (!sceneSlides.has(name)) return;
-    requestedTheme = name;
-    $$('[data-theme]').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.dataset.theme === name));
-    });
-    runThemeQueue();
+  function focusables(ctx) {
+    return $$('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])', ctx)
+      .filter(function (el) { return !el.closest('[hidden]') && el.getClientRects().length; });
   }
 
-  $$('[data-theme]').forEach(button => {
-    button.addEventListener('click', () => switchTheme(button.dataset.theme));
+  /* ---------- Görgetéshez kötött effektek (egy közös rAF-ciklus) ---------- */
+  var header = $('[data-header]');
+  var heroVisual = $('[data-hero-visual]');
+  var heroSection = $('.hero');
+  var stepsWrap = $('[data-steps]');
+  var stepItems = $$('[data-step-item]');
+  var geo = { heroTop: 0, heroH: 1, stepsTop: 0, stepsH: 1, stepTops: [], vh: window.innerHeight };
+  var ticking = false;
+  var last = { scrolled: null, hp: -1, progress: -1, active: -1 };
+
+  function docTop(el) {
+    var r = el.getBoundingClientRect();
+    return r.top + window.pageYOffset;
+  }
+  function measure() {
+    geo.vh = window.innerHeight;
+    if (heroSection) { geo.heroTop = docTop(heroSection); geo.heroH = Math.max(1, heroSection.offsetHeight); }
+    if (stepsWrap) {
+      geo.stepsTop = docTop(stepsWrap);
+      geo.stepsH = Math.max(1, stepsWrap.offsetHeight);
+      geo.stepTops = stepItems.map(function (s) { return docTop(s); });
+    }
+    last.hp = last.progress = last.active = -1;
+    scheduleScroll();
+  }
+  function onScrollFrame() {
+    ticking = false;
+    var y = window.pageYOffset;
+
+    // Fejléc: kompakt állapot
+    var scrolled = y > 12;
+    if (header && scrolled !== last.scrolled) {
+      header.classList.toggle('is-scrolled', scrolled);
+      last.scrolled = scrolled;
+    }
+
+    // Hero: finom mélységi elmozdulás, visszagörgetéskor visszafordul
+    if (heroVisual) {
+      var hp = reduced ? 0 : clamp((y - geo.heroTop) / geo.heroH, 0, 1);
+      hp = Math.round(hp * 1000) / 1000;
+      if (hp !== last.hp && (y < geo.heroTop + geo.heroH + 200 || last.hp !== 1)) {
+        heroVisual.style.setProperty('--hp', hp);
+        last.hp = hp;
+      }
+    }
+
+    // Folyamat: haladásjelző vonal + aktív lépés
+    if (stepsWrap) {
+      var line = y + geo.vh * 0.6;
+      var progress = clamp((line - geo.stepsTop) / geo.stepsH, 0, 1);
+      progress = Math.round(progress * 1000) / 1000;
+      if (progress !== last.progress) {
+        stepsWrap.style.setProperty('--progress', progress);
+        last.progress = progress;
+      }
+      var active = -1;
+      for (var i = 0; i < geo.stepTops.length; i++) { if (line >= geo.stepTops[i] + 8) active = i; }
+      if (active !== last.active) {
+        stepItems.forEach(function (s, idx) { s.classList.toggle('is-active', idx <= active); });
+        last.active = active;
+      }
+    }
+  }
+  function scheduleScroll() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(onScrollFrame); }
+  }
+
+  safe('scroll', function () {
+    window.addEventListener('scroll', scheduleScroll, { passive: true });
+    var rT;
+    var onResize = function () { clearTimeout(rT); rT = setTimeout(measure, 120); };
+    window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('orientationchange', onResize, { passive: true });
+    window.addEventListener('load', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    if ('ResizeObserver' in window) {
+      var roT;
+      new ResizeObserver(function () { clearTimeout(roT); roT = setTimeout(measure, 150); }).observe(document.body);
+    }
+    measure();
   });
 
-  /* ---------- MEGJELENÉS GÖRGETÉSKOR, MINDKÉT IRÁNYBAN ---------- */
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        // A már elolvasott tartalom nem tűnik el újra görgetés közben.
-        revealObserver.unobserve(entry.target);
+  /* ---------- Megjelenési animációk ---------- */
+  safe('reveal', function () {
+    var items = $$('[data-reveal]');
+    // Testvérelemek enyhe lépcsőzése
+    items.forEach(function (el) {
+      var sibs = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.hasAttribute('data-reveal'); });
+      var idx = sibs.indexOf(el);
+      if (idx > 0) el.style.setProperty('--rd', Math.min(idx, 4) * 70 + 'ms');
+    });
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    /*
+      Oda-vissza lejátszás:
+      - Belépés: ha az elem a nézetbe ér (alul kis ráhagyással), megjelenik.
+      - Kilépés: csak ha TELJESEN kiért a képernyőről, akkor áll vissza
+        kezdőállapotba – így olvasás közben semmi nem tűnik el, de
+        visszagörgetéskor újra lejátszódik.
+      - Irány: a felülről (visszagörgetéskor) érkező elem felülről úszik be.
+    */
+    var enter = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) e.target.classList.add('is-in');
       });
-    }, { threshold: .08 });
-    $$('.reveal').forEach(element => revealObserver.observe(element));
-  } else {
-    $$('.reveal').forEach(element => element.classList.add('is-visible'));
-  }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
-  /* ---------- LÁGY, IDŐALAPÚ KÖVETÉS / NATÍV GÖRGETÉS ---------- */
-  // Csak a díszítő elemek követése késleltetett. A lap görgetése natív.
-  const sceneSection = $('.scene-section');
-  const aboutSection = $('.about-section');
-  const contactSection = $('.contact-section');
-  const sceneBackword = $('.scene-backword');
-  const root = document.documentElement;
-  const follow = {
-    scene: { current: .5, target: .5 },
-    flower: { current: 0, target: 0 },
-    about: { current: .5, target: .5 },
-    contact: { current: .5, target: .5 }
-  };
-  let scrollFrame = 0;
-  let lastFrameTime = 0;
-  let layoutDirty = true;
-  let firstMeasurement = true;
+    var exit = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) return;
+        var el = e.target;
+        var above = e.boundingClientRect.bottom <= 0;
+        // Átmenet nélkül állítjuk vissza, hogy ne „animáljon ki” a képernyő szélén
+        el.classList.add('no-trans');
+        el.classList.remove('is-in');
+        el.classList.toggle('from-top', above);
+        void el.offsetWidth;
+        el.classList.remove('no-trans');
+      });
+    }, { rootMargin: '0px', threshold: 0 });
 
-  function scrollProgress(rect, viewport) {
-    return clamp((viewport - rect.top) / (viewport + rect.height));
-  }
+    items.forEach(function (el) { enter.observe(el); exit.observe(el); });
+  });
 
-  function measureScroll() {
-    const viewport = window.innerHeight;
-    const scrollHeight = root.scrollHeight - viewport;
-    root.style.setProperty('--page-progress', scrollHeight > 0 ? clamp(window.scrollY / scrollHeight) : 0);
+  /* ---------- Aktív menüpont ---------- */
+  safe('nav-active', function () {
+    if (!('IntersectionObserver' in window)) return;
+    var links = $$('[data-nav-link]');
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var sections = Object.keys(map).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var link = map[e.target.id];
+        if (!link) return;
+        if (e.isIntersecting) {
+          links.forEach(function (l) { l.removeAttribute('aria-current'); });
+          link.setAttribute('aria-current', 'true');
+        } else if (link.getAttribute('aria-current')) {
+          link.removeAttribute('aria-current');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { io.observe(s); });
+  });
 
-    // Az összes geometriai olvasás megelőzi a díszítő transzformációkat.
-    const sceneRect = sceneSection.getBoundingClientRect();
-    const aboutRect = aboutSection.getBoundingClientRect();
-    const contactRect = contactSection.getBoundingClientRect();
-    follow.scene.target = scrollProgress(sceneRect, viewport);
-    follow.flower.target = Math.min(window.scrollY, viewport * 1.4) * .025;
-    follow.about.target = scrollProgress(aboutRect, viewport);
-    follow.contact.target = scrollProgress(contactRect, viewport);
+  /* ---------- Mobilmenü ---------- */
+  safe('menu', function () {
+    var toggle = $('[data-menu-toggle]');
+    var menu = $('[data-mobile-menu]');
+    var label = $('[data-menu-label]');
+    if (!toggle || !menu) return;
+    var outside = [$('main'), $('.site-footer')].filter(Boolean);
+    var hideT;
 
-    if (firstMeasurement) {
-      Object.values(follow).forEach(state => { state.current = state.target; });
-      firstMeasurement = false;
+    function isOpen() { return toggle.getAttribute('aria-expanded') === 'true'; }
+    function open() {
+      clearTimeout(hideT);
+      menu.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      label.textContent = 'Menü bezárása';
+      root.classList.add('menu-open');
+      outside.forEach(function (el) { el.setAttribute('inert', ''); });
+      requestAnimationFrame(function () {
+        menu.classList.add('is-open');
+        var first = $('a', menu);
+        if (first) first.focus({ preventScroll: true });
+      });
     }
-    layoutDirty = false;
-  }
-
-  function renderScroll(time = performance.now()) {
-    scrollFrame = 0;
-    if (document.hidden) {
-      lastFrameTime = 0;
-      return;
+    function close(returnFocus) {
+      if (!isOpen()) return;
+      toggle.setAttribute('aria-expanded', 'false');
+      label.textContent = 'Menü megnyitása';
+      menu.classList.remove('is-open');
+      root.classList.remove('menu-open');
+      outside.forEach(function (el) { el.removeAttribute('inert'); });
+      hideT = setTimeout(function () { menu.hidden = true; }, reduced ? 0 : 400);
+      if (returnFocus) toggle.focus();
     }
-    if (layoutDirty) measureScroll();
-    if (reduceMotion.matches) {
-      lastFrameTime = 0;
-      return;
-    }
-
-    // Ugyanaz a csillapítás 60, 120 és 144 Hz-en is.
-    const elapsed = lastFrameTime ? Math.min(64, Math.max(1, time - lastFrameTime)) : 16.67;
-    const alpha = 1 - Math.exp(-elapsed / 85);
-    lastFrameTime = time;
-    let moving = false;
-
-    Object.values(follow).forEach(state => {
-      const difference = state.target - state.current;
-      if (Math.abs(difference) > .0002) {
-        state.current += difference * alpha;
-        moving = true;
-      } else {
-        state.current = state.target;
+    toggle.addEventListener('click', function () { isOpen() ? close(false) : open(); });
+    menu.addEventListener('click', function (e) { if (e.target.closest('a')) close(false); });
+    document.addEventListener('keydown', function (e) {
+      if (!isOpen()) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(true); return; }
+      if (e.key === 'Tab') {
+        var f = [toggle].concat(focusables(menu));
+        var i = f.indexOf(document.activeElement);
+        if (e.shiftKey && (i <= 0)) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
       }
     });
+    window.matchMedia('(min-width: 961px)').addEventListener('change', function (e) { if (e.matches) close(false); });
+  });
 
-    const progress = follow.scene.current;
-    const distance = desktopLayout.matches ? 42 : 14;
-    device.style.setProperty('--scene-y', (progress - .5) * -distance + 'px');
-    device.style.setProperty('--scene-rx', (1 - progress) * 12 - 3 + 'deg');
-    device.style.setProperty('--scene-ry', (1 - progress) * -14 + 5 + 'deg');
-    device.style.setProperty('--scene-rz', (1 - progress) * -6 + 2 + 'deg');
-    device.style.setProperty('--scene-scale', .97 + progress * .045);
-    sceneBackword.style.translate = `0 ${(progress - .5) * 35}px`;
-    root.style.setProperty('--flower-turn', -15 + follow.flower.current + 'deg');
-    aboutSection.style.setProperty('--about-turn', -25 + follow.about.current * 50 + 'deg');
-    contactSection.style.setProperty('--contact-turn', -20 + follow.contact.current * 50 + 'deg');
+  /* ---------- Előtte–utána csúszka ---------- */
+  safe('compare', function () {
+    $$('[data-compare]').forEach(function (box) {
+      var input = $('[data-compare-input]', box);
+      if (!input) return;
+      var update = function () {
+        var v = Number(input.value);
+        box.style.setProperty('--pos', v + '%');
+        input.setAttribute('aria-valuetext', v <= 5 ? 'Teljesen az új nézet' : v >= 95 ? 'Teljesen a régi nézet' : 'Bal oldalon a régi, jobb oldalon az új nézet, ' + v + '%-nál elválasztva');
+      };
+      input.addEventListener('input', update);
+      update();
+    });
+  });
 
-    // Megáll, ha minden elem elérte a célját; nincs állandó renderelés.
-    if (moving) scrollFrame = requestAnimationFrame(renderScroll);
-    else lastFrameTime = 0;
-  }
+  /* ---------- Demó étlap fülek ---------- */
+  safe('menu-tabs', function () {
+    $$('[data-menu-tabs]').forEach(function (list) {
+      var tabs = $$('[role="tab"]', list);
+      function select(tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !on;
+        });
+        if (focus) tab.focus();
+      }
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () { select(t, false); });
+        t.addEventListener('keydown', function (e) {
+          var n = null;
+          if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
+          if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+          if (e.key === 'Home') n = tabs[0];
+          if (e.key === 'End') n = tabs[tabs.length - 1];
+          if (n) { e.preventDefault(); select(n, true); }
+        });
+      });
+    });
+  });
 
-  function requestScrollRender() {
-    layoutDirty = true;
-    if (!scrollFrame && !document.hidden) scrollFrame = requestAnimationFrame(renderScroll);
-  }
+  /* ---------- Foglalási demó ---------- */
+  safe('booking', function () {
+    var box = $('[data-booking]');
+    if (!box) return;
+    var people = 2;
+    var out = $('[data-people]', box);
+    var summary = $('[data-booking-summary]', box);
+    var note = $('[data-booking-note]', box);
+    var btns = $$('[data-step]', box);
+    function val(name) { var c = $('input[name="' + name + '"]:checked', box); return c ? c.value : ''; }
+    function render() {
+      out.textContent = people + ' fő';
+      btns.forEach(function (b) {
+        var d = Number(b.getAttribute('data-step'));
+        b.disabled = (d < 0 && people <= 1) || (d > 0 && people >= 12);
+      });
+      summary.textContent = people + ' fő · ' + val('bk-day') + ' · ' + val('bk-time');
+      note.textContent = '';
+    }
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        people = clamp(people + Number(b.getAttribute('data-step')), 1, 12);
+        render();
+      });
+    });
+    box.addEventListener('change', render);
+    $('[data-booking-submit]', box).addEventListener('click', function () {
+      note.textContent = 'Ez csak bemutató, foglalás nem jött létre. Egy valódi oldalon itt menne el a kérés: ' + summary.textContent + '.';
+    });
+    render();
+  });
 
-  window.addEventListener('scroll', requestScrollRender, { passive: true });
-  window.addEventListener('resize', requestScrollRender);
-  window.addEventListener('load', requestScrollRender);
-  document.fonts?.ready.then(requestScrollRender);
-  document.addEventListener('visibilitychange', requestScrollRender);
-
-  /* ---------- MÁGNESES HATÁS / CSAK EGÉRNÉL ---------- */
-  $$('.magnetic').forEach(element => {
-    const reset = () => {
-      element.style.setProperty('--magnetic-x', '0px');
-      element.style.setProperty('--magnetic-y', '0px');
+  /* ---------- Chatbot demó (előre megírt válaszok) ---------- */
+  safe('chat', function () {
+    var chat = $('[data-chat]');
+    if (!chat) return;
+    var log = $('[data-chat-log]', chat);
+    var wrap = $('[data-chat-suggest]', chat);
+    var answers = {
+      open: 'Hétfőtől szombatig 12:00 és 22:00 között várunk, vasárnap zárva vagyunk. (Demóadat – a valódi oldalon a te nyitvatartásod szerepelne.)',
+      gluten: 'Igen, az étlapon jelöljük a gluténmentes fogásokat, ilyen most például a céklás rizottó. Ételallergia esetén kérlek, szólj a felszolgálónak is.',
+      book: 'A „Foglalás” gombbal: megadod a létszámot, a napot és az időpontot, és már küldheted is. Nagyobb társaság esetén érdemes előtte egyeztetni.',
+      dog: 'Jól nevelt kutyussal a teraszon szívesen látunk. (Ezt a hely saját szabálya szerint írnánk meg.)'
     };
-
-    element.addEventListener('pointermove', event => {
-      if (reduceMotion.matches || !finePointer.matches) return;
-      const bounds = element.getBoundingClientRect();
-      const x = clamp((event.clientX - bounds.left - bounds.width / 2) * .09, -8, 8);
-      const y = clamp((event.clientY - bounds.top - bounds.height / 2) * .14, -8, 8);
-      element.style.setProperty('--magnetic-x', x + 'px');
-      element.style.setProperty('--magnetic-y', y + 'px');
-    }, { passive: true });
-    element.addEventListener('pointerleave', reset);
-    element.addEventListener('blur', reset);
-    reduceMotion.addEventListener('change', reset);
-  });
-
-  /* ---------- MOZGÓ SÁV / AUTOMATIKUS LÁTHATÓSÁGKEZELÉS ---------- */
-  const marquee = $('.marquee-section');
-  let marqueeVisible = true;
-
-  function updateMarquee() {
-    marquee.classList.toggle('is-paused', !marqueeVisible || document.hidden || reduceMotion.matches);
-  }
-
-  if ('IntersectionObserver' in window) {
-    const marqueeObserver = new IntersectionObserver(entries => {
-      marqueeVisible = entries[0].isIntersecting;
-      updateMarquee();
-    });
-    marqueeObserver.observe(marquee);
-  }
-  document.addEventListener('visibilitychange', updateMarquee);
-
-  /* ---------- FOGLALÁSI DEMÓ ---------- */
-  function localDateValue(date = new Date()) {
-    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-  }
-
-  const bookingDate = $('#booking-date');
-  bookingDate.min = localDateValue();
-  bookingDate.value = localDateValue();
-  bookingDate.addEventListener('input', () => bookingDate.setCustomValidity(''));
-
-  $('#booking-form').addEventListener('submit', event => {
-    event.preventDefault();
-    if (!bookingDate.value || bookingDate.value < localDateValue()) {
-      bookingDate.setCustomValidity('Válassz mai vagy későbbi dátumot.');
-      bookingDate.reportValidity();
-      return;
+    var busy = false;
+    function add(cls, text) {
+      var p = document.createElement('p');
+      p.className = 'msg ' + cls;
+      p.textContent = text;
+      log.appendChild(p);
+      scrollLog();
+      return p;
     }
-    bookingDate.setCustomValidity('');
-    const formatted = new Date(bookingDate.value + 'T12:00:00').toLocaleDateString('hu-HU', {
-      month: 'long', day: 'numeric'
-    });
-    const result = $('#booking-result');
-    result.textContent = `${formatted}, ${$('#booking-time').value}, ${$('#booking-guests').value} fő. Ez bemutató: nem történt valódi foglalás.`;
-    animate(result, [
-      { translate: '0 10px', opacity: 0 }, { translate: '0 0', opacity: 1 }
-    ], { duration: 500 });
-  });
-
-  /* ---------- CHAT DEMÓ / NINCS KÜLSŐ ADATTOVÁBBÍTÁS ---------- */
-  const answers = {
-    hours: 'A kitalált Asztalka bemutató nyitvatartása 11:00–22:00. Éles oldalon a te általad jóváhagyott adatokból válaszolna az asszisztens.',
-    menu: 'Az első szolgáltatáspanelen látszik a mintaétlap. A fogások és az árak kitalált bemutatóadatok.',
-    book: 'A foglalási demót a fenti korall panelen tudod kipróbálni. Dátumot, időpontot és létszámot választhatsz; valódi foglalást nem küldünk.'
-  };
-  const chatLog = $('#chat-log');
-
-  function addMessage(text, isUser) {
-    const message = document.createElement('p');
-    message.className = 'chat-message ' + (isUser ? 'user-message' : 'bot-message');
-    message.textContent = text;
-    chatLog.append(message);
-    while (chatLog.children.length > 7) chatLog.firstElementChild.remove();
-    animate(message, [
-      { opacity: 0, translate: '0 14px', scale: '.94' },
-      { opacity: 1, translate: '0 0', scale: '1' }
-    ], { duration: 550 });
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-
-  $$('[data-question]').forEach(button => {
-    button.addEventListener('click', () => {
-      addMessage(button.textContent, true);
-      addMessage(answers[button.dataset.question], false);
+    function scrollLog() {
+      log.scrollTo({ top: log.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
+    }
+    function setDisabled(state) {
+      $$('button', wrap).forEach(function (b) { if (!b.dataset.used) b.disabled = state; });
+    }
+    function maybeReset(moveFocus) {
+      var left = $$('button[data-q]', wrap).filter(function (b) { return !b.dataset.used; });
+      if (left.length) return;
+      var r = document.createElement('button');
+      r.type = 'button';
+      r.textContent = 'Kezdjük újra';
+      r.addEventListener('click', function () {
+        $$('.msg', log).slice(1).forEach(function (m) { m.remove(); });
+        $$('button[data-q]', wrap).forEach(function (b) { delete b.dataset.used; b.hidden = false; b.disabled = false; });
+        r.remove();
+        var first = $('button[data-q]', wrap);
+        if (first) first.focus();
+      });
+      wrap.appendChild(r);
+      if (moveFocus) r.focus({ preventScroll: true });
+    }
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-q]');
+      if (!b || busy) return;
+      busy = true;
+      var hadFocus = document.activeElement === b;
+      var nextFocus = null;
+      b.dataset.used = '1';
+      add('msg--user', b.textContent);
+      setDisabled(true);
+      var typing = document.createElement('p');
+      typing.className = 'msg msg--bot msg--typing';
+      typing.setAttribute('aria-label', 'Válasz érkezik');
+      typing.innerHTML = '<i></i><i></i><i></i>';
+      log.appendChild(typing);
+      scrollLog();
+      setTimeout(function () {
+        typing.remove();
+        add('msg--bot', answers[b.getAttribute('data-q')]);
+        busy = false;
+        b.hidden = true;
+        setDisabled(false);
+        nextFocus = $$('button[data-q]', wrap).filter(function (x) { return !x.dataset.used; })[0];
+        if (hadFocus && nextFocus) nextFocus.focus({ preventScroll: true });
+        maybeReset(hadFocus);
+      }, reduced ? 50 : 750);
     });
   });
 
-  /* ---------- ÜZENET ELŐKÉSZÍTÉSE ÉS MÁSOLÁSA ---------- */
-  $$('[data-interest]').forEach(link => {
-    link.addEventListener('click', () => {
-      const checkbox = document.querySelector('input[name="interest"][value="Weboldal"]');
-      if (checkbox) checkbox.checked = true;
+  /* ---------- Projekt-részletek (modális ablakok) ---------- */
+  safe('dialogs', function () {
+    var lastTrigger = null;
+    function fill(dialog, card) {
+      var slot = $('[data-mock-slot]', dialog);
+      if (!slot || slot.childElementCount) return;
+      var b = $('.case__browser', card), p = $('.case__phone', card);
+      if (b) slot.appendChild(b.cloneNode(true));
+      if (p) slot.appendChild(p.cloneNode(true));
+      $$('[id]', slot).forEach(function (el) { el.removeAttribute('id'); });
+      slot.setAttribute('aria-hidden', 'true');
+    }
+    function finishClose(dialog) {
+      dialog.classList.remove('is-closing');
+      if (dialog.open) dialog.close();
+      root.classList.remove('dialog-open');
+    }
+    function close(dialog, opts) {
+      opts = opts || {};
+      if (!dialog.open || dialog.classList.contains('is-closing')) return;
+      if (reduced || opts.instant) { finishClose(dialog); }
+      else {
+        dialog.classList.add('is-closing');
+        var done = false;
+        var end = function () { if (done) return; done = true; finishClose(dialog); if (lastTrigger && !opts.noFocus) lastTrigger.focus(); };
+        dialog.addEventListener('animationend', end, { once: true });
+        setTimeout(end, 350);
+        return;
+      }
+      if (lastTrigger && !opts.noFocus) lastTrigger.focus();
+    }
+
+    $$('[data-open-case]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var dialog = document.getElementById(btn.getAttribute('data-open-case'));
+        if (!dialog || typeof dialog.showModal !== 'function') return;
+        lastTrigger = btn;
+        fill(dialog, btn.closest('.case'));
+        root.classList.add('dialog-open');
+        dialog.showModal();
+        var inner = $('.case-dialog__inner', dialog);
+        if (inner) inner.scrollTop = 0;
+        var c = $('[data-close-dialog]', dialog);
+        if (c) c.focus();
+      });
+    });
+
+    $$('.case-dialog').forEach(function (dialog) {
+      dialog.addEventListener('cancel', function (e) { e.preventDefault(); close(dialog); });
+      dialog.addEventListener('close', function () { root.classList.remove('dialog-open'); });
+      dialog.addEventListener('click', function (e) { if (e.target === dialog) close(dialog); });
+      $$('[data-close-dialog]', dialog).forEach(function (b) { b.addEventListener('click', function () { close(dialog); }); });
+      $$('[data-close-dialog-link]', dialog).forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          close(dialog, { instant: true, noFocus: true });
+          var target = document.getElementById('kapcsolat');
+          if (!target) return;
+          target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+          if (history.replaceState) history.replaceState(null, '', '#kapcsolat');
+          var field = document.getElementById('f-name');
+          if (field) field.focus({ preventScroll: true });
+        });
+      });
     });
   });
 
-  $('#contact-form').addEventListener('submit', event => {
-    event.preventDefault();
-    const name = $('#name').value.trim();
-    const message = $('#message').value.trim();
-    if (!name || message.length < 10) {
-      $('#form-status').textContent = 'Írd be a neved, és legalább 10 karakterben mesélj a helyedről.';
-      return;
-    }
-    const interests = $$('input[name="interest"]:checked').map(input => input.value);
-    $('#prepared-message').value = `Szia cleversite!\n\n${message}\n\nÉrdekel: ${interests.join(', ') || 'beszéljük át'}\nNév: ${name}\nE-mail: ${$('#email').value.trim()}`;
-    $('#message-output').hidden = false;
-    $('#form-status').textContent = 'Az üzeneted elkészült. Kimásolhatod; elküldés nem történt.';
+  /* ---------- GYIK ---------- */
+  safe('faq', function () {
+    $$('[data-accordion] .acc__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.acc');
+        var open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        item.classList.toggle('is-open', open);
+      });
+    });
   });
 
-  $('#copy-message').addEventListener('click', async () => {
-    const message = $('#prepared-message');
-    try {
-      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
-      await navigator.clipboard.writeText(message.value);
-      $('#form-status').textContent = 'Kimásolva. Elküldés továbbra sem történt.';
-    } catch {
-      message.focus();
-      message.select();
-      $('#form-status').textContent = 'Az üzenetet kijelöltük. Másoláshoz nyomj Ctrl+C vagy ⌘C billentyűt.';
+  /* ---------- Kapcsolati űrlap ---------- */
+  safe('form', function () {
+    var form = $('[data-contact-form]');
+    if (!form) return;
+    /*
+      BEKÖTÉS: add meg a fogadó végpontot a <form data-endpoint="..."> attribútumban.
+      A küldés JSON-ként történik POST kéréssel:
+      { name, email, company, website, message }
+      Sikeresnek csak a 2xx válasz számít.
+    */
+    var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+    var status = $('[data-form-status]', form);
+    var submit = $('[data-submit]', form);
+    var submitLabel = $('[data-submit-label]', form);
+    var demoBanner = $('[data-form-demo]', form);
+    var count = $('[data-count]', form);
+    var msg = form.elements.message;
+    if (endpoint && demoBanner) demoBanner.hidden = true;
+
+    var rules = {
+      name: function (v) { return v.length < 2 ? 'Add meg a neved, hogy tudjuk, kinek válaszolunk.' : ''; },
+      email: function (v) {
+        if (!v) return 'Add meg az e-mail-címed, erre küldjük a választ.';
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Ez nem tűnik érvényes e-mail-címnek. Példa: nev@vallalkozas.hu';
+      },
+      website: function (v) {
+        if (!v) return '';
+        return /^(https?:\/\/)?([a-z0-9áéíóöőúüű-]+\.)+[a-z]{2,}(:\d+)?(\/\S*)?$/i.test(v) ? '' : 'Ellenőrizd a címet. Példa: sajatoldal.hu';
+      },
+      message: function (v) {
+        if (!v) return 'Írd le pár mondatban, mire lenne szükséged.';
+        return v.length < 10 ? 'Írj még egy kicsit – legalább 10 karakter kell.' : '';
+      }
+    };
+    var touched = {};
+
+    function check(name) {
+      var el = form.elements[name];
+      var err = rules[name](el.value.trim());
+      var box = $('[data-error-for="' + name + '"]', form);
+      el.closest('.field').classList.toggle('has-error', !!err);
+      if (err) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+      if (box) box.textContent = err;
+      return !err;
     }
+    Object.keys(rules).forEach(function (name) {
+      var el = form.elements[name];
+      el.addEventListener('blur', function () { if (el.value.trim() || touched[name]) { touched[name] = true; check(name); } });
+      el.addEventListener('input', function () { if (touched[name]) check(name); });
+    });
+    msg.addEventListener('input', function () { count.textContent = msg.value.length; });
+
+    function setStatus(state, html) {
+      status.setAttribute('data-state', state);
+      status.innerHTML = html;
+    }
+    function setBusy(b) {
+      submit.setAttribute('aria-busy', b ? 'true' : 'false');
+      submit.disabled = b;
+      submitLabel.textContent = b ? 'Küldés folyamatban…' : 'Üzenet küldése';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var names = Object.keys(rules);
+      var firstBad = null;
+      names.forEach(function (n) { touched[n] = true; if (!check(n) && !firstBad) firstBad = form.elements[n]; });
+      if (firstBad) {
+        setStatus('error', '<b>Még néhány mezőt javítani kell.</b>A hibás mezők alatt látod, mi hiányzik.');
+        firstBad.focus();
+        return;
+      }
+      if (form.elements.company_url && form.elements.company_url.value) return; // spamcsapda
+
+      var data = {
+        name: form.elements.name.value.trim(),
+        email: form.elements.email.value.trim(),
+        company: form.elements.company.value.trim(),
+        website: form.elements.website.value.trim(),
+        message: form.elements.message.value.trim()
+      };
+
+      if (!endpoint) {
+        setStatus('demo', '<b>Demó mód – az üzenet nem lett elküldve.</b>Az űrlap ellenőrzése működik, de még nincs beállítva fogadó végpont, ezért semmi nem jutott el hozzánk. A beírt adatokat nem töröltük.');
+        return;
+      }
+
+      setBusy(true);
+      setStatus('sending', 'Küldjük az üzenetedet…');
+      var ctrl = 'AbortController' in window ? new AbortController() : null;
+      var to = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        setStatus('success', '<b>Köszönjük, megkaptuk az üzenetedet.</b>A megadott e-mail-címre válaszolunk.');
+        form.reset();
+        count.textContent = '0';
+        touched = {};
+      }).catch(function () {
+        setStatus('error', '<b>Az üzenetet nem sikerült elküldeni.</b>Ellenőrizd az internetkapcsolatot, és próbáld újra néhány perc múlva. A beírt szöveget megtartottuk.');
+      }).then(function () {
+        clearTimeout(to);
+        setBusy(false);
+      });
+    });
   });
 
-  /* ---------- MOZGÁSBEÁLLÍTÁSOK ÉS INDÍTÁS ---------- */
-  function updateMotionPreference() {
-    document.documentElement.classList.toggle('motion-enabled', !reduceMotion.matches);
-    if (reduceMotion.matches) {
-      activeAnimations.forEach(animation => animation.cancel());
-      activeAnimations.clear();
-      $$('.reveal').forEach(element => element.classList.add('is-visible'));
-    }
-    updateMarquee();
-    requestScrollRender();
-  }
-
-  reduceMotion.addEventListener('change', updateMotionPreference);
-  updateMotionPreference();
-})();
-
-
-/* ---------- VENDÉGPRÓBA / HELYI ÖNELLENŐRZŐ ---------- */
-(() => {
-  const form = document.querySelector('#guest-check-form');
-  const result = document.querySelector('#guest-check-result');
-  const cta = document.querySelector('#guest-check-cta');
-  const questions = ['menu-check', 'info-check', 'booking-check'];
-  const suggestions = {
-    'menu-check': 'egy mobilon is olvasható, közvetlenül megnyitható étlappal',
-    'info-check': 'a cím és a nyitvatartás jól látható elhelyezésével',
-    'booking-check': 'egy egyértelmű foglalási útvonallal'
-  };
-  let recommendation = '';
-
-  form.addEventListener('submit', event => event.preventDefault());
-  form.addEventListener('change', () => {
-    const answers = questions.map(name => form.querySelector(`input[name="${name}"]:checked`));
-    if (answers.some(answer => !answer)) return;
-
-    const improvements = questions.filter((name, index) => answers[index].value === 'improve');
-    recommendation = improvements.length
-      ? 'A válaszaid alapján itt kezdenénk: ' + improvements.map(name => suggestions[name]).join('; ') + '.'
-      : 'A válaszaid alapján a legfontosabb információk már elérhetők. Következőként azt néznénk meg együtt, hogy a fotók, a szövegek és az oldal hangulata ugyanazt mutatják-e, amit a vendég a helyszínen kap.';
-    result.textContent = recommendation;
-    cta.hidden = false;
+  /* ---------- Apróságok ---------- */
+  safe('year', function () {
+    var y = $('[data-year]');
+    if (y) y.textContent = new Date().getFullYear();
   });
 
-  cta.addEventListener('click', () => {
-    const message = document.querySelector('#message');
-    const checkbox = document.querySelector('input[name="interest"][value="Weboldal"]');
-    const text = 'Végigmentem a vendégpróbán. ' + recommendation;
-    message.value = message.value.trim() ? message.value.trim() + '\n\n' + text : text;
-    if (checkbox) checkbox.checked = true;
-  });
-})();
-
-
-/* ==========================================================
-   EGÉRGÖRGŐ FINOMÍTÁSA
-   A nagy, lépcsőzetes kerékmozgások rövid lecsengést kapnak.
-   Érintés, zoom, billentyűzet és belső görgetőmezők natívak.
-   ========================================================== */
-(() => {
-  'use strict';
-
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const precisePointer = matchMedia('(hover: hover) and (pointer: fine)');
-  const root = document.documentElement;
-  let target = window.scrollY;
-  let animationFrame = 0;
-  let running = false;
-  let previousTime = 0;
-  let direction = 0;
-
-  const limit = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
-  const maximumScroll = () => Math.max(0, root.scrollHeight - window.innerHeight);
-
-  function stop() {
-    running = false;
-    if (animationFrame) cancelAnimationFrame(animationFrame);
-    animationFrame = 0;
-    previousTime = 0;
-    direction = 0;
-    target = window.scrollY;
-    root.classList.remove('wheel-is-moving');
-  }
-
-  function hasInnerScroll(element, delta) {
-    for (let node = element; node && node !== document.body && node !== root; node = node.parentElement) {
-      if (!(node instanceof HTMLElement)) continue;
-      if (node.matches('input, select, textarea, [contenteditable="true"], dialog')) return true;
-      const overflow = getComputedStyle(node).overflowY;
-      if (!/(auto|scroll|overlay)/.test(overflow)) continue;
-      const available = node.scrollHeight - node.clientHeight;
-      if (available <= 1) continue;
-      if ((delta > 0 && node.scrollTop < available - 1) || (delta < 0 && node.scrollTop > 1)) return true;
-    }
-    return false;
-  }
-
-  function advance(time) {
-    if (!running) return;
-    animationFrame = 0;
-    const elapsed = previousTime ? limit(time - previousTime, 1, 48) : 16.67;
-    previousTime = time;
-    target = limit(target, 0, maximumScroll());
-    const current = window.scrollY;
-    const difference = target - current;
-
-    if (Math.abs(difference) < 1) {
-      window.scrollTo({ top: target, left: window.scrollX, behavior: 'instant' });
-      stop();
-      return;
-    }
-
-    const easedStep = difference * (1 - Math.exp(-elapsed / 95));
-    // Egész pixelre kerekítő böngészőknél is biztosan eléri a célt.
-    const step = Math.sign(difference) * Math.min(Math.abs(difference), Math.max(1, Math.abs(easedStep)));
-    const next = current + step;
-    window.scrollTo({ top: next, left: window.scrollX, behavior: 'instant' });
-    animationFrame = requestAnimationFrame(advance);
-  }
-
-  window.addEventListener('wheel', event => {
-    if (event.defaultPrevented || !event.cancelable || reduced.matches || !precisePointer.matches) {
-      stop();
-      return;
-    }
-    if (event.ctrlKey || event.metaKey || event.shiftKey || event.deltaX !== 0 || document.body.classList.contains('dialog-open')) {
-      stop();
-      return;
-    }
-
-    const raw = event.deltaY;
-    // A finom, kis lépésű eszközök saját gördülése megmarad.
-    if (!raw || (event.deltaMode === 0 && Math.abs(raw) < 50) || hasInnerScroll(event.target, raw)) {
-      stop();
-      return;
-    }
-
-    const multiplier = event.deltaMode === 1 ? 22 : event.deltaMode === 2 ? window.innerHeight * .8 : 1;
-    const delta = limit(raw * multiplier, -300, 300);
-    const newDirection = Math.sign(delta);
-    if (!running || newDirection !== direction) target = window.scrollY;
-    direction = newDirection;
-    target = limit(target + delta, 0, maximumScroll());
-    // Nagy kerékmozdulat után sem marad hosszú, felhalmozódó utánfutás.
-    target = limit(target, Math.max(0, window.scrollY - 450), Math.min(maximumScroll(), window.scrollY + 450));
-    if (Math.abs(target - window.scrollY) < 1) {
-      stop();
-      return;
-    }
-
-    event.preventDefault();
-    if (!running) {
-      running = true;
-      previousTime = 0;
-      root.classList.add('wheel-is-moving');
-      animationFrame = requestAnimationFrame(advance);
-    }
-  }, { passive: false });
-
-  window.addEventListener('pointerdown', stop, { passive: true });
-  window.addEventListener('touchstart', stop, { passive: true });
-  window.addEventListener('resize', stop);
-  window.addEventListener('pagehide', stop);
-  document.addEventListener('click', stop, true);
-  document.addEventListener('keydown', event => {
-    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Escape', 'Tab'].includes(event.key)) stop();
-  }, true);
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
-  });
-  reduced.addEventListener('change', stop);
-  precisePointer.addEventListener('change', stop);
+  window.__csReady = true;
 })();
