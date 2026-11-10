@@ -233,6 +233,8 @@ p,li,dd{overflow-wrap:break-word;hyphens:auto}
 .mask{display:block;overflow:hidden;padding:.16em .12em .22em 0;margin:-.16em -.12em -.22em 0}
 .mask-in{display:block}
 .intro-done .mask{overflow:visible}
+.hero-copy{will-change:transform}
+html.intro-done .hero-lines path{transition:none}
 .hero-lead{margin-top:26px;max-width:34em;font-size:clamp(1.03rem,.95rem + .35vw,1.2rem);color:var(--muted)}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hero-points{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:30px;font-size:.92rem;font-weight:600;color:var(--indigo)}
@@ -346,6 +348,10 @@ html.reveal-all .hero-lines path,html.reveal-all .hero-title em svg path{stroke-
 html.js [data-reveal]{opacity:0;transform:translate3d(0,30px,0);transition:opacity .9s var(--ease-out) var(--rd,0s), transform 1.05s var(--ease-out) var(--rd,0s)}
 html.js [data-reveal="fade"]{transform:none}
 html.js [data-reveal="scale"]{transform:translate3d(0,24px,0) scale(.97)}
+html.js [data-reveal].is-above{transform:translate3d(0,-30px,0)}
+html.js [data-reveal="fade"].is-above{transform:none}
+html.js [data-reveal="scale"].is-above{transform:translate3d(0,-24px,0) scale(.97)}
+html.js [data-reveal]:not(.is-in){transition-duration:.55s,.6s;transition-timing-function:var(--ease-io)}
 html.js [data-reveal].is-in,html.reveal-all [data-reveal]{opacity:1;transform:none}
 
 /* Elválasztó hullám */
@@ -355,6 +361,7 @@ html.js [data-reveal].is-in,html.reveal-all [data-reveal]{opacity:1;transform:no
 .divider .w-red{stroke:var(--red)}
 .divider .w-ind{stroke:var(--indigo)}
 html.js .draw path{stroke-dasharray:1;stroke-dashoffset:1}
+html.js .draw path{transition:stroke-dashoffset 1.1s var(--ease-io)}
 html.js .draw.is-drawn path,html.reveal-all .draw path{stroke-dashoffset:0;transition:stroke-dashoffset 2s var(--ease-io) calc(var(--s,0)*.07s)}
 
 /* =========================================================
@@ -1805,7 +1812,7 @@ select.input{appearance:none;-webkit-appearance:none;padding-right:2.8em;backgro
     try { if (!RM) splitLines(title); else title.classList.add('is-split'); } catch (e) { title.classList.add('is-split'); }
     requestAnimationFrame(function(){
       doc.classList.add('is-loaded');
-      setTimeout(function(){ doc.classList.add('intro-done'); }, RM ? 0 : 2300);
+      setTimeout(function(){ doc.classList.add('intro-done'); requestTick(); }, RM ? 0 : 2300);
     });
   }
   var fontsReady = (document.fonts && document.fonts.ready) ? Promise.race([document.fonts.ready, new Promise(function(r){ setTimeout(r, 650); })]) : Promise.resolve();
@@ -1813,19 +1820,33 @@ select.input{appearance:none;-webkit-appearance:none;padding-right:2.8em;backgro
 
   /* ---------- Görgetéses belépések ---------- */
   if ('IntersectionObserver' in window) {
+    // Kétirányú belépés: lefelé görgetve beúsznak, kifelé (fel vagy le) visszahúzódnak
     var revealIO = new IntersectionObserver(function(entries){
-      var batch = entries.filter(function(e){ return e.isIntersecting; });
-      batch.forEach(function(e, i){
-        e.target.style.setProperty('--rd', (RM ? 0 : i * 0.08) + 's');
-        e.target.classList.add('is-in');
-        revealIO.unobserve(e.target);
+      var vh = window.innerHeight, i = 0;
+      entries.forEach(function(e){
+        var el = e.target;
+        var enough = e.intersectionRatio >= 0.12 || e.intersectionRect.height > vh * 0.15;
+        if (e.isIntersecting && enough) {
+          if (el.classList.contains('is-in')) return;
+          el.style.setProperty('--rd', (RM ? 0 : (i++) * 0.08) + 's');
+          el.classList.toggle('is-above', e.boundingClientRect.top < 0);
+          // a következő képkockán indul, hogy az irány szerinti kezdőállapot érvényesüljön
+          requestAnimationFrame(function(){ el.classList.remove('is-above'); el.classList.add('is-in'); });
+        } else if (!e.isIntersecting && el.classList.contains('is-in')) {
+          el.style.setProperty('--rd', '0s');
+          el.classList.remove('is-in');
+          el.classList.toggle('is-above', e.boundingClientRect.top < 0);
+        }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: [0, 0.12, 0.3] });
     $$('[data-reveal]').forEach(function(el){ revealIO.observe(el); });
 
     var drawIO = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('is-drawn'); drawIO.unobserve(e.target); } });
-    }, { threshold: 0.3 });
+      entries.forEach(function(e){
+        if (e.isIntersecting && e.intersectionRatio >= 0.3) e.target.classList.add('is-drawn');
+        else if (!e.isIntersecting) e.target.classList.remove('is-drawn');
+      });
+    }, { threshold: [0, 0.3] });
     $$('[data-draw]').forEach(function(el){ drawIO.observe(el); });
 
     // Folyamatos mozgások csak láthatóság esetén futnak
@@ -1913,6 +1934,8 @@ select.input{appearance:none;-webkit-appearance:none;padding-right:2.8em;backgro
   var parEls = $$('.par[data-depth]');
   var heroVisual = $('.hero-visual');
   var aboutVisual = $('.about-visual');
+  var heroCopy = $('.hero-copy');
+  var heroLinePaths = $$('.hero-lines path');
   var ticking = false;
   function requestTick(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   function visible(el){ return typeof inView === 'undefined' ? true : inView.get(el) !== false; }
@@ -1928,6 +1951,16 @@ select.input{appearance:none;-webkit-appearance:none;padding-right:2.8em;backgro
     lastY = y;
 
     if (RM) return;
+    // hero: görgetéshez kötött, visszafordítható kilépés
+    if (visible(heroVisual) && heroCopy) {
+      var hp = clamp(y / (vh * 0.9), 0, 1);
+      heroCopy.style.transform = 'translate3d(0,' + (hp * -60).toFixed(1) + 'px,0)';
+      heroCopy.style.opacity = (1 - hp * 0.55).toFixed(3);
+      if (doc.classList.contains('intro-done')) {
+        var off = (hp * 0.85).toFixed(4);
+        heroLinePaths.forEach(function(pth, i){ pth.style.strokeDashoffset = (i % 2 ? -off : off); });
+      }
+    }
     // finom mélységérzet
     parEls.forEach(function(el){
       var host = el.closest('.hero-visual, .about-visual') || el;
