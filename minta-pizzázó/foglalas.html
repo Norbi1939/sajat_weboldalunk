@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html lang="hu">
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+  <meta charset="UTF-8">
+
+
+
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+
+
+  <meta name="description" content="Asztalfoglalás a FORNERIVA pizzériába. Válassz időpontot, és küldd el a foglalási igényedet.">
+
+
+
+
+
+
+
+  <title>Asztalfoglalás — FORNERIVA</title>
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+
+
+
+
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;1,400&family=Italianno&display=swap" rel="stylesheet">
+
+
+
+
+
+
+
+  <style>
+
+
+
+
+
+
+
+    :root { --cream:#f3eee5; --paper:#faf7f1; --ink:#211d19; --muted:#756e66; --wine:#74262c; --wine-dark:#54191e; --olive:#4c5540; --gold:#c1a174; --serif:"Lora",Georgia,serif; --sans:"DM Sans",Arial,sans-serif; --script:"Italianno",cursive; }
+
+
+
+
+
+
+
+    *,*::before,*::after { box-sizing:border-box; }
+
+
+
+
+
+
+
+    html { scroll-behavior:smooth; }
+
+
+
+
+
+
+
+    body { margin:0; background:var(--cream); color:var(--ink); font-family:var(--sans); overflow-x:hidden; }
+
+
+
+
+
+
+
+    a { color:inherit; text-decoration:none; }
+
+
+
+
+
+
+
+    button,input,select,textarea { font:inherit; }
+
+
+
+
+
+
+
+    button { cursor:pointer; }
+
+
+
+
+
+
+
+    ::selection { background:var(--wine); color:#fff; }
+
+
+
+
+
+
+
+    .shell { width:min(1240px,calc(100% - 64px)); margin-inline:auto; }
+
+
+
+
+
+
+
+    .topbar { position:relative; z-index:5; background:var(--cream); border-bottom:1px solid rgba(33,29,25,.12); }
+
+
+
+
+
+
+
+    .topbar-inner { min-height:95px; display:flex; align-items:center; justify-content:space-between; gap:25px; }
+
+
+
+
+
+
+
+    .brand { display:grid; gap:0; font-family:var(--serif); font-size:2.05rem; letter-spacing:.055em; line-height:1; }
+
+
+
+
+
+
+
+    .brand small { font-family:var(--sans); font-size:.56rem; font-weight:600; letter-spacing:.21em; text-transform:uppercase; color:var(--wine); margin-top:7px; }
+
+
+
+
+
+
+
+    .back-link { display:inline-flex; align-items:center; gap:12px; font-size:.67rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; padding:12px 0; }
+
+
+
+
+
+
+
+    .back-link span { font-size:1.35rem; line-height:1; transition:transform .35s ease; }
+
+
+
+
+
+
+
+    .back-link:hover span { transform:translateX(-5px); }
+
+
+
+
+
+
+
+    .intro { position:relative; overflow:hidden; background:var(--olive); color:var(--cream); padding:94px 0 134px; isolation:isolate; }
+
+
+
+
+
+
+
+    .intro::before { content:""; position:absolute; z-index:-1; width:min(65vw,750px); aspect-ratio:1; right:-12%; top:-48%; border:1px solid rgba(243,238,229,.12); border-radius:50%; box-shadow:0 0 0 85px rgba(243,238,229,.025),0 0 0 180px rgba(243,238,229,.018); }
+
+
+
+
+
+
+
+    .intro-inner { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.54fr); align-items:end; gap:50px; }
+
+
+
+
+
+
+
+    .eyebrow { display:flex; align-items:center; gap:14px; color:#dac19e; font-size:.65rem; font-weight:700; letter-spacing:.21em; text-transform:uppercase; }
+
+
+
+
+
+
+
+    .eyebrow::before { content:""; width:38px; height:1px; background:currentColor; }
+
+
+
+
+
+
+
+    h1,h2,h3,p { margin:0; }
+
+
+
+
+
+
+
+    h1 { font:400 clamp(4.2rem,8vw,8.5rem)/.95 var(--serif); letter-spacing:-.035em; margin:25px 0 27px; }
+
+
+
+
+
+
+
+    h1 em { display:block; color:#dfc19a; font-family:var(--script); font-weight:400; font-size:.87em; letter-spacing:0; line-height:.9; padding-left:8%; }
+
+
+
+
+
+
+
+    .intro-copy { max-width:370px; margin-bottom:7px; font-size:.94rem; line-height:1.85; color:rgba(255,255,255,.72); }
+
+
+
+
+
+
+
+    .folio { display:block; margin-top:36px; font-family:var(--serif); font-size:1.4rem; color:#d6b98e; letter-spacing:.07em; }
+
+
+
+
+
+
+
+    .booking-area { position:relative; padding-bottom:105px; background:var(--cream); }
+
+
+
+
+
+
+
+    .booking-grid { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr); align-items:start; gap:clamp(36px,5vw,72px); margin-top:-77px; }
+
+
+
+
+
+
+
+    .form-card { background:var(--paper); padding:clamp(28px,4.5vw,64px); box-shadow:0 25px 60px rgba(33,29,25,.13); border-top:5px solid var(--wine); }
+
+
+
+
+
+
+
+    .form-topline { display:flex; justify-content:space-between; gap:20px; align-items:start; margin-bottom:34px; }
+
+
+
+
+
+
+
+    .form-topline h2 { font:400 clamp(2.8rem,5vw,4.6rem)/1.05 var(--serif); }
+
+
+
+
+
+
+
+    .form-topline span { font-family:var(--serif); font-size:1.35rem; color:var(--gold); white-space:nowrap; margin-top:8px; }
+
+
+
+
+
+
+
+    .form-lead { color:var(--muted); font-size:.88rem; line-height:1.7; max-width:525px; margin-bottom:32px; }
+
+
+
+
+
+
+
+    .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:27px 24px; }
+
+
+
+
+
+
+
+    .field { display:grid; align-content:start; gap:8px; min-width:0; }
+
+
+
+
+
+
+
+    .field.wide { grid-column:1/-1; }
+
+
+
+
+
+
+
+    .field label { color:#746d64; font-size:.65rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; }
+
+
+
+
+
+
+
+    .field input,.field select,.field textarea { width:100%; min-width:0; border:0; border-bottom:1px solid #b7afa4; border-radius:0; padding:12px 2px 13px; background:transparent; color:var(--ink); font-size:16px; outline:none; transition:border-color .3s ease,background .3s ease; }
+
+
+
+
+
+
+
+    .field input:focus,.field select:focus,.field textarea:focus { border-bottom:2px solid var(--wine); background:rgba(116,38,44,.025); }
+
+
+
+
+
+
+
+    .field textarea { min-height:90px; resize:vertical; }
+
+
+
+
+
+
+
+    .field input::placeholder,.field textarea::placeholder { color:#9a9187; }
+
+
+
+
+
+
+
+    .form-actions { margin-top:35px; }
+
+
+
+
+
+
+
+    .submit { display:flex; justify-content:space-between; align-items:center; gap:20px; width:100%; min-height:64px; padding:17px 24px; border:1px solid var(--wine); background:var(--wine); color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; transition:background .3s ease,transform .3s ease; }
+
+
+
+
+
+
+
+    .submit:hover { background:var(--wine-dark); transform:translateY(-2px); }
+
+
+
+
+
+
+
+    .submit span { font-size:1.5rem; font-weight:400; line-height:1; transition:transform .3s ease; }
+
+
+
+
+
+
+
+    .submit:hover span { transform:translateX(5px); }
+
+
+
+
+
+
+
+    .notice { margin-top:16px; color:var(--muted); font-size:.75rem; line-height:1.65; }
+
+
+
+
+
+
+
+    .contact { padding-top:112px; }
+
+
+
+
+
+
+
+    .contact-kicker { color:var(--wine); font-size:.64rem; font-weight:700; letter-spacing:.19em; text-transform:uppercase; }
+
+
+
+
+
+
+
+    .contact h2 { margin:18px 0 23px; font:400 clamp(2.8rem,4vw,4.1rem)/1.05 var(--serif); }
+
+
+
+
+
+
+
+    .contact>p { margin-bottom:38px; color:var(--muted); line-height:1.8; font-size:.9rem; }
+
+
+
+
+
+
+
+    .detail { display:grid; grid-template-columns:90px 1fr; gap:14px; padding:19px 0; border-top:1px solid rgba(33,29,25,.17); }
+
+
+
+
+
+
+
+    .detail:last-of-type { border-bottom:1px solid rgba(33,29,25,.17); }
+
+
+
+
+
+
+
+    .detail span { color:var(--muted); font-size:.67rem; letter-spacing:.12em; text-transform:uppercase; }
+
+
+
+
+
+
+
+    .detail strong { font-size:.82rem; line-height:1.6; font-weight:600; }
+
+
+
+
+
+
+
+    .detail a:hover { color:var(--wine); }
+
+
+
+
+
+
+
+    .contact-stamp { margin-top:34px; display:grid; place-items:center; width:142px; height:142px; border:1px solid rgba(116,38,44,.35); border-radius:50%; color:var(--wine); font:400 3.8rem var(--serif); transform:rotate(-9deg); box-shadow:0 0 0 8px rgba(116,38,44,.035); }
+
+
+
+
+
+
+
+    footer { padding:30px 0; background:var(--ink); color:rgba(255,255,255,.56); }
+
+
+
+
+
+
+
+    .footer-inner { display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; font-size:.69rem; letter-spacing:.11em; text-transform:uppercase; }
+
+
+
+
+
+
+
+    .footer-inner a { color:var(--cream); }
+
+
+
+
+
+
+
+    .footer-inner a:hover { color:#dfc19a; }
+
+
+
+
+
+
+
+    :focus-visible { outline:2px solid var(--wine); outline-offset:3px; }
+
+
+
+
+
+
+
+    @media(max-width:950px) { .intro-inner { grid-template-columns:1fr; gap:12px; } .intro-copy { max-width:560px; } .booking-grid { grid-template-columns:1fr; } .contact { padding-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:0 40px; } .contact-kicker,.contact h2,.contact>p,.contact-stamp { grid-column:1/-1; } }
+
+
+
+
+
+
+
+    @media(max-width:600px) { .shell { width:calc(100% - 36px); } .topbar-inner { min-height:75px; } .brand { font-size:1.55rem; } .back-link { font-size:.58rem; gap:6px; letter-spacing:.07em; } .intro { padding:70px 0 115px; } h1 { font-size:clamp(3.8rem,15vw,5.8rem); } .booking-grid { margin-top:-64px; } .form-card { padding:28px 20px; } .form-topline { margin-bottom:20px; } .form-grid { grid-template-columns:1fr; gap:23px; } .field.wide { grid-column:auto; } .contact { grid-template-columns:1fr; } .contact-kicker,.contact h2,.contact>p,.contact-stamp { grid-column:auto; } .booking-area { padding-bottom:75px; } .detail { grid-template-columns:90px minmax(0,1fr); } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* A főoldallal egyező, visszafogott kurzorreakció a statikus szövegeken. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Footer home button matches index.html's matched footer links. */
+    footer .footer-inner{flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+    footer .footer-inner>span{text-transform:none}
+    footer .footer-inner .footer-home-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border:1px solid var(--wine);border-radius:4px;background:var(--wine);color:var(--cream);font-family:var(--sans);font-size:.8125rem;font-weight:600;line-height:1.3;letter-spacing:normal;text-transform:none;white-space:nowrap;transition:background-color .25s ease,border-color .25s ease}
+    footer .footer-inner .footer-home-button:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+    @media(hover:hover) and (pointer:fine){footer .footer-inner .footer-home-button:hover{background:var(--wine-dark);border-color:var(--wine-dark)}}
+    @media(prefers-reduced-motion:reduce){footer .footer-inner .footer-home-button{transition:none!important}}
+    /* Header home link matches the existing footer home button. */
+    .topbar .back-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border:1px solid var(--wine);border-radius:4px;background:var(--wine);color:var(--cream);font-family:var(--sans);font-size:.8125rem;font-weight:600;line-height:1.3;letter-spacing:normal;text-transform:none;white-space:nowrap;gap:0;transition:background-color .25s ease,border-color .25s ease}
+    .topbar .back-link span{font:inherit;margin-right:.35em;transition:none;transform:none}
+    .topbar .back-link:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+    @media(hover:hover) and (pointer:fine){.topbar .back-link:hover{background:var(--wine-dark);border-color:var(--wine-dark)}}
+    @media(prefers-reduced-motion:reduce){.topbar .back-link{transition:none!important}}
+    @media(max-width:360px){.topbar .topbar-inner{flex-wrap:wrap;gap:12px;padding-block:12px}.topbar .back-link{margin-left:auto}}
+    @media(max-width:375px){.intro h1{font-size:clamp(3rem,15vw,5.8rem)}.form-topline h2{font-size:clamp(2rem,10vw,2.8rem)}}
+  </style>
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+  <header class="topbar"><div class="shell topbar-inner"><a class="brand" href="index.html" aria-label="FORNERIVA főoldal">FORNERIVA<small>Pizza &amp; Fuoco</small></a><a class="back-link" href="index.html"><span aria-hidden="true">←</span> Vissza a főoldalra</a></div></header>
+
+
+
+
+
+
+
+  <main>
+
+
+
+
+
+
+
+    <section class="intro" aria-labelledby="page-title"><div class="shell intro-inner"><div><div class="eyebrow">Tavolo · FORNERIVA</div><h1 id="page-title">Találkozzunk <em>az asztalnál.</em></h1></div><div><p class="intro-copy">Egy hosszú beszélgetés, egy frissen sült pizza, egy pohár bor. Válassz időpontot, mi pedig várunk.</p><span class="folio">01 / A te estéd</span></div></div></section>
+
+
+
+
+
+
+
+    <section class="booking-area" aria-label="Foglalási adatok"><div class="shell booking-grid">
+
+
+
+
+
+
+
+      <form class="form-card" id="bookingForm"><div class="form-topline"><h2>Asztalfoglalás</h2><span aria-hidden="true">R.</span></div><p class="form-lead">Add meg, mikor érkeznél és hányan jöttök. Az e-mail elküldése után visszaigazoljuk a foglalási igényt.</p>
+
+
+
+
+
+
+
+        <div class="form-grid">
+
+
+
+
+
+
+
+          <div class="field"><label for="name">Név *</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+
+
+
+
+
+
+
+          <div class="field"><label for="phone">Telefonszám *</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+
+
+
+
+
+
+
+          <div class="field"><label for="date">Dátum *</label><input id="date" name="date" type="date" required></div>
+
+
+
+
+
+
+
+          <div class="field"><label for="time">Időpont *</label><select id="time" name="time" required><option value="">Válassz időpontot</option><option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option></select></div>
+
+
+
+
+
+
+
+          <div class="field wide"><label for="guests">Vendégek száma *</label><select id="guests" name="guests" required><option value="">Válassz létszámot</option><option>1 fő</option><option>2 fő</option><option>3 fő</option><option>4 fő</option><option>5 fő</option><option>6 fő</option><option>7+ fő</option></select></div>
+
+
+
+
+
+
+
+          <div class="field wide"><label for="message">Megjegyzés</label><textarea id="message" name="message" placeholder="Allergia, különleges alkalom..."></textarea></div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="form-actions"><button class="submit" type="submit">Foglalási kérés előkészítése <span aria-hidden="true">→</span></button><p class="notice">A gomb megnyitja az e-mail-alkalmazásodat az előre kitöltött kéréssel. A foglalás a levél elküldése és az étterem visszaigazolása után érvényes.</p></div>
+
+
+
+
+
+
+
+      </form>
+
+
+
+
+
+
+
+      <aside class="contact" aria-label="Elérhetőségek"><div class="contact-kicker">Ci vediamo · Találkozzunk</div><h2>Egy jó este<br>már most elkezdődik.</h2><p>Ha kérdésed van a foglalással kapcsolatban, telefonon vagy e-mailben is elérsz bennünket.</p><div class="detail"><span>Cím</span><strong>[kitöltendő]</strong></div><div class="detail"><span>Nyitva</span><strong>[kitöltendő]</strong></div><div class="detail"><span>Telefon</span><strong>[kitöltendő]</strong></div><div class="detail"><span>E-mail</span><strong>[kitöltendő]</strong></div><div class="contact-stamp" aria-hidden="true">R</div></aside>
+
+
+
+
+
+
+
+    </div></section>
+
+
+
+
+
+
+
+  </main>
+
+
+
+
+
+
+
+  <footer><div class="shell footer-inner"><a class="footer-home-button" href="index.html">Vissza a főoldalra ↗</a><span>© 2026 FORNERIVA · Pizza &amp; Fuoco</span></div></footer>
+
+
+
+
+
+
+
+  <script>
+
+
+
+
+
+
+
+    const form=document.getElementById('bookingForm');
+
+
+
+
+
+
+
+    const date=document.getElementById('date');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const nameField=document.getElementById('name');
+    const phone=document.getElementById('phone');
+    const time=document.getElementById('time');
+
+    function validateBooking(){
+      const now=new Date();
+      date.min=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+      nameField.setCustomValidity(nameField.value.trim()?'':'Kérjük, add meg a nevedet; a név nem állhat csak szóközökből.');
+      const phoneValue=phone.value.trim();
+      const digits=phoneValue.replace(/\D/g,'');
+      const validPhone=/^\+?[\d\s().-]+$/.test(phoneValue)&&digits.length>=7&&digits.length<=15&&/[1-9]/.test(digits);
+      phone.setCustomValidity(validPhone?'':'Kérjük, adj meg érvényes telefonszámot 7–15 számjeggyel. A + előhívó, szóköz, kötőjel és zárójel használható.');
+      time.setCustomValidity('');
+      if(date.value&&time.value){
+        const [year,month,day]=date.value.split('-').map(Number);
+        const [hours,minutes]=time.value.split(':').map(Number);
+        const appointment=new Date(year,month-1,day,hours,minutes);
+        if(appointment.getTime()<=now.getTime()){
+          time.setCustomValidity('Ez az időpont már elmúlt. Kérjük, válassz jövőbeli dátumot és időpontot.');
+        }
+      }
+    }
+    // Refresh time-sensitive constraints before showing native validation messages.
+    form.noValidate=true;
+    [nameField,phone,date,time].forEach(field=>{
+      field.addEventListener('input',validateBooking);
+      field.addEventListener('change',validateBooking);
+    });
+    validateBooking();
+
+
+
+
+
+
+
+    form.addEventListener('submit',event=>{
+
+
+
+
+
+
+
+      event.preventDefault();
+
+
+
+
+
+
+
+      validateBooking();
+      if(!form.reportValidity()) return;
+
+
+
+
+
+
+
+      const data=new FormData(form);
+
+
+
+
+
+
+
+      const details=[
+
+
+
+
+
+
+
+        'Sziasztok! Szeretnék asztalt foglalni.','',
+
+
+
+
+
+
+
+        'Név: '+data.get('name'),
+
+
+
+
+
+
+
+        'Telefonszám: '+data.get('phone'),
+
+
+
+
+
+
+
+        'Dátum: '+data.get('date'),
+
+
+
+
+
+
+
+        'Időpont: '+data.get('time'),
+
+
+
+
+
+
+
+        'Vendégek száma: '+data.get('guests'),
+
+
+
+
+
+
+
+        'Megjegyzés: '+(data.get('message')||'—'),'',
+
+
+
+
+
+
+
+        'Kérem, igazoljátok vissza a foglalást.'
+
+
+
+
+
+
+
+      ].join('\n');
+
+
+
+
+
+
+
+      location.href='mailto:ciao@forneriva.hu?subject='+encodeURIComponent('Asztalfoglalási kérés – FORNERIVA')+'&body='+encodeURIComponent(details);
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+</html>

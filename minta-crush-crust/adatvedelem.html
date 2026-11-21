@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="hu">
+<head>
+
+<script id="cc-privacy-entry-detect">
+(() => {
+  try {
+    if (sessionStorage.getItem("cc_privacy_transition") === "1") {
+      document.documentElement.classList.add("cc-from-index");
+    }
+  } catch (_) {}
+})();
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Crush & Crust — Adatkezelési tájékoztató." />
+  <title>Adatvédelem — CRUSH & CRUST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --ink:#20211d;
+      --cream:#f3eedf;
+      --red:#d9785c;
+      --yellow:#c8d67a;
+      --muted:#c5c0b4;
+      --line:rgba(243,238,223,.15);
+      --ease:cubic-bezier(.2,.8,.2,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--ink);
+      color:var(--cream);
+      font-family:"DM Sans",sans-serif;
+      line-height:1.75;
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    ::selection{background:var(--yellow);color:var(--ink)}
+    .noise{
+      position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.022;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+    }
+    .nav{
+      min-height:86px;padding:18px 5vw;
+      display:flex;align-items:center;justify-content:space-between;gap:24px;
+      border-bottom:1px solid var(--line);
+      background:rgba(32,33,29,.94);
+    }
+    .logo{
+      font-family:"Archivo Black",sans-serif;
+      font-size:1.35rem;letter-spacing:-.04em;text-decoration:none;
+    }
+    .logo span{color:var(--red)}
+    .back{
+      display:inline-flex;align-items:center;gap:10px;
+      text-decoration:none;text-transform:uppercase;
+      letter-spacing:.1em;font-size:.76rem;font-weight:700;
+      color:var(--muted);transition:.25s ease;
+    }
+    .back:hover{color:var(--yellow);transform:translateX(-3px)}
+    .hero{
+      position:relative;overflow:hidden;
+      padding:100px 5vw 72px;
+      border-bottom:1px solid var(--line);
+    }
+    .hero:before{
+      content:"";position:absolute;width:320px;height:320px;
+      right:-150px;top:-120px;background:var(--red);opacity:.42;
+      border-radius:42% 58% 65% 35%/45% 40% 60% 55%;
+      transform:rotate(18deg);
+    }
+    .hero:after{
+      content:"";position:absolute;width:150px;height:150px;
+      right:16%;bottom:-95px;border:22px solid var(--yellow);
+      border-radius:50%;opacity:.55;
+    }
+    .hero-inner{max-width:1050px;margin:auto;position:relative;z-index:2}
+    .eyebrow{
+      display:flex;align-items:center;gap:12px;
+      text-transform:uppercase;letter-spacing:.17em;
+      font-size:.75rem;font-weight:700;color:var(--yellow);
+      margin-bottom:22px;
+    }
+    .eyebrow:before{content:"";width:34px;height:2px;background:currentColor}
+    h1{
+      font-family:"Archivo Black",sans-serif;
+      font-size:clamp(3.4rem,7vw,7rem);
+      line-height:.95;text-transform:uppercase;
+      letter-spacing:-.055em;
+    }
+    h1 span{
+      display:inline-block;background:var(--cream);color:var(--ink);
+      padding:.04em .14em .09em;border-radius:.18em;
+      transform:rotate(-1deg);
+    }
+    .lead{
+      max-width:730px;margin-top:32px;color:var(--muted);
+      font-size:1.08rem;line-height:1.8;
+    }
+    .updated{
+      display:inline-flex;margin-top:26px;padding:9px 13px;
+      border:1px solid rgba(200,214,122,.38);border-radius:999px;
+      color:var(--yellow);font-size:.76rem;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;
+    }
+    .layout{
+      width:min(1180px,90vw);margin:0 auto;
+      display:grid;grid-template-columns:250px minmax(0,1fr);
+      gap:72px;padding:78px 0 110px;
+    }
+    .toc{position:relative}
+    .toc-inner{
+      position:sticky;top:28px;
+      padding:24px;border:1px solid var(--line);
+      border-radius:22px;background:rgba(243,238,223,.035);
+    }
+    .toc-title{
+      font-family:"Archivo Black",sans-serif;
+      text-transform:uppercase;font-size:.88rem;
+      color:var(--yellow);margin-bottom:16px;
+    }
+    .toc a{
+      display:block;padding:9px 0;color:var(--muted);
+      text-decoration:none;font-size:.87rem;
+      border-bottom:1px solid rgba(243,238,223,.07);
+      transition:.2s;
+    }
+    .toc a:last-child{border:0}
+    .toc a:hover{color:var(--cream);padding-left:5px}
+    .content{max-width:790px}
+    .notice{
+      margin-bottom:48px;padding:24px 26px;
+      border-left:5px solid var(--yellow);
+      background:rgba(200,214,122,.07);
+      border-radius:0 18px 18px 0;
+      color:var(--muted);
+    }
+    .notice strong{color:var(--cream)}
+    .legal-section{
+      padding:0 0 52px;margin-bottom:52px;
+      border-bottom:1px solid var(--line);
+      scroll-margin-top:30px;
+    }
+    .legal-section:last-child{border-bottom:0;margin-bottom:0}
+    .number{
+      display:inline-grid;place-items:center;
+      min-width:42px;height:42px;padding:0 10px;
+      background:var(--red);color:var(--ink);
+      border-radius:12px;font-family:"Archivo Black",sans-serif;
+      transform:rotate(-2deg);margin-bottom:18px;
+    }
+    h2{
+      font-family:"Archivo Black",sans-serif;
+      font-size:clamp(1.75rem,3vw,2.65rem);
+      line-height:1.08;letter-spacing:-.035em;
+      text-transform:uppercase;margin-bottom:22px;
+    }
+    h3{
+      font-size:1.05rem;color:var(--yellow);
+      margin:27px 0 8px;
+    }
+    p{color:#ddd8cb;margin:12px 0}
+    ul{padding-left:22px;margin:14px 0;color:#ddd8cb}
+    li{margin:8px 0}
+    strong{color:var(--cream)}
+    .placeholder{
+      display:inline-block;padding:1px 7px;
+      border-radius:5px;background:rgba(217,120,92,.15);
+      color:#efaa96;border:1px dashed rgba(217,120,92,.55);
+      font-weight:700;
+    }
+    .contact-box{
+      margin-top:24px;padding:25px;
+      border:1px solid rgba(200,214,122,.34);
+      border-radius:20px;background:rgba(243,238,223,.035);
+    }
+    footer{
+      padding:32px 5vw;border-top:1px solid var(--line);
+      display:flex;justify-content:space-between;align-items:center;
+      gap:22px;flex-wrap:wrap;color:var(--muted);font-size:.82rem;
+    }
+    footer a{text-decoration:none}
+    footer a:hover{color:var(--yellow)}
+    @media(max-width:850px){
+      .layout{grid-template-columns:1fr;gap:35px;padding-top:50px}
+      .toc-inner{position:static}
+      .toc{order:0}
+      .hero{padding-top:72px}
+    }
+    @media(max-width:560px){
+      .nav{padding:16px 5vw}
+      .logo{font-size:1.12rem}
+      .back{font-size:.68rem}
+      .hero{padding-bottom:58px}
+      .layout{width:90vw}
+      .legal-section{padding-bottom:40px;margin-bottom:40px}
+      footer{align-items:flex-start;flex-direction:column}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;transition-duration:.01ms!important}
+    }
+
+</style>
+
+
+<style id="cc-privacy-entry-transition">
+html.cc-from-index body {
+  overflow: hidden;
+}
+.cc-privacy-entry {
+  position: fixed;
+  z-index: 60000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  pointer-events: none;
+}
+.cc-privacy-entry-title {
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(1.7rem,5vw,4.4rem);
+  line-height: 1;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+  color: var(--cream);
+  white-space: nowrap;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.cc-privacy-entry-title span {
+  color: var(--yellow);
+}
+html.cc-from-index .nav,
+html.cc-from-index .hero,
+html.cc-from-index .layout,
+html.cc-from-index footer {
+  opacity: 0;
+  transform: translateY(18px);
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry {
+  animation: ccPrivacyCurtainOut .82s .18s cubic-bezier(.76,0,.24,1) forwards;
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry-title {
+  animation: ccPrivacyTitleOut .52s .08s cubic-bezier(.22,1,.36,1) forwards;
+}
+html.cc-from-index.cc-entry-reveal .nav {
+  animation: ccPrivacyContentIn .55s .46s cubic-bezier(.22,1,.36,1) forwards;
+}
+html.cc-from-index.cc-entry-reveal .hero {
+  animation: ccPrivacyContentIn .7s .54s cubic-bezier(.22,1,.36,1) forwards;
+}
+html.cc-from-index.cc-entry-reveal .layout,
+html.cc-from-index.cc-entry-reveal footer {
+  animation: ccPrivacyContentIn .72s .68s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes ccPrivacyCurtainOut {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-102%); }
+}
+@keyframes ccPrivacyTitleOut {
+  0% { opacity:1; transform:translateY(0) scale(1); }
+  100% { opacity:0; transform:translateY(-26px) scale(.94); }
+}
+@keyframes ccPrivacyContentIn {
+  from { opacity:0; transform:translateY(18px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.cc-from-index body { overflow:auto; }
+  .cc-privacy-entry { display:none; }
+  html.cc-from-index .nav,
+  html.cc-from-index .hero,
+  html.cc-from-index .layout,
+  html.cc-from-index footer {
+    opacity:1 !important;
+    transform:none !important;
+    animation:none !important;
+  }
+}
+</style>
+
+
+
+<style id="cc-privacy-seamless-handoff-v2">
+html.cc-from-index .cc-privacy-entry-title {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) rotate(0) !important;
+  animation: none !important;
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry-title {
+  animation: none !important;
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry {
+  animation: ccPrivacyCurtainOutSmooth .78s .12s cubic-bezier(.76,0,.24,1) forwards !important;
+}
+@keyframes ccPrivacyCurtainOutSmooth {
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(0,-102%,0); }
+}
+.cc-page-transition,
+.cc-page-transition-label,
+.cc-privacy-entry,
+.cc-privacy-entry-title {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+</style>
+
+
+
+<style id="cc-privacy-no-seam-v3">
+html.cc-from-index .cc-privacy-entry-title {
+  display: none !important;
+}
+html.cc-from-index .cc-privacy-entry {
+  background: var(--ink) !important;
+  transform: translate3d(0,0,0);
+  will-change: transform;
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry {
+  animation: ccPrivacyCurtainCleanExit .62s cubic-bezier(.76,0,.24,1) forwards !important;
+}
+@keyframes ccPrivacyCurtainCleanExit {
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(0,-102%,0); }
+}
+html.cc-from-index.cc-entry-reveal .nav {
+  animation: ccPrivacyContentIn .5s .12s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+html.cc-from-index.cc-entry-reveal .hero {
+  animation: ccPrivacyContentIn .62s .16s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+html.cc-from-index.cc-entry-reveal .layout,
+html.cc-from-index.cc-entry-reveal footer {
+  animation: ccPrivacyContentIn .68s .24s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+</style>
+
+
+
+<style id="cc-scrollbar-layout-stability-fix">
+html {
+  scrollbar-gutter: stable;
+}
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+  }
+}
+html.cc-from-index body {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+</style>
+
+<style id="cc-home-exit-style">
+.cc-home-transition {
+  position: fixed;
+  z-index: 50000;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+}
+.cc-home-transition::before,
+.cc-home-transition::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateY(102%);
+}
+.cc-home-transition::before {
+  background: var(--red);
+  transition: transform .58s cubic-bezier(.76,0,.24,1);
+}
+.cc-home-transition::after {
+  background: var(--ink);
+  transition: transform .58s .12s cubic-bezier(.76,0,.24,1);
+}
+.cc-home-transition.is-running {
+  visibility: visible;
+}
+.cc-home-transition.is-running::before,
+.cc-home-transition.is-running::after {
+  transform: translateY(0);
+}
+.cc-home-transition-label {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  color: var(--cream);
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(1.7rem,5vw,4.4rem);
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate(-50%,-35%) rotate(-2deg);
+  white-space: nowrap;
+  transition:
+    opacity .3s .28s ease,
+    transform .48s .24s cubic-bezier(.22,1,.36,1);
+}
+.cc-home-transition.is-running .cc-home-transition-label {
+  opacity: 1;
+  transform: translate(-50%,-50%) rotate(0);
+}
+.cc-home-transition-label span { color: var(--yellow); }
+.cc-home-transition.is-running { pointer-events: auto; }
+.cc-home-transition-label { transition: opacity .18s ease, transform .48s .12s cubic-bezier(.22,1,.36,1); }
+.cc-home-transition.is-committing .cc-home-transition-label { opacity: 0; transition: opacity .16s ease; }
+
+</style>
+<style id="cc-home-exit-smooth">
+.cc-home-transition::before,
+.cc-home-transition::after { will-change: transform; }
+.cc-home-transition-label {
+  transition: opacity .22s .18s ease,
+    transform .38s .12s cubic-bezier(.22,1,.36,1) !important;
+}
+.cc-home-transition.is-running .cc-home-transition-label {
+  opacity: 1 !important;
+  transform: translate(-50%,-50%) rotate(0) scale(1) !important;
+}
+.cc-home-transition.is-committing .cc-home-transition-label {
+  opacity: 0 !important;
+  transform: translate(-50%,-50%) rotate(0) scale(1) !important;
+}
+</style>
+
+<style id="cc-privacy-mobile">
+@media (max-width:850px) {
+  html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  .layout, .content, .toc, .hero-inner { min-width:0; }
+  .content { width:100%; max-width:100%; overflow-wrap:anywhere; }
+  .layout { grid-template-columns:minmax(0,1fr); }
+  .nav a, .toc a, footer a { touch-action:manipulation; }
+  .toc a { min-height:44px; display:flex; align-items:center; }
+}
+@media (max-width:560px) {
+  .nav {
+    padding:18px 20px; gap:14px; min-height:0;
+    flex-direction:column; align-items:flex-start;
+  }
+  .nav .logo { font-size:1.16rem; line-height:1.4; }
+  .nav .back {
+    display:inline-flex; min-height:44px; padding:10px 15px;
+    border:1px solid rgba(200,214,122,.5); border-radius:999px;
+    background:rgba(200,214,122,.08); color:var(--yellow);
+    font-size:.7rem; letter-spacing:.04em;
+  }
+  .hero { padding:48px 20px 42px; }
+  .hero h1 { font-size:clamp(1.5rem,7.5vw,2.6rem); line-height:1.15; }
+  .hero h1 span { max-width:100%; padding:.08em .12em .12em; }
+  .eyebrow { font-size:.67rem; letter-spacing:.12em; margin-bottom:18px; }
+  .eyebrow::before { flex:0 0 26px; }
+  .lead { font-size:1rem; line-height:1.75; margin-top:22px; }
+  .updated {
+    max-width:100%; display:block; width:fit-content; border-radius:14px;
+    font-size:.67rem; letter-spacing:.04em; line-height:1.7; padding:10px 12px;
+  }
+  .layout { width:calc(100% - 40px); padding:32px 0 52px; gap:32px; }
+  .toc-inner { padding:20px; border-radius:18px; }
+  .toc a { font-size:.9rem; line-height:1.5; padding:11px 0; }
+  .notice { padding:19px 17px; margin-bottom:32px; font-size:.94rem; }
+  h2 { font-size:clamp(1.35rem,6vw,2rem); line-height:1.2; margin-bottom:18px; }
+  h3 { font-size:1rem; line-height:1.45; }
+  .legal-section { padding-bottom:32px; margin-bottom:32px; scroll-margin-top:20px; }
+  .content p, .content li { font-size:.96rem; line-height:1.8; }
+  .content ul { padding-left:20px; }
+  .placeholder { max-width:100%; overflow-wrap:anywhere; }
+  .contact-box { padding:20px 16px; border-radius:16px; }
+  footer { padding:28px 20px calc(28px + env(safe-area-inset-bottom)); gap:16px; }
+  footer .logo { font-size:1.16rem; }
+  footer > span { line-height:1.7; }
+  footer > a:last-child {
+    display:inline-flex; align-items:center; min-height:44px;
+    border:1px solid var(--line); border-radius:12px; padding:10px 14px;
+  }
+  .cc-privacy-entry-title { font-size:clamp(1rem,7vw,2rem); }
+  .cc-home-transition-label { font-size:clamp(1.5rem,9vw,3rem) !important; }
+}
+</style>
+
+<style id="cc-privacy-entry-safe-default">
+html:not(.cc-from-index) .cc-privacy-entry { display:none !important; }
+html.cc-from-index .cc-privacy-entry {
+  animation:ccPrivacyCoverFailSafe 0s 2s forwards !important;
+}
+html.cc-from-index.cc-entry-reveal .cc-privacy-entry {
+  animation:ccPrivacyCurtainCleanExit .62s cubic-bezier(.76,0,.24,1) forwards !important;
+}
+html.cc-from-index .nav,
+html.cc-from-index .hero,
+html.cc-from-index .layout,
+html.cc-from-index footer {
+  opacity:1 !important; transform:none !important; animation:none !important;
+}
+@keyframes ccPrivacyCoverFailSafe {
+  to { visibility:hidden; opacity:0; pointer-events:none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="cc-privacy-entry" id="ccPrivacyEntry" aria-hidden="true">
+  <div class="cc-privacy-entry-title">Adat<span>védelem.</span></div>
+</div>
+
+  <div class="noise"></div>
+
+  <nav class="nav" aria-label="Fő navigáció">
+    <a class="logo" href="index.html">CRUSH<span>&</span>CRUST</a>
+    <a class="back" href="index.html">← Vissza a főoldalra</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Jogi információk</div>
+      <h1><span>Adatvédelem.</span></h1>
+      <p class="lead">
+        Fontos számunkra, hogy átláthatóan kezeld és értsd, milyen személyes adatokat
+        használunk, miért van rájuk szükségünk, és milyen jogok illetnek meg téged.
+      </p>
+      <div class="updated">Utolsó frissítés: 2026. szeptember 17.</div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="toc" aria-label="Tartalomjegyzék">
+      <div class="toc-inner">
+        <div class="toc-title">Tartalom</div>
+        <a href="#adatkezelo">1. Adatkezelő</a>
+        <a href="#adatok">2. Kezelt adatok</a>
+        <a href="#celok">3. Cél és jogalap</a>
+        <a href="#megorzes">4. Megőrzési idő</a>
+        <a href="#cimzettek">5. Címzettek</a>
+        <a href="#sutik">6. Sütik</a>
+        <a href="#jogok">7. Érintetti jogok</a>
+        <a href="#biztonsag">8. Adatbiztonság</a>
+        <a href="#jogorvoslat">9. Jogorvoslat</a>
+        <a href="#modositas">10. Módosítások</a>
+      </div>
+    </aside>
+
+    <article class="content">
+      <div class="notice">
+        <strong>Fontos:</strong> ez az oldal professzionális, kitölthető adatkezelési
+        tájékoztatóként készült a Crush & Crust weboldal stílusához. A pirossal jelölt
+        mezőket a vállalkozás tényleges adataival kell kitölteni, és éles használat előtt
+        célszerű jogi/adatvédelmi szakemberrel ellenőriztetni.
+      </div>
+
+      <section class="legal-section" id="adatkezelo">
+        <div class="number">01</div>
+        <h2>Az adatkezelő adatai</h2>
+        <p>Az oldal használata során kezelt személyes adatok adatkezelője:</p>
+        <p>
+          <strong>Név / cégnév:</strong> <span class="placeholder">[KITÖLTENDŐ]</span><br>
+          <strong>Székhely:</strong> <span class="placeholder">[KITÖLTENDŐ]</span><br>
+          <strong>E-mail:</strong> <span class="placeholder">[KITÖLTENDŐ]</span><br>
+          <strong>Telefonszám:</strong> <span class="placeholder">[KITÖLTENDŐ]</span>
+        </p>
+      </section>
+
+      <section class="legal-section" id="adatok">
+        <div class="number">02</div>
+        <h2>Milyen adatokat kezelhetünk?</h2>
+        <p>Az általunk kezelt adatok köre attól függ, hogy milyen funkciót használsz.</p>
+        <ul>
+          <li>kapcsolatfelvételkor megadott név, e-mail-cím, telefonszám és az üzenet tartalma;</li>
+          <li>asztalfoglalással vagy rendeléssel összefüggésben önkéntesen megadott adatok;</li>
+          <li>a weboldal működéséhez szükséges technikai adatok, például IP-cím, böngésző- és eszközinformációk;</li>
+          <li>sütikhez vagy analitikai szolgáltatásokhoz kapcsolódó adatok, amennyiben ilyen szolgáltatásokat ténylegesen használunk.</li>
+        </ul>
+        <p>Nem kérünk olyan személyes adatot, amelyre az adott szolgáltatás teljesítéséhez nincs szükség.</p>
+      </section>
+
+      <section class="legal-section" id="celok">
+        <div class="number">03</div>
+        <h2>Az adatkezelés célja és jogalapja</h2>
+        <h3>Kapcsolattartás és megkeresések kezelése</h3>
+        <p>A hozzánk érkező kérdések, visszajelzések és egyéb megkeresések megválaszolása.</p>
+        <h3>Rendelés és foglalás</h3>
+        <p>Az általad kezdeményezett rendelés vagy foglalás kezelése és a szükséges kapcsolattartás.</p>
+        <h3>Weboldal működtetése és biztonsága</h3>
+        <p>A weboldal megfelelő, biztonságos működésének biztosítása, hibák feltárása és a visszaélések megelőzése.</p>
+        <p>
+          Az egyes adatkezelések konkrét jogalapja a körülményektől függően lehet
+          szerződés teljesítése, jogi kötelezettség teljesítése, jogos érdek vagy az
+          érintett hozzájárulása.
+        </p>
+      </section>
+
+      <section class="legal-section" id="megorzes">
+        <div class="number">04</div>
+        <h2>Meddig őrizzük meg az adatokat?</h2>
+        <p>
+          A személyes adatokat csak addig tároljuk, ameddig az adatkezelés céljának
+          eléréséhez szükséges, illetve ameddig azt jogszabályi kötelezettség előírja.
+          Ha az adatkezelés hozzájáruláson alapul, a hozzájárulás visszavonása hatással
+          lehet a további adatkezelésre.
+        </p>
+        <p>
+          A vállalkozás által alkalmazott konkrét megőrzési időket az egyes
+          adatkezelési folyamatok alapján kell meghatározni.
+        </p>
+      </section>
+
+      <section class="legal-section" id="cimzettek">
+        <div class="number">05</div>
+        <h2>Adattovábbítás és szolgáltatók</h2>
+        <p>
+          Személyes adatokat kizárólag akkor továbbítunk vagy teszünk hozzáférhetővé
+          más szervezet számára, ha az a szolgáltatás biztosításához szükséges,
+          jogszabály írja elő, vagy megfelelő jogalap áll rendelkezésre.
+        </p>
+        <p>
+          A főoldalon külső rendelési és közösségi szolgáltatásokra mutató linkek is
+          megjelenhetnek. Az ilyen külső oldalakon történő adatkezelésre az adott
+          szolgáltató saját adatvédelmi szabályai vonatkoznak.
+        </p>
+      </section>
+
+      <section class="legal-section" id="sutik">
+        <div class="number">06</div>
+        <h2>Sütik és hasonló technológiák</h2>
+        <p>
+          A weboldal használhat a működéshez feltétlenül szükséges sütiket. Analitikai,
+          marketing- vagy egyéb nem szükséges sütik használata esetén az ezekhez
+          kapcsolódó adatkezelést és a látogató választási lehetőségeit külön,
+          megfelelő módon kell kezelni.
+        </p>
+        <p>
+          A ténylegesen használt sütik és külső technológiák listáját a weboldal
+          végleges technikai konfigurációjához kell igazítani.
+        </p>
+      </section>
+
+      <section class="legal-section" id="jogok">
+        <div class="number">07</div>
+        <h2>Milyen jogaid vannak?</h2>
+        <p>A vonatkozó adatvédelmi szabályok alapján – az adott adatkezeléstől függően – többek között kérheted:</p>
+        <ul>
+          <li>tájékoztatást személyes adataid kezeléséről és hozzáférést az adatokhoz;</li>
+          <li>a pontatlan személyes adatok helyesbítését;</li>
+          <li>személyes adataid törlését, ha annak jogszabályi feltételei fennállnak;</li>
+          <li>az adatkezelés korlátozását;</li>
+          <li>bizonyos esetekben az adatok hordozását;</li>
+          <li>a jogos érdeken alapuló adatkezeléssel szembeni tiltakozást;</li>
+          <li>hozzájárulásod visszavonását, ha az adatkezelés hozzájáruláson alapul.</li>
+        </ul>
+        <div class="contact-box">
+          <strong>Adatvédelmi kérdésed van?</strong>
+          <p>
+            Írj nekünk: <span class="placeholder">[ADATVÉDELMI E-MAIL-CÍM]</span>.
+            Kérelmedet a vonatkozó jogszabályok szerint kezeljük.
+          </p>
+        </div>
+      </section>
+
+      <section class="legal-section" id="biztonsag">
+        <div class="number">08</div>
+        <h2>Adatbiztonság</h2>
+        <p>
+          Az adatkezelés során a kockázatokhoz igazodó technikai és szervezési
+          intézkedések alkalmazására törekszünk annak érdekében, hogy a személyes
+          adatokat megóvjuk többek között a jogosulatlan hozzáféréstől, módosítástól,
+          nyilvánosságra hozataltól, elvesztéstől vagy megsemmisüléstől.
+        </p>
+      </section>
+
+      <section class="legal-section" id="jogorvoslat">
+        <div class="number">09</div>
+        <h2>Panasz és jogorvoslat</h2>
+        <p>
+          Ha úgy gondolod, hogy személyes adataid kezelése nem megfelelő, elsőként
+          közvetlenül hozzánk is fordulhatsz a fenti elérhetőségen.
+        </p>
+        <p>
+          Emellett jogosult lehetsz panaszt benyújtani az illetékes adatvédelmi
+          felügyeleti hatósághoz, illetve a jogszabályban meghatározott esetekben
+          bírósághoz fordulni.
+        </p>
+      </section>
+
+      <section class="legal-section" id="modositas">
+        <div class="number">10</div>
+        <h2>A tájékoztató módosítása</h2>
+        <p>
+          A tájékoztatót időről időre módosíthatjuk, például a weboldal funkcióinak,
+          az alkalmazott szolgáltatásoknak vagy a vonatkozó szabályozásnak a változása
+          miatt. Az aktuális verzió mindig ezen az oldalon érhető el.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <a class="logo" href="index.html">CRUSH<span>&</span>CRUST</a>
+    <span>© 2026 · Burger × Pizza × Good times</span>
+    <a href="index.html">Vissza a főoldalra ↑</a>
+  </footer>
+
+
+<script id="cc-privacy-entry-run">
+(() => {
+  const root = document.documentElement;
+  const clean = () => {
+    root.classList.remove("cc-from-index", "cc-entry-reveal");
+    document.getElementById("ccPrivacyEntry")?.remove();
+    document.body.style.overflow = "";
+  };
+  window.addEventListener("pageshow", event => { if (event.persisted) clean(); });
+  if (!root.classList.contains("cc-from-index")) { clean(); return; }
+  try { sessionStorage.removeItem("cc_privacy_transition"); } catch (_) {}
+  // A tartalom soha nem vár hálózati kérésre vagy webfontra.
+  window.setTimeout(clean, 1800);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    root.classList.add("cc-entry-reveal");
+    window.setTimeout(clean, 850);
+  }));
+})();
+</script>
+
+
+<div class="cc-home-transition" id="ccHomeTransition" aria-hidden="true">
+  <div class="cc-home-transition-label">Fő<span>oldal.</span></div>
+</div>
+<script id="cc-home-exit-script">
+(() => {
+  const cover = document.getElementById("ccHomeTransition");
+  let leaving = false;
+  document.querySelectorAll('a[href="index.html"]').forEach(link => {
+    link.addEventListener("click", event => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey ||
+          event.shiftKey || event.altKey || link.hasAttribute("download") ||
+          (link.target && link.target !== "_self")) return;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        try { sessionStorage.setItem("cc_returning_from_privacy", "1"); } catch (_) {}
+        return;
+      }
+      event.preventDefault();
+      if (leaving) return;
+      leaving = true;
+      cover.classList.add("is-running");
+      cover.setAttribute("aria-hidden", "false");
+      setTimeout(() => cover.classList.add("is-committing"), 500);
+      setTimeout(() => {
+        try {
+          sessionStorage.setItem("cc_home_transition", String(Date.now()));
+          sessionStorage.setItem("cc_returning_from_privacy", "1");
+        } catch (_) {}
+        location.href = link.href;
+      }, 680);
+    });
+  });
+  window.addEventListener("pageshow", () => {
+    leaving = false;
+    cover.classList.remove("is-running", "is-committing");
+    cover.setAttribute("aria-hidden", "true");
+  });
+})();
+</script>
+
+<style id="cc-mobile-persistent-toc-style">
+.cc-mobile-toc { display:none; }
+@media (max-width:850px) {
+ body { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+ .cc-mobile-toc {
+   position:fixed; z-index:100;
+   inset:auto 12px max(12px,env(safe-area-inset-bottom));
+   display:block; width:max-content; max-width:calc(100vw - 24px); margin-inline:auto;
+   opacity:0; visibility:hidden; pointer-events:none;
+   transform:translateY(18px);
+   transition:opacity .22s ease, transform .3s cubic-bezier(.22,1,.36,1), visibility .3s;
+ }
+ .cc-mobile-toc.is-visible {opacity:1;visibility:visible;pointer-events:auto;transform:none;}
+ .cc-mobile-toc-toggle {
+   display:flex;align-items:center;justify-content:center;gap:24px;
+   width:100%;min-height:50px;padding:9px 14px;
+   border:1px solid rgba(200,214,122,.5);border-radius:17px;
+   background:#20211d;color:var(--cream);
+   box-shadow:4px 5px 0 rgba(217,120,92,.65),0 8px 28px rgba(0,0,0,.25);
+   font:inherit;font-size:16px;font-weight:700;text-align:left;
+   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+ }
+ .cc-mobile-toc-toggle small {
+   flex:0 0 auto;padding:7px 10px;border-radius:10px;
+   background:var(--yellow);color:var(--ink);font-size:.72rem;font-weight:700;
+ }
+ .cc-mobile-toc-menu {
+   position:absolute;bottom:calc(100% + 12px);left:50%;right:auto;
+   width:min(360px,calc(100vw - 24px));
+   max-height: min(52vh,440px);max-height:min(52dvh,440px);
+   overflow-y:auto;overscroll-behavior:contain;
+   padding:10px;background:#292b24;border:1px solid rgba(200,214,122,.35);
+   border-radius:24px;box-shadow:0 12px 36px rgba(0,0,0,.3);
+   opacity:0;visibility:hidden;pointer-events:none;
+   transform:translateX(-50%) translateY(12px) scale(.97);transform-origin:center bottom;
+   transition:opacity .2s ease,transform .32s cubic-bezier(.22,1,.36,1),visibility .32s;
+ }
+ .cc-mobile-toc.is-open .cc-mobile-toc-menu {
+   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%);
+ }
+ .cc-mobile-toc-menu a {
+   display:flex;align-items:center;min-height:46px;padding:10px 13px;
+   border-radius:13px;color:var(--cream);text-decoration:none;
+   font-size:.9rem;line-height:1.45;touch-action:manipulation;
+   -webkit-tap-highlight-color:transparent;
+ }
+ .cc-mobile-toc-menu a + a {border-top:1px solid rgba(243,238,223,.06);}
+ .cc-mobile-toc :focus-visible {outline:2px solid var(--yellow);outline-offset:2px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .cc-mobile-toc,.cc-mobile-toc-menu {transition:none;}
+}
+</style>
+<nav class="cc-mobile-toc" aria-label="Gyors fejezetválasztó" aria-hidden="true" inert>
+ <div class="cc-mobile-toc-menu" id="ccMobileTocMenu" aria-label="Témák" inert></div>
+ <button class="cc-mobile-toc-toggle" type="button" aria-expanded="false" aria-controls="ccMobileTocMenu">
+   <span>Hova ugorjunk?</span><small>Témák</small>
+ </button>
+</nav>
+<script id="cc-mobile-persistent-toc-script">
+(() => {
+ const bar=document.querySelector('.cc-mobile-toc');
+ const toc=document.querySelector('.toc');
+ const toggle=bar?.querySelector('button');
+ const menu=document.getElementById('ccMobileTocMenu');
+ if(!bar || !toc || !toggle || !menu) return;
+ const mobile=matchMedia('(max-width:850px)');
+ function setOpen(open) {
+   bar.classList.toggle('is-open',open);
+   toggle.setAttribute('aria-expanded',String(open));
+   toggle.querySelector('small').textContent=open?'Bezárás':'Témák';
+   menu.inert=!open;
+ }
+ toc.querySelectorAll('a[href^="#"]').forEach(link=> {
+   const item=link.cloneNode(true);
+   item.addEventListener('click',event=> {
+     if(event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+     const target=document.getElementById(item.hash.slice(1));
+     if(!target) return;
+     event.preventDefault();setOpen(false);toggle.focus({preventScroll:true});
+     target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
+     if(location.hash!==item.hash) history.pushState(null,'',item.hash);
+   });
+   menu.appendChild(item);
+ });
+ toggle.addEventListener('click',()=>setOpen(!bar.classList.contains('is-open')));
+ document.addEventListener('click',event=>{if(!bar.contains(event.target))setOpen(false)});
+ document.addEventListener('keydown',event=> {
+   if(event.key==='Escape' && bar.classList.contains('is-open')) {setOpen(false);toggle.focus({preventScroll:true})}
+ });
+ let frame=0;
+ function update() {
+   frame=0;
+   const visible=mobile.matches && toc.getBoundingClientRect().bottom<=24;
+   bar.classList.toggle('is-visible',visible);
+   bar.setAttribute('aria-hidden',String(!visible));bar.inert=!visible;
+   if(!visible)setOpen(false);
+ }
+ function schedule(){if(!frame)frame=requestAnimationFrame(update)}
+ window.addEventListener('scroll',schedule,{passive:true});
+ window.addEventListener('resize',schedule,{passive:true});
+ window.addEventListener('load',schedule,{once:true});
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(toc);
+ update();
+})();
+</script>
+
+<style id="cc-page-scroll-boundaries">
+html, body {
+  max-width:100%;
+  overflow-x:clip !important;
+  overscroll-behavior-x:none !important;
+}
+</style>
+<script id="cc-page-scroll-boundaries-script">
+(() => {
+  // A lendulettel folytatodo gorgetes se rugozhasson tul alul.
+  // A felso lehuzas csak a lap tetejen marad engedelyezve.
+  const syncOverscroll = () => {
+    const root = document.scrollingElement || document.documentElement;
+    const value = root.scrollTop <= 0 ? 'auto' : 'none';
+    document.documentElement.style.setProperty('overscroll-behavior-y', value, 'important');
+    document.body.style.setProperty('overscroll-behavior-y', value, 'important');
+  };
+  syncOverscroll();
+  window.addEventListener('scroll', syncOverscroll, { passive:true });
+  window.addEventListener('pageshow', syncOverscroll);
+  let x = 0, y = 0;
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    x = e.touches[0].clientX;
+    y = e.touches[0].clientY;
+  }, { passive:true });
+  document.addEventListener('touchmove', e => {
+    if (e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - x;
+    const dy = e.touches[0].clientY - y;
+    x = e.touches[0].clientX;
+    y = e.touches[0].clientY;
+    const horizontal = Math.abs(dx) > Math.abs(dy);
+    // A belso gorgetheto listak, a chat es a menu tovabbra is mukodnek.
+    for (let el = e.target instanceof Element ? e.target : null;
+         el && el !== document.body && el !== document.documentElement;
+         el = el.parentElement) {
+      const css = getComputedStyle(el);
+      if (horizontal && /(auto|scroll)/.test(css.overflowX) &&
+          el.scrollWidth > el.clientWidth &&
+          ((dx < 0 && el.scrollLeft + el.clientWidth < el.scrollWidth - 1) ||
+           (dx > 0 && el.scrollLeft > 0))) return;
+      if (!horizontal && /(auto|scroll)/.test(css.overflowY) &&
+          el.scrollHeight > el.clientHeight &&
+          ((dy < 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) ||
+           (dy > 0 && el.scrollTop > 0))) return;
+    }
+    const root = document.scrollingElement || document.documentElement;
+    const bottom = Math.max(0, root.scrollHeight - root.clientHeight);
+    const reachesBottom = dy < 0 && root.scrollTop - dy >= bottom - 1;
+    if (horizontal || reachesBottom) {
+      if (e.cancelable) e.preventDefault();
+      if (!horizontal && reachesBottom) root.scrollTop = bottom;
+    }
+  }, { passive:false });
+})();
+</script>
+</body>
+</html>

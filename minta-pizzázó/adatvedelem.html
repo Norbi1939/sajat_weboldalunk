@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html lang="hu">
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+  <meta charset="UTF-8">
+
+
+
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+
+
+  <meta name="description" content="A FORNERIVA weboldal adatkezelési és sütibeállítási információi.">
+
+
+
+
+
+
+
+  <title>Adatvédelem — FORNERIVA</title>
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+
+
+
+
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;1,400&family=Italianno&display=swap" rel="stylesheet">
+
+
+
+
+
+
+
+  <style>
+
+
+
+
+
+
+
+    :root{--cream:#f3eee5;--paper:#faf7f1;--ink:#211d19;--muted:#756e66;--wine:#74262c;--wine-dark:#54191e;--olive:#4c5540;--gold:#c1a174;--serif:"Lora",Georgia,serif;--sans:"DM Sans",Arial,sans-serif;--script:"Italianno",cursive}
+
+
+
+
+
+
+
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);overflow-x:hidden}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}::selection{background:var(--wine);color:#fff}
+
+
+
+
+
+
+
+    .shell{width:min(1180px,calc(100% - 56px));margin-inline:auto}.topbar{background:var(--cream);border-bottom:1px solid rgba(33,29,25,.13)}.topbar-inner{min-height:96px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:grid;gap:6px;font:400 2rem/1 var(--serif);letter-spacing:.07em}.brand small{font:.56rem var(--sans);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--wine)}.back-link{display:inline-flex;align-items:center;gap:12px;font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.back-link span{font-size:1.3rem;transition:transform .3s}.back-link:hover span{transform:translateX(-5px)}
+
+
+
+
+
+
+
+    .hero{position:relative;overflow:hidden;min-height:480px;display:flex;align-items:center;background:var(--olive);color:var(--cream);isolation:isolate}.hero::before{content:"";position:absolute;z-index:-1;width:min(60vw,680px);aspect-ratio:1;right:-10%;top:-57%;border:1px solid rgba(243,238,229,.13);border-radius:50%;box-shadow:0 0 0 75px rgba(243,238,229,.025),0 0 0 160px rgba(243,238,229,.02)}.hero-inner{padding:75px 0 88px}.eyebrow{display:flex;gap:13px;align-items:center;color:#dfc6a4;font-size:.66rem;font-weight:700;letter-spacing:.21em;text-transform:uppercase}.eyebrow::before{content:"";width:34px;height:1px;background:currentColor}.hero h1{margin:22px 0 19px;font:400 clamp(4.2rem,10vw,9rem)/.95 var(--serif);letter-spacing:-.04em}.hero h1 em{font:400 .88em var(--script);color:#e7caa3}.hero p{max-width:600px;color:rgba(255,255,255,.74);font-size:.95rem;line-height:1.8}.hero-index{display:block;margin-top:28px;color:#d3bc99;font:1.2rem var(--serif);letter-spacing:.08em}
+
+
+
+
+
+
+
+    .notice{position:relative;z-index:2;max-width:1180px;margin:-31px auto 0;padding:18px 24px;border-left:4px solid var(--wine);background:var(--paper);box-shadow:0 12px 35px rgba(33,29,25,.08);font-size:.82rem;line-height:1.65;color:var(--ink)}.notice strong{color:var(--wine)}
+
+
+
+
+
+
+
+    .content{display:grid;grid-template-columns:minmax(175px,.32fr) minmax(0,1fr);gap:clamp(36px,7vw,95px);padding-top:86px;padding-bottom:110px}.contents{position:sticky;top:24px;align-self:start;border-top:1px solid rgba(33,29,25,.2);padding-top:21px}.contents strong{display:block;margin-bottom:15px;color:var(--wine);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase}.contents a{display:block;padding:9px 0;color:var(--muted);font-size:.82rem;transition:color .3s,transform .35s}.contents a:hover{color:var(--wine);transform:translateX(4px)}.article{min-width:0}.block{padding:33px 0 39px;border-top:1px solid rgba(33,29,25,.18);scroll-margin-top:22px}.block:first-child{padding-top:0;border:0}.block-kicker{display:block;margin-bottom:15px;color:var(--wine);font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.block h2{margin:0 0 19px;font:400 clamp(2.7rem,5vw,4.3rem)/1.1 var(--serif)}.block p,.block li{color:var(--muted);font-size:.88rem;line-height:1.8}.block p+p{margin-top:14px}.block ul{margin:0;padding-left:20px}.block li+li{margin-top:7px}.block a:not(.action){color:var(--wine);text-decoration:underline;text-underline-offset:3px}
+
+
+
+
+
+
+
+    .fact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.fact{padding:20px;background:var(--paper);border:1px solid rgba(33,29,25,.1)}.fact strong{display:block;margin-bottom:7px;color:var(--ink);font:400 1.45rem var(--serif)}.fact span{color:var(--muted);font-size:.8rem;line-height:1.6}.cookie-controls{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 14px}.cookie-controls button{min-height:47px;padding:11px 17px;border:1px solid var(--wine);background:transparent;color:var(--wine);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:background .25s,color .25s,transform .25s}.cookie-controls button:hover{transform:translateY(-2px);background:var(--wine);color:white}.cookie-controls button.is-selected{background:var(--wine);color:white}.cookie-state{font-size:.78rem!important}.contact-card{margin-top:32px;padding:30px;background:var(--wine);color:white}.contact-card span{font-size:.64rem;letter-spacing:.17em;text-transform:uppercase;color:#dfc6a4}.contact-card h3{margin:12px 0 16px;font:400 2.7rem var(--serif)}.contact-card p{color:rgba(255,255,255,.75)}.contact-card a{display:inline-block;margin-top:18px;color:#fff!important;text-decoration:underline;text-underline-offset:5px}
+
+
+
+
+
+
+
+    footer{padding:28px 0;background:var(--ink);color:rgba(255,255,255,.56)}.footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.68rem;letter-spacing:.11em;text-transform:uppercase}.footer-inner a{color:var(--cream)}.footer-inner a:hover{color:#e7caa3}:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+
+
+
+
+
+
+
+    @media(max-width:780px){.content{grid-template-columns:1fr;gap:24px;padding-top:62px}.contents{position:static;display:flex;flex-wrap:wrap;gap:2px 17px}.contents strong{width:100%;margin:0 0 4px}}
+
+
+
+
+
+
+
+    @media(max-width:550px){.shell{width:calc(100% - 36px)}.topbar-inner{min-height:75px}.brand{font-size:1.5rem}.back-link{gap:5px;font-size:.58rem;letter-spacing:.06em}.hero{min-height:390px}.hero-inner{padding:63px 0 70px}.hero h1{font-size:clamp(4rem,15vw,6.2rem)}.notice{margin-left:18px;margin-right:18px;padding:15px 17px}.fact-grid{grid-template-columns:1fr}.contact-card{padding:23px}}
+
+
+
+
+
+
+
+    @media(hover:hover) and (prefers-reduced-motion:no-preference){.block h2{transition:color .4s,transform .5s cubic-bezier(.22,1,.36,1)}.fact{transition:transform .4s,border-color .4s}.fact:hover{transform:translateY(-3px);border-color:var(--gold)}}
+
+
+
+
+
+
+
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .cookie-state{min-height:1.4em}
+
+
+
+
+
+
+
+    .placeholder{display:inline-block;color:var(--wine)!important;font-weight:600}
+
+
+
+
+
+
+
+    .fill-line{margin-top:22px!important}
+
+
+
+
+
+
+
+    .table-scroll{max-width:100%;overflow-x:auto;margin:23px 0}
+
+
+
+
+
+
+
+    .table-scroll table{width:100%;min-width:520px;border-collapse:collapse;background:var(--paper);font-size:.82rem;line-height:1.65}
+
+
+
+
+
+
+
+    .table-scroll th,.table-scroll td{text-align:left;vertical-align:top;padding:17px 18px;border-bottom:1px solid rgba(33,29,25,.13)}
+
+
+
+
+
+
+
+    .table-scroll th{color:var(--wine);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase}
+
+
+
+
+
+
+
+    .table-scroll td{color:var(--muted)}.table-scroll td strong{color:var(--ink)}
+
+
+
+
+
+
+
+    code{font-size:.88em;overflow-wrap:anywhere}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Fejezetnavigáció: számozás, aktív fejezet és olvasási állapot. */
+
+
+
+
+
+
+
+    .content{grid-template-columns:minmax(230px,.33fr) minmax(0,1fr);gap:clamp(34px,5vw,80px)}
+
+
+
+
+
+
+
+    .contents{counter-reset:privacy-section;padding:24px 0 21px;border-top:2px solid var(--wine);border-bottom:1px solid rgba(33,29,25,.15);background:var(--paper);box-shadow:0 8px 28px rgba(33,29,25,.05)}
+
+
+
+
+
+
+
+    .contents-top{display:flex;justify-content:space-between;gap:10px;padding:0 18px 16px;align-items:center}
+
+
+
+
+
+
+
+    .contents-top strong{margin:0;color:var(--wine);font-size:.65rem;letter-spacing:.17em}
+
+
+
+
+
+
+
+    .contents-top>span{color:var(--muted);font-size:.62rem;white-space:nowrap}
+
+
+
+
+
+
+
+    .contents a{counter-increment:privacy-section;display:flex;align-items:center;gap:12px;min-height:44px;margin:2px 9px;padding:10px 12px;border-left:2px solid transparent;color:#5b554f;font-size:.81rem;line-height:1.35;text-decoration:none;transition:background .3s,color .3s,transform .3s,border-color .3s}
+
+
+
+
+
+
+
+    .contents a::before{content:counter(privacy-section,decimal-leading-zero);flex:none;font-family:var(--serif);font-size:1.08rem;color:var(--gold);line-height:1}
+
+
+
+
+
+
+
+    .contents a:hover{background:rgba(116,38,44,.055);color:var(--wine);transform:translateX(3px)}
+
+
+
+
+
+
+
+    .contents a.is-active,.contents a[aria-current="location"]{background:var(--wine);border-left-color:var(--gold);color:#fff;font-weight:600;transform:none}
+
+
+
+
+
+
+
+    .contents a.is-active::before,.contents a[aria-current="location"]::before{color:#e7caa3}
+
+
+
+
+
+
+
+    .contents-progress{display:block;height:2px;margin:17px 19px 0;background:rgba(33,29,25,.11);overflow:hidden}
+
+
+
+
+
+
+
+    .contents-progress>span{display:block;width:12.5%;height:100%;background:var(--wine);transition:width .35s ease}
+
+
+
+
+
+
+
+    @media(max-width:780px){
+
+
+
+
+
+
+
+      .content{grid-template-columns:1fr;gap:28px}
+
+
+
+
+
+
+
+      .contents{position:sticky;top:0;z-index:20;display:flex;flex-wrap:nowrap;align-items:center;gap:0;padding:10px 11px 13px;margin:0 -11px;max-width:calc(100% + 22px);overflow-x:auto;overflow-y:hidden;white-space:nowrap;border-top:2px solid var(--wine);scrollbar-width:thin;scrollbar-color:var(--gold) transparent;box-shadow:0 8px 24px rgba(33,29,25,.1)}
+
+
+
+
+
+
+
+      .contents-top{flex:0 0 auto;padding:0 13px 0 6px}
+
+
+
+
+
+
+
+      .contents-top strong{width:auto;white-space:nowrap;margin:0}
+
+
+
+
+
+
+
+      .contents-top>span{display:none}
+
+
+
+
+
+
+
+      .contents a{flex:0 0 auto;min-height:43px;margin:0 3px;padding:10px 12px;border-left:0;border-bottom:2px solid transparent}
+
+
+
+
+
+
+
+      .contents a.is-active,.contents a[aria-current="location"]{border-bottom-color:var(--gold)}
+
+
+
+
+
+
+
+      .contents-progress{display:none}
+
+
+
+
+
+
+
+      .block{scroll-margin-top:91px}
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    @media(prefers-reduced-motion:reduce){.contents a,.contents-progress>span{transition:none}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Rendezett, teljes szélességű fejezetválasztó a cikk fölött. */
+
+
+
+
+
+
+
+    .content{display:block;max-width:1080px;padding-top:72px}
+
+
+
+
+
+
+
+    .contents{position:relative;top:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 58px;padding:0;border:0;background:transparent;box-shadow:none;overflow:visible;white-space:normal}
+
+
+
+
+
+
+
+    .contents-top{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:0 0 17px;margin-bottom:5px;border-bottom:1px solid rgba(33,29,25,.18)}
+
+
+
+
+
+
+
+    .contents-top strong{margin:0;width:auto}
+
+
+
+
+
+
+
+    .contents-top>span{display:inline;color:var(--muted)}
+
+
+
+
+
+
+
+    .contents a{margin:0;display:flex;min-width:0;min-height:68px;padding:15px 16px;gap:11px;align-items:center;border:1px solid rgba(33,29,25,.14);border-left:1px solid rgba(33,29,25,.14);border-radius:0;background:var(--paper);white-space:normal;line-height:1.35;box-shadow:0 5px 14px rgba(33,29,25,.035)}
+
+
+
+
+
+
+
+    .contents a::before{font-size:1.25rem}
+
+
+
+
+
+
+
+    .contents a:hover{border-color:rgba(116,38,44,.45);transform:translateY(-2px)}
+
+
+
+
+
+
+
+    .contents a.is-active,.contents a[aria-current="location"]{border:1px solid var(--wine);background:var(--wine);color:#fff;transform:none}
+
+
+
+
+
+
+
+    .contents a{transition:background-color .42s ease,color .42s ease,border-color .42s ease,transform .35s ease}
+
+
+
+
+
+
+
+    .contents a::before{transition:color .42s ease}
+
+
+
+
+
+
+
+    .contents-progress>span{transition:width .7s cubic-bezier(.22,1,.36,1)}
+
+
+
+
+
+
+
+    .contents a.is-target,.compact-nav a.is-target{animation:chapter-glow .72s ease-out}
+
+
+
+
+
+
+
+    @keyframes chapter-glow{0%{box-shadow:0 0 0 0 rgba(116,38,44,.28)}100%{box-shadow:0 0 0 13px rgba(116,38,44,0)}}
+
+
+
+
+
+
+
+    .contents-progress{grid-column:1/-1;margin:8px 0 0;height:2px}
+
+
+
+
+
+
+
+    .article{width:min(100%,920px);margin-inline:auto}
+
+
+
+
+
+
+
+    @media(max-width:780px){
+
+
+
+
+
+
+
+      .content{display:block;padding-top:52px}
+
+
+
+
+
+
+
+      .contents{position:relative;top:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 42px;padding:0;max-width:none;overflow:visible;white-space:normal;border:0;box-shadow:none}
+
+
+
+
+
+
+
+      .contents-top{grid-column:1/-1;margin-bottom:3px}
+
+
+
+
+
+
+
+      .contents a{min-height:56px;padding:10px 12px;margin:0;white-space:normal;border:1px solid rgba(33,29,25,.14)}
+
+
+
+
+
+
+
+      .contents a.is-active,.contents a[aria-current="location"]{border:1px solid var(--wine)}
+
+
+
+
+
+
+
+      .contents-progress{display:block;grid-column:1/-1;margin:8px 0 0}
+
+
+
+
+
+
+
+      .block{scroll-margin-top:24px}
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    @media(max-width:420px){.contents a{font-size:.75rem;gap:8px}.contents a::before{font-size:1.05rem}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* A rács görgetéskor keskeny, folyamatosan elérhető fejezetsávvá alakul. */
+
+
+
+
+
+
+
+    .contents{position:sticky;top:0;z-index:40}
+
+
+
+
+
+
+
+    .contents.is-compact{display:flex;flex-wrap:nowrap;align-items:center;gap:5px;min-height:62px;max-width:100%;margin-bottom:58px;padding:8px 11px;border-bottom:1px solid rgba(116,38,44,.28);background:rgba(250,247,241,.97);box-shadow:0 8px 24px rgba(33,29,25,.13);overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:var(--gold) transparent;white-space:nowrap;backdrop-filter:blur(12px)}
+
+
+
+
+
+
+
+    .contents.is-compact .contents-top,.contents.is-compact .contents-progress{display:none}
+
+
+
+
+
+
+
+    .contents.is-compact a{flex:0 0 auto;width:auto;min-height:42px;margin:0;padding:8px 12px;white-space:nowrap;border:1px solid transparent;background:transparent;box-shadow:none;font-size:.73rem}
+
+
+
+
+
+
+
+    .contents.is-compact a::before{font-size:1rem}
+
+
+
+
+
+
+
+    .contents.is-compact a:hover{border-color:rgba(116,38,44,.3);transform:none}
+
+
+
+
+
+
+
+    .contents.is-compact a.is-active,.contents.is-compact a[aria-current="location"]{background:var(--wine);border-color:var(--wine);color:#fff}
+
+
+
+
+
+
+
+    .block{scroll-margin-top:84px}
+
+
+
+
+
+
+
+    @media(max-width:780px){.contents{position:sticky;top:0}.contents.is-compact{margin:0 0 42px;padding:7px 9px;max-width:100%;min-height:58px}.contents.is-compact a{min-height:42px;padding:8px 10px}.block{scroll-margin-top:78px}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Javítás: az eredeti fejezetrács nem vált méretet görgetéskor.
+
+
+
+
+
+
+
+       A külön gyorssáv rögzített helyzetű, ezért nem változtatja meg az oldal magasságát. */
+
+
+
+
+
+
+
+    .contents{position:relative!important;top:auto!important}
+
+
+
+
+
+
+
+    .compact-nav{position:fixed;z-index:60;top:0;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:5px;min-height:60px;padding:8px max(16px,calc((100vw - 1080px)/2));overflow-x:auto;overflow-y:hidden;white-space:nowrap;background:rgba(250,247,241,.97);border-bottom:1px solid rgba(116,38,44,.22);box-shadow:0 8px 24px rgba(33,29,25,.13);backdrop-filter:blur(12px);scrollbar-width:thin;scrollbar-color:var(--gold) transparent;opacity:0;visibility:hidden;transform:translateY(-100%);pointer-events:none;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .42s ease,visibility 0s linear .58s}
+
+
+
+
+
+
+
+    .compact-nav.is-visible{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .42s ease,visibility 0s}
+
+
+
+
+
+
+
+    .compact-nav a{flex:0 0 auto;padding:10px 12px;color:var(--muted);font-size:.7rem;font-weight:600;letter-spacing:.02em;transition:color .42s ease,background-color .42s ease}
+
+
+
+
+
+
+
+    .compact-nav a:hover,.compact-nav a:focus-visible{color:var(--wine);background:rgba(116,38,44,.08)}
+
+
+
+
+
+
+
+    .compact-nav a[aria-current="location"]{background:var(--wine);color:#fff}
+
+
+
+
+
+
+
+    @media(max-width:900px){.compact-nav{justify-content:flex-start;min-height:55px;padding:7px 12px}.compact-nav a{padding:9px 11px;font-size:.69rem}}
+
+
+
+
+
+
+
+    @media(prefers-reduced-motion:reduce){.compact-nav,.compact-nav.is-visible,.compact-nav a{transition:none}}
+
+
+
+
+
+
+
+
+    /* Compact chapter navigation: fixed frame, independently scrollable links. */
+    .compact-nav-frame{position:fixed;z-index:60;inset:0 0 auto;opacity:0;visibility:hidden;transform:translateY(-100%);pointer-events:none;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .42s ease,visibility 0s linear .58s}
+    .compact-nav-frame.is-visible{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .42s ease,visibility 0s}
+    .compact-nav-frame .compact-nav{position:relative;inset:auto;z-index:auto;justify-content:flex-start;padding-inline:max(18px,calc((100% - 1080px)/2));opacity:1;visibility:visible;transform:none;pointer-events:inherit;transition:none;scroll-padding-inline:18px;overscroll-behavior-x:contain}
+    .compact-nav-frame .compact-nav a{position:relative;display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px 13px;color:var(--muted);background:transparent;white-space:nowrap}
+    .compact-nav-frame .compact-nav a::after{content:"";position:absolute;inset:auto 13px 3px;height:1px;background:var(--wine);transform:scaleX(0);transition:transform .42s ease}
+    .compact-nav-frame .compact-nav a[aria-current="location"]{color:var(--cream);background:var(--wine)}
+    .compact-nav-frame .compact-nav a[aria-current="location"]::after{transform:scaleX(1)}
+    .compact-nav-frame .compact-nav a:focus-visible{outline-offset:-3px}
+    .compact-nav-frame::before,.compact-nav-frame::after{content:"";position:absolute;z-index:2;top:0;bottom:1px;width:22px;pointer-events:none;opacity:0;transition:opacity .2s ease}
+    .compact-nav-frame::before{left:0;background:linear-gradient(90deg,var(--paper),rgba(250,247,241,0))}
+    .compact-nav-frame::after{right:0;background:linear-gradient(270deg,var(--paper),rgba(250,247,241,0))}
+    .compact-nav-frame.has-before::before,.compact-nav-frame.has-after::after{opacity:1}
+    @media(max-width:900px){.compact-nav-frame .compact-nav{padding-inline:18px}.compact-nav-frame .compact-nav a{padding:9px 11px}.compact-nav-frame .compact-nav a::after{left:11px;right:11px}}
+    @media(prefers-reduced-motion:reduce){.compact-nav-frame,.compact-nav-frame.is-visible,.compact-nav-frame::before,.compact-nav-frame::after,.compact-nav-frame .compact-nav a::after{transition:none}}
+    /* Back link styled after index.html's matched footer buttons. */
+    .topbar .back-link,.footer-inner .back-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border:1px solid var(--wine);border-radius:4px;background:var(--wine);color:var(--cream);font-family:var(--sans);font-size:.8125rem;font-weight:600;line-height:1.3;letter-spacing:normal;text-transform:none;white-space:nowrap;gap:0;transition:background-color .25s ease,border-color .25s ease}
+    .topbar .back-link span{font:inherit;flex-shrink:0;margin-right:.35em;transition:none;transform:none}
+    .topbar .back-link:focus-visible,.footer-inner .back-link:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+    @media(hover:hover) and (pointer:fine){.topbar .back-link:hover,.footer-inner .back-link:hover{background:var(--wine-dark);border-color:var(--wine-dark)}}
+    @media(max-width:550px){.topbar .back-link,.footer-inner .back-link{min-width:0;white-space:normal}}
+    @media(prefers-reduced-motion:reduce){.topbar .back-link,.footer-inner .back-link{transition:none!important}}
+    .footer-inner a.back-link:hover{color:var(--cream)}
+    footer .footer-inner{flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+    footer .footer-inner>span{text-transform:none}
+  </style>
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+  <header class="topbar"><div class="shell topbar-inner"><a class="brand" href="index.html" aria-label="FORNERIVA főoldal">FORNERIVA<small>Pizza &amp; Fuoco</small></a><a class="back-link" href="index.html"><span aria-hidden="true">←</span> Vissza a főoldalra</a></div></header>
+
+
+
+
+
+
+
+  <main>
+
+
+
+
+
+
+
+    <section class="hero"><div class="shell hero-inner"><span class="eyebrow">FORNERIVA · Információ</span><h1>Adat<em>védelem.</em></h1><p>Átláthatóan leírjuk, hogyan működik jelenleg a weboldal foglalási kérése és sütiválasztása.</p><span class="hero-index">01 / Az adataidról</span></div></section>
+
+
+
+
+
+
+
+    <div class="notice"><strong>Közzététel előtti tervezet.</strong> A [KITÖLTENDŐ] és [ELLENŐRIZENDŐ] részeket az üzemeltető tényleges adatai és folyamatai alapján ki kell tölteni vagy ellenőrizni, mielőtt ez az oldal nyilvánosan adatvédelmi tájékoztatóként használható.</div>
+
+
+
+
+
+
+
+    <div class="shell content"><nav class="contents" aria-label="Adatvédelmi fejezetek"><div class="contents-top"><strong>Ezen az oldalon</strong><span>08 fejezet</span></div><a href="#controller">Adatkezelő</a><a href="#scope">Adatkezelések</a><a href="#recipients">Címzettek</a><a href="#retention">Megőrzés</a><a href="#cookies">Sütik</a><a href="#rights">Érintetti jogok</a><a href="#complaint">Jogorvoslat</a><a href="#updates">Változások</a><span class="contents-progress" aria-hidden="true"><span id="navProgress"></span></span></nav>
+
+
+
+
+
+
+
+      <div class="compact-nav-frame" id="compactNavFrame"><nav class="compact-nav" id="compactNav" aria-label="Gyors fejezetnavigáció" aria-hidden="true" inert>
+
+
+
+
+
+
+
+        <a href="#controller">01 Adatkezelő</a><a href="#scope">02 Adatkezelések</a><a href="#recipients">03 Címzettek</a><a href="#retention">04 Megőrzés</a><a href="#cookies">05 Sütik</a><a href="#rights">06 Érintetti jogok</a><a href="#complaint">07 Jogorvoslat</a><a href="#updates">08 Változások</a>
+
+
+
+
+
+
+
+      </nav></div>
+
+
+
+
+
+
+
+      <div class="article">
+
+
+
+
+
+
+
+        <section class="block" id="controller"><span class="block-kicker">01 / Az adatkezelő</span><h2>Ki felel az adatokért?</h2><p>Az adatkezelő a FORNERIVA weboldalt üzemeltető vállalkozás. A pontos azonosító adatokat a közzététel előtt ki kell tölteni.</p>
+
+
+
+
+
+
+
+          <div class="fact-grid"><div class="fact"><strong>Név és cím</strong><span class="placeholder">[KITÖLTENDŐ: cégnév / egyéni vállalkozó neve, székhely vagy postacím]</span></div><div class="fact"><strong>Kapcsolattartás</strong><span>E-mail: <span class="placeholder">[KITÖLTENDŐ: végleges adatvédelmi kapcsolattartási e-mail-cím]</span></span></div></div>
+
+
+
+
+
+
+
+          <p class="fill-line"><span class="placeholder">[KITÖLTENDŐ: adatvédelmi tisztviselő elérhetősége, ha kijelölése szükséges vagy történt.]</span></p>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+        <section class="block" id="scope"><span class="block-kicker">02 / Milyen adatokat és miért?</span><h2>Az adatkezelések áttekintése.</h2><p>Az alábbi táblázat a kapott weboldalkódban látható működésből indul ki. Az üzemeltetőnek a tényleges technikai és üzleti folyamatok alapján kell véglegesítenie.</p>
+
+
+
+
+
+
+
+          <div class="table-scroll"><table><thead><tr><th>Folyamat és adatok</th><th>Cél, jogalap és megőrzés</th></tr></thead><tbody>
+
+
+
+
+
+
+
+            <tr><td><strong>Foglalási kérés</strong><br>Név, telefonszám, dátum, időpont, létszám, opcionális megjegyzés.</td><td>A tervezett űrlap előre kitöltött e-mailt készít, amelyet a látogató küld el. <span class="placeholder">[ELLENŐRIZENDŐ: a végleges foglalási folyamat, az összegyűjtött adatok és a kérés célja.]</span><br><span class="placeholder">[KITÖLTENDŐ: pontos jogalap és megőrzési idő.]</span></td></tr>
+
+
+
+
+
+
+
+            <tr><td><strong>Kapcsolatfelvétel és chat</strong><br>A látogató által megadott üzenet és az e-mailben szereplő kapcsolattartási adatok.</td><td>A főoldali chat jelenlegi kódja e-mailt állít össze; a levél elküldése a látogató döntése. <span class="placeholder">[ELLENŐRIZENDŐ: marad-e ez a működés, és lesz-e további kapcsolatfelvételi csatorna.]</span><br><span class="placeholder">[KITÖLTENDŐ: cél, pontos jogalap és megőrzési idő.]</span></td></tr>
+
+
+
+
+
+
+
+            <tr><td><strong>Oldalmegtekintés</strong><br>Az oldalt kiszolgáló rendszerben esetleg keletkező technikai naplóadatok.</td><td><span class="placeholder">[ELLENŐRIZENDŐ: tárhelyszolgáltató, naplózott adatok, cél, jogalap és megőrzés.]</span></td></tr>
+
+
+
+
+
+
+
+            <tr><td><strong>Sütiválasztás</strong><br>Elfogadás vagy elutasítás a böngésző helyi tárhelyében.</td><td>A döntés megjegyzése és módosíthatósága. A kód a <code>forneriva_cookie_choice_v2</code> kulcsot használja. <span class="placeholder">[ELLENŐRIZENDŐ: a végleges oldalon használt tárolási kulcs és működés.]</span><br><span class="placeholder">[KITÖLTENDŐ: jogalap és pontos tárolási szabály.]</span></td></tr>
+
+
+
+
+
+
+
+          </tbody></table></div>
+
+
+
+
+
+
+
+          <p>A jelenlegi foglalási űrlapon a név, telefonszám, dátum, időpont és létszám kötelező mező; a megjegyzés nem kötelező. Az e-mail tényleges elküldése külön lépés. <span class="placeholder">[ELLENŐRIZENDŐ: a végleges űrlap mezői, a kötelező adatszolgáltatás és az elmaradás következményei.]</span></p>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+        <section class="block" id="recipients"><span class="block-kicker">03 / Címzettek és továbbítás</span><h2>Kik férhetnek hozzá?</h2><p>A foglalási levelek az üzemeltető e-mail-rendszerében érkezhetnek meg. A jelenlegi kód Google Fonts betűtípusokat kér le, és külső oldalakra mutató linkeket tartalmaz. <span class="placeholder">[ELLENŐRIZENDŐ: a végleges oldal külső erőforrásai és az azokkal kapcsolatos adatáramlás.]</span> A tényleges tárhely-, levelező- és egyéb szolgáltatókat, valamint az esetleges EU/EGT-n kívüli adattovábbítást ellenőrizni kell.</p><p class="placeholder">[KITÖLTENDŐ: címzettek vagy címzetti kategóriák; adatfeldolgozók neve; harmadik országbeli továbbítás és annak megfelelő garanciái, ha van ilyen.]</p></section>
+
+
+
+
+
+
+
+        <section class="block" id="retention"><span class="block-kicker">04 / Megőrzés és védelem</span><h2>Meddig maradnak meg az adatok?</h2><p>A foglalási és kapcsolattartási levelek megőrzése az üzemeltető tényleges folyamatától függ. A helyi sütiválasztást a böngésző tárolja addig, amíg a felhasználó vagy a weboldal nem módosítja vagy törli azt.</p><p class="placeholder">[KITÖLTENDŐ: folyamatonként pontos megőrzési idő vagy annak meghatározási szempontjai; tényleges technikai és szervezési védelmi intézkedések.]</p></section>
+
+
+
+
+
+
+
+        <section class="block" id="cookies"><span class="block-kicker">05 / Sütik és helyi tárhely</span><h2>A te választásod.</h2><p>A kapott weboldalkódban a döntés megjegyzése látható. <span class="placeholder">[ELLENŐRIZENDŐ: a végleges oldalon alkalmazott analitikai, marketing és egyéb opcionális technológiák, valamint a hozzájárulás tényleges hatása.]</span> Ha később ilyen szolgáltatás kerül az oldalra, a tájékoztatót és a választó működését a tényleges használathoz kell igazítani.</p><p>A döntésedet itt is módosíthatod, ha az oldalak azonos webhelyen futnak:</p><div class="cookie-controls" role="group" aria-label="Sütiválasztás"><button id="cookieReject" type="button">Csak szükséges</button><button id="cookieAccept" type="button">Elfogadom</button></div><p class="cookie-state" id="cookieState" aria-live="polite"></p><p class="placeholder">[KITÖLTENDŐ: minden tényleges süti és hasonló technológia neve, szolgáltatója, célja és élettartama; a döntés megőrzésének és visszavonásának módja.]</p></section>
+
+
+
+
+
+
+
+        <section class="block" id="rights"><span class="block-kicker">06 / Érintetti jogok</span><h2>Mit kérhetsz?</h2><p>A körülményektől és az adott adatkezelés jogalapjától függően kérhetsz tájékoztatást és hozzáférést, helyesbítést, törlést, korlátozást vagy adathordozhatóságot, valamint tiltakozhatsz egyes adatkezelések ellen. A hozzájárulásodat – ahol az a jogalap – visszavonhatod. Ezek a jogok nem minden helyzetben feltétel nélkül gyakorolhatók.</p><p>Kérelmedet az adatkezelő elérhetőségére küldheted. <span class="placeholder">[KITÖLTENDŐ: joggyakorláshoz használható végleges kapcsolattartási cím és az esetleges automatizált döntéshozatal / profilalkotás ténye vagy hiánya.]</span></p></section>
+
+
+
+
+
+
+
+        <section class="block" id="complaint"><span class="block-kicker">07 / Panasz és jogorvoslat</span><h2>Ha nem értesz egyet.</h2><p>Adatkezeléssel kapcsolatos panasszal a felügyeleti hatósághoz is fordulhatsz. Magyarországon ez a <a href="https://www.naih.hu/adatkezeles-erintettjekent-fordulok-a-hatosaghoz" target="_blank" rel="noopener noreferrer">Nemzeti Adatvédelmi és Információszabadság Hatóság</a> (NAIH). <span class="placeholder">[KITÖLTENDŐ: a bírósági jogorvoslat pontos tájékoztatása és a felügyeleti hatóság végleges elérhetőségei.]</span></p></section>
+
+
+
+
+
+
+
+        <section class="block" id="updates"><span class="block-kicker">08 / Hatály és változások</span><h2>Naprakész információ.</h2><p>Az adatkezelés vagy a weboldal működésének változásakor ezt a tájékoztatót is frissíteni kell.</p><p class="placeholder">[KITÖLTENDŐ: hatálybalépés és utolsó frissítés dátuma, verziószám és a változások közzétételének módja.]</p>
+
+
+
+
+
+
+
+          <div class="contact-card"><span>Kérdésed van?</span><h3>Írj nekünk.</h3><p>A véglegesített adatkezelői kapcsolattartási címen kérdezhetsz az adataidról.</p><span class="placeholder">[KITÖLTENDŐ: végleges adatvédelmi e-mail-cím; jóváhagyás után kattintható e-mail-link]</span></div>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </main>
+
+
+
+
+
+
+
+  <footer><div class="shell footer-inner"><a class="back-link" href="index.html">Vissza a főoldalra ↗</a><span>© 2026 FORNERIVA · Pizza &amp; Fuoco</span></div></footer>
+
+
+
+
+
+
+
+  <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const key='forneriva_cookie_choice_v2';
+
+
+
+
+
+
+
+    const state=document.getElementById('cookieState');
+
+
+
+
+
+
+
+    const buttons={rejected:document.getElementById('cookieReject'),accepted:document.getElementById('cookieAccept')};
+
+
+
+
+
+
+
+    function current(){try{return localStorage.getItem(key)}catch{return null}}
+
+
+
+
+
+
+
+    const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+
+
+
+
+
+
+
+    let stateAnimation=null;
+
+
+
+
+
+
+
+    function refresh(){
+
+
+
+      const choice=current();
+
+
+
+      const nextText=choice==='accepted'?'Jelenlegi választás: Elfogadom.':choice==='rejected'?'Jelenlegi választás: Csak szükséges.':'Még nem mentettél választást.';
+
+
+
+      if(state.textContent!==nextText){
+
+
+
+        if(stateAnimation)stateAnimation.cancel();
+
+
+
+        const hadText=state.textContent.trim().length>0;
+
+
+
+        state.textContent=nextText;
+
+
+
+        if(hadText&&!reducedMotion.matches){
+
+
+
+          stateAnimation=state.animate([{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}],{duration:320,easing:'cubic-bezier(.22,1,.36,1)'});
+
+
+
+        }
+
+
+
+      }
+
+
+
+      Object.entries(buttons).forEach(([value,button])=>button.classList.toggle('is-selected',choice===value));
+
+
+
+    }
+
+
+
+
+
+
+
+    Object.entries(buttons).forEach(([value,button])=>button.addEventListener('click',()=>{try{localStorage.setItem(key,value)}catch{};window.dispatchEvent(new CustomEvent('forneriva:consent',{detail:{optional:value==='accepted'}}));refresh()}));
+
+
+
+
+
+
+
+    window.addEventListener('storage',event=>{if(event.key===key)refresh()});
+
+
+
+
+
+
+
+    refresh();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Az aktív fejezet akkor is követi az olvasást, ha a felhasználó felfelé görget.
+
+
+
+
+
+
+
+    const nav=document.querySelector('.contents');
+    const compactNav=document.getElementById('compactNav');
+    const compactFrame=document.getElementById('compactNavFrame');
+    const navLinks=[...nav.querySelectorAll('a[href^="#"]')];
+    const compactLinks=[...compactNav.querySelectorAll('a[href^="#"]')];
+    const sections=navLinks.map(link=>document.getElementById(link.hash.slice(1)));
+    const progress=document.getElementById('navProgress');
+    let navTicking=false;
+    let layoutPending=true;
+    let activeIndex=-1;
+    let guidedIndex=null;
+    let scrollAnimation=0;
+    let previousScrollBehavior='';
+    let manualPointer=null;
+    let compactShown=false;
+
+    function updateEdges(){
+      const max=Math.max(0,compactNav.scrollWidth-compactNav.clientWidth);
+      compactFrame.classList.toggle('has-before',compactNav.scrollLeft>1);
+      compactFrame.classList.toggle('has-after',compactNav.scrollLeft<max-1);
+    }
+    function revealLink(link,instant=false){
+      if(manualPointer!==null)return;
+      const bar=compactNav.getBoundingClientRect();
+      const item=link.getBoundingClientRect();
+      const padding=18;
+      if(!instant&&item.left>=bar.left+padding&&item.right<=bar.right-padding)return;
+      const max=Math.max(0,compactNav.scrollWidth-compactNav.clientWidth);
+      const left=Math.max(0,Math.min(max,compactNav.scrollLeft+
+        item.left-bar.left+(item.width-bar.width)/2));
+      // Never use scrollIntoView here: it can also scroll the document vertically.
+      compactNav.scrollTo({left,top:0,behavior:instant||reducedMotion.matches?'instant':'smooth'});
+      updateEdges();
+    }
+    function sectionOffset(){return compactNav.offsetHeight+24;}
+    function updateNav(){
+      navTicking=false;
+      const layout=layoutPending;
+      layoutPending=false;
+      const showCompact=nav.getBoundingClientRect().bottom<56;
+      const becameVisible=showCompact&&!compactShown;
+      compactShown=showCompact;
+      compactFrame.classList.toggle('is-visible',showCompact);
+      compactNav.setAttribute('aria-hidden',String(!showCompact));
+      compactNav.inert=!showCompact;
+      const boundary=sectionOffset();
+      const tops=sections.map(section=>section.getBoundingClientRect().top);
+      let next=0;
+      tops.forEach((top,index)=>{if(top<=boundary)next=index});
+      // A small spatial dead band prevents alternating labels around one heading.
+      // It does not delay scrolling or restart any animation.
+      if(activeIndex>=0&&!layout){
+        if(next>activeIndex&&tops[next]>boundary-6)next=activeIndex;
+        else if(next<activeIndex&&tops[activeIndex]<=boundary+6)next=activeIndex;
+      }
+      const maxScroll=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      if(maxScroll>0&&window.scrollY>=maxScroll-2)next=sections.length-1;
+      if(guidedIndex!==null)next=guidedIndex;
+      const changed=next!==activeIndex;
+      if(changed){
+        activeIndex=next;
+        navLinks.forEach((link,index)=>{
+          const active=index===activeIndex;
+          link.classList.toggle('is-active',active);
+          for(const item of [link,compactLinks[index]]){
+            if(active)item.setAttribute('aria-current','location');
+            else item.removeAttribute('aria-current');
+          }
+        });
+        progress.style.width=((activeIndex+1)/navLinks.length*100)+'%';
+      }
+      if(changed||layout||becameVisible)revealLink(compactLinks[activeIndex],layout);
+      updateEdges();
+    }
+    function queueNav(){if(!navTicking){navTicking=true;requestAnimationFrame(updateNav)}}
+    function layoutChanged(){layoutPending=true;queueNav()}
+    window.addEventListener('scroll',queueNav,{passive:true});
+    window.addEventListener('resize',layoutChanged,{passive:true});
+    window.addEventListener('pageshow',layoutChanged);
+    document.addEventListener('load',layoutChanged,true);
+    if(document.fonts)document.fonts.ready.then(layoutChanged);
+    if('ResizeObserver' in window){
+      const navLayoutObserver=new ResizeObserver(layoutChanged);
+      navLayoutObserver.observe(nav);
+      navLayoutObserver.observe(compactNav);
+      navLayoutObserver.observe(document.querySelector('.article'));
+    }
+    compactNav.addEventListener('scroll',updateEdges,{passive:true});
+    compactNav.addEventListener('pointerdown',event=>{
+      manualPointer=event.pointerId;
+      compactNav.scrollTo({left:compactNav.scrollLeft,behavior:'instant'});
+    },{passive:true});
+    function endManual(event){if(event.pointerId===manualPointer)manualPointer=null}
+    window.addEventListener('pointerup',endManual,{passive:true});
+    window.addEventListener('pointercancel',endManual,{passive:true});
+    compactNav.addEventListener('focusin',event=>{
+      if(compactLinks.includes(event.target))revealLink(event.target);
+    });
+
+    function stopChapterScroll(){
+      if(!scrollAnimation)return;
+      cancelAnimationFrame(scrollAnimation);
+      scrollAnimation=0;
+      guidedIndex=null;
+      document.documentElement.style.scrollBehavior=previousScrollBehavior;
+      queueNav();
+    }
+    window.addEventListener('wheel',stopChapterScroll,{passive:true});
+    window.addEventListener('touchstart',stopChapterScroll,{passive:true});
+    window.addEventListener('pointerdown',stopChapterScroll,{passive:true});
+    window.addEventListener('keydown',event=>{
+      if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' ','Escape'].includes(event.key))stopChapterScroll();
+    });
+    function destination(target){
+      const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+      return Math.max(0,Math.min(target.getBoundingClientRect().top+window.scrollY-sectionOffset(),max));
+    }
+    [...navLinks,...compactLinks].forEach(link=>link.addEventListener('click',event=>{
+      if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      const target=sections.find(section=>section.id===link.hash.slice(1));
+      if(!target)return;
+      event.preventDefault();
+      stopChapterScroll();
+      history.pushState(null,'',link.hash);
+      const start=window.scrollY;
+      const targetIndex=sections.indexOf(target);
+      if(reducedMotion.matches){
+        window.scrollTo({top:destination(target),behavior:'instant'});
+        guidedIndex=targetIndex;
+        updateNav();
+        guidedIndex=null;
+        return;
+      }
+      const duration=720;
+      const began=performance.now();
+      previousScrollBehavior=document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior='auto';
+      guidedIndex=targetIndex;
+      [...navLinks,...compactLinks].forEach(item=>item.classList.remove('is-target'));
+      [navLinks[targetIndex],compactLinks[targetIndex]].forEach(item=>item.classList.add('is-target'));
+      queueNav();
+      function frame(now){
+        const phase=Math.min(1,(now-began)/duration);
+        const eased=1-Math.pow(1-phase,3);
+        // Re-read the destination so rotation/font changes do not leave a stale offset.
+        window.scrollTo({top:start+(destination(target)-start)*eased,behavior:'instant'});
+        if(phase<1)scrollAnimation=requestAnimationFrame(frame);
+        else{
+          scrollAnimation=0;
+          guidedIndex=null;
+          document.documentElement.style.scrollBehavior=previousScrollBehavior;
+          queueNav();
+        }
+      }
+      scrollAnimation=requestAnimationFrame(frame);
+    }));
+    [...navLinks,...compactLinks].forEach(link=>link.addEventListener('animationend',event=>{
+      if(event.animationName==='chapter-glow')link.classList.remove('is-target');
+    }));
+    updateNav();
+  </script>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+</html>
