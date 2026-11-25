@@ -309,7 +309,10 @@ html.splash-on .site-header,html.splash-on .hero,html.splash-on .hero *{transiti
   100%{transform:scaleX(0);transform-origin:100% 50%}
 }
 @keyframes splashShow{from{opacity:0;filter:blur(8px);transform:scale(.97)}to{opacity:1;filter:none;transform:none}}
-.splash-bar,.splash-foot{display:none !important}
+.splash-bar{display:none !important}
+html .splash-in .splash-foot{margin-top:16px}
+html .splash.is-run .splash-foot{transition:opacity .5s var(--ease-out) .2s, transform .6s var(--ease-out) .2s}
+html .splash.is-run .splash-line i{transition:transform 1.15s cubic-bezier(.65,0,.35,1) .25s}
 .splash-mark{mix-blend-mode:multiply}
 .splash-glow{position:absolute;left:50%;top:50%;width:min(640px,110vw);aspect-ratio:2.2/1;transform:translate(-50%,-50%) scale(.6);border-radius:50%;pointer-events:none;z-index:-1;opacity:0;filter:blur(46px);background:radial-gradient(closest-side at 32% 50%,rgba(225,5,13,.20),transparent 72%),radial-gradient(closest-side at 68% 50%,rgba(43,32,128,.22),transparent 72%)}
 .splash.is-run .splash-glow{opacity:1;transform:translate(-50%,-50%) scale(1);transition:opacity 1s var(--ease-out),transform 1.4s var(--ease-out)}
